@@ -5,21 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>On-Chain SetValues</title>
 
+  <!-- Redireciona para Cloudflare Access se necessário -->
+  <meta http-equiv="refresh" content="0; url=https://valdiram.cloudflareaccess.com/cdn-cgi/access/login/onchain.vercel.app">
+
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
-  <!-- Google Sign-In -->
+  <!-- Google Login -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-  <!-- Estilos -->
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 30px;
       background: #f8f8f8;
-      color: #000;
     }
 
     #cryptoTable {
@@ -34,14 +35,13 @@
 </head>
 <body>
 
-  <!-- Login Google -->
+  <!-- Login com Google -->
   <div id="loginContainer">
     <div id="g_id_onload"
          data-client_id="878338673157-25c7iqh0di9dcf5q29l7di388savhi0e.apps.googleusercontent.com"
          data-callback="onLogin"
          data-auto_prompt="false">
     </div>
-
     <div class="g_id_signin"
          data-type="standard"
          data-size="large"
@@ -72,7 +72,52 @@
     </table>
   </main>
 
-  <!-- Script de lógica separado -->
-  <script src="script.js"></script>
+  <script>
+    function onLogin(response) {
+      const payload = parseJwt(response.credential);
+      const emailPermitido = payload.email.endsWith("@gmail.com");
+
+      if (emailPermitido) {
+        document.getElementById("mainContent").style.display = "block";
+        document.getElementById("loginContainer").style.display = "none";
+        carregarDados();
+      } else {
+        alert("Acesso negado. E-mail não autorizado.");
+      }
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(base64);
+    }
+
+    function carregarDados() {
+      fetch("https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec")
+        .then(response => response.json())
+        .then(data => {
+          $('#cryptoTable').DataTable({
+            data: data,
+            destroy: true,
+            columns: [
+              { data: 'rank' },
+              { data: 'nome' },
+              { data: 'simbolo' },
+              { data: 'preco' },
+              { data: 'pontuacao' },
+              { data: 'cor' },
+              { data: 'alerta' },
+              { data: 'observacao' }
+            ]
+          });
+        })
+        .catch(error => {
+          console.error("Erro ao carregar dados:", error);
+        });
+    }
+  </script>
 </body>
 </html>
+  
