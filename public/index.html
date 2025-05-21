@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On-Chain SetValues</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
+    header { text-align: center; margin-bottom: 20px; }
+    #login-section { text-align: center; margin-bottom: 30px; }
+    table { width: 100%; border-collapse: collapse; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>On-Chain SetValues</h1>
+  </header>
+
+  <div id="login-section">
+    <!-- Login com Google -->
+    <div id="g_id_onload"
+      data-client_id="878338673157-25c7iqh0di9dcf5q29l7di388savhi0e.apps.googleusercontent.com"
+      data-callback="handleCredentialResponse"
+      data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+      data-type="standard"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-size="large">
+    </div>
+  </div>
+
+  <main style="display:none;" id="content">
+    <button id="updateBtn">Atualizar Dados</button>
+    <table id="cryptoTable" class="display">
+      <thead>
+        <tr>
+          <th>Rank</th><th>Nome</th><th>Símbolo</th><th>Preço (USD)</th>
+          <th>Pontuação</th><th>Cor</th><th>Alerta</th><th>Observações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    function handleCredentialResponse(response) {
+      const data = jwt_decode(response.credential);
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      console.log("Login efetuado por:", data.email);
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+</body>
+</html>
