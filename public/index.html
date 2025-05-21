@@ -10,9 +10,10 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
-  <!-- Google OAuth -->
+  <!-- Google Sign-In -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+  <!-- Estilos -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,10 +21,12 @@
       background: #f8f8f8;
       color: #000;
     }
+
     #cryptoTable {
       width: 100%;
       margin-top: 20px;
     }
+
     #loginContainer {
       margin-bottom: 20px;
     }
@@ -38,6 +41,7 @@
          data-callback="onLogin"
          data-auto_prompt="false">
     </div>
+
     <div class="g_id_signin"
          data-type="standard"
          data-size="large"
@@ -68,52 +72,7 @@
     </table>
   </main>
 
-  <script>
-    function onLogin(response) {
-      const credential = response.credential;
-      const payload = parseJwt(credential);
-      const emailPermitido = payload.email.endsWith("@gmail.com");
-
-      if (emailPermitido) {
-        document.getElementById("mainContent").style.display = "block";
-        document.getElementById("loginContainer").style.display = "none";
-        carregarDados();
-      } else {
-        alert("Acesso não autorizado.");
-      }
-    }
-
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(base64);
-    }
-
-    function carregarDados() {
-      fetch("https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec")
-        .then(response => response.json())
-        .then(data => {
-          $('#cryptoTable').DataTable({
-            data: data,
-            destroy: true,
-            columns: [
-              { data: 'rank' },
-              { data: 'nome' },
-              { data: 'simbolo' },
-              { data: 'preco' },
-              { data: 'pontuacao' },
-              { data: 'cor' },
-              { data: 'alerta' },
-              { data: 'observacao' }
-            ]
-          });
-        })
-        .catch(error => {
-          console.error("Erro ao carregar dados:", error);
-        });
-    }
-  </script>
+  <!-- Script de lógica separado -->
+  <script src="script.js"></script>
 </body>
 </html>
