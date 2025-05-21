@@ -4,59 +4,117 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>On-Chain SetValues</title>
+
+  <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+  <!-- Google OAuth -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-    header { text-align: center; margin-bottom: 20px; }
-    #login-section { text-align: center; margin-bottom: 30px; }
-    table { width: 100%; border-collapse: collapse; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f8f8f8;
+      color: #000;
+    }
+
+    #cryptoTable {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    #loginContainer {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>On-Chain SetValues</h1>
-  </header>
 
-  <div id="login-section">
-    <!-- Login com Google -->
+  <!-- Login com Google -->
+  <div id="loginContainer">
     <div id="g_id_onload"
-      data-client_id="878338673157-25c7iqh0di9dcf5q29l7di388savhi0e.apps.googleusercontent.com"
-      data-callback="handleCredentialResponse"
-      data-auto_prompt="false">
+         data-client_id="878338673157-25c7iqh0di9dcf5q29l7di388savhi0e.apps.googleusercontent.com"
+         data-callback="onLogin"
+         data-auto_prompt="false">
     </div>
+
     <div class="g_id_signin"
-      data-type="standard"
-      data-theme="outline"
-      data-text="sign_in_with"
-      data-size="large">
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
     </div>
   </div>
 
-  <main style="display:none;" id="content">
-    <button id="updateBtn">Atualizar Dados</button>
+  <!-- Conteúdo principal -->
+  <main style="display:none;" id="mainContent">
+    <h2>On-Chain SetValues</h2>
     <table id="cryptoTable" class="display">
       <thead>
         <tr>
-          <th>Rank</th><th>Nome</th><th>Símbolo</th><th>Preço (USD)</th>
-          <th>Pontuação</th><th>Cor</th><th>Alerta</th><th>Observações</th>
+          <th>Rank</th>
+          <th>Nome</th>
+          <th>Símbolo</th>
+          <th>Preço (USD)</th>
+          <th>Pontuação</th>
+          <th>Cor</th>
+          <th>Alerta</th>
+          <th>Observações</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
   </main>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="script.js"></script>
   <script>
-    function handleCredentialResponse(response) {
-      const data = jwt_decode(response.credential);
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-      console.log("Login efetuado por:", data.email);
+    function onLogin(response) {
+      const credential = response.credential;
+      const payload = parseJwt(credential);
+
+      // Validação simples por domínio (opcional)
+      const emailPermitido = payload.email.endsWith("@gmail.com");
+
+      if (emailPermitido) {
+        document.getElementById("mainContent").style.display = "block";
+        document.getElementById("loginContainer").style.display = "none";
+        iniciarDataTable();
+      } else {
+        alert("Acesso não autorizado.");
+      }
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = decodeURIComponent(atob(base64Url).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(base64);
+    }
+
+    function iniciarDataTable() {
+      $('#cryptoTable').DataTable({
+        ajax: {
+          url: "https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec",
+          method: "GET",
+          dataSrc: ""
+        },
+        columns: [
+          { data: 'rank' },
+          { data: 'nome' },
+          { data: 'simbolo' },
+          { data: 'preco' },
+          { data: 'pontuacao' },
+          { data: 'cor' },
+          { data: 'alerta' },
+          { data: 'observacao' }
+        ]
+      });
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 </body>
 </html>
