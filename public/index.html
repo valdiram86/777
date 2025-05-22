@@ -10,46 +10,44 @@
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
-      padding: 30px;
       margin: 0;
+      padding: 30px;
     }
 
-    h2 {
-      font-size: 32px;
+    h1, h2 {
       text-align: center;
+      color: #111;
     }
 
-    #introText {
-      text-align: center;
-      margin-bottom: 15px;
+    .intro-block {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      font-size: 16px;
+      color: #333;
     }
 
-    #loginArea {
-      text-align: center;
-      margin-bottom: 20px;
+    .intro-block ul {
+      margin-top: 0;
+      padding-left: 20px;
+    }
+
+    .login {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
 
     #mainContent {
       display: none;
-      margin-top: 30px;
+      overflow-x: auto;
     }
 
     #erroMsg {
       color: red;
-      margin-top: 10px;
       text-align: center;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 95%;
-      margin: 0 auto;
-    }
-
-    th, td {
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ddd;
+      margin: 15px;
     }
 
     td[data-score] {
@@ -58,91 +56,63 @@
     }
 
     td[data-score="700"],
-    td[data-score^="6"] {
+    td[data-score^="7"] {
       background: #3399ff;
       color: white;
     }
 
-    td[data-score^="5"] {
-      background: #00cc00;
-      color: black;
+    td[data-score^="6"] { background: #3399ff; color: white; }
+    td[data-score^="5"] { background: #00cc00; color: white; }
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
+    td[data-score^="2"] { background: #ff00ff; color: white; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
 
-    td[data-score^="3"],
-    td[data-score^="4"] {
-      background: #ffff00;
-      color: black;
-    }
-
-    td[data-score^="2"] {
-      background: #ff00ff;
-      color: black;
-    }
-
-    .dataTables_filter {
-      text-align: center !important;
-      margin-bottom: 20px;
-    }
-
-    .dataTables_filter input {
-      width: 250px;
+    th, td {
       padding: 8px;
-      font-size: 14px;
+      text-align: center;
+      border: 1px solid #ddd;
     }
 
-    #mainContent table {
-      text-align: center;
+    table.dataTable {
+      width: 100% !important;
     }
   </style>
 </head>
 <body>
-  <h2>On-Chain SetValues</h2>
 
-  <p id="introText">
-    <h1>Sobre o Projeto On-Chain SetValues</h1>
+  <h1>On-Chain SetValues</h1>
 
-<p>
+  <div id="textoIntro">
+    <div class="intro-block">
+      <h2>Sobre o Projeto On-Chain SetValues</h2>
+      <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos. O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
 
-0 <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos. O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.
+      <h2>Como funciona</h2>
+      <p>A pontuação balanceada é baseada em análise de dados on-chain, métricas sociais, técnicas e de mercado. Os principais critérios incluem:</p>
+      <ul>
+        <li>Variação de preço (7, 30, 90 dias)</li>
+        <li>Aumento ou perda de holders</li>
+        <li>Engajamento social e visitas</li>
+        <li>Oscilação e tempo em tendência</li>
+        <li>Número de listagens, corretoras e pares</li>
+        <li>Presença em múltiplas blockchains</li>
+        <li>Auditoria, votos, estrelas e score de perfil</li>
+        <li>Fase de acumulação e hype</li>
+      </ul>
 
-</p>
+      <h2>Objetivo</h2>
+      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
 
-<h2>Como funciona</h2>
+      <p><strong>E-mail:</strong> onchainsetvalues@gmail.com<br>
+      <strong>WhatsApp:</strong> 21 98225-2303</p>
+    </div>
+  </div>
 
-<p>
-
-A pontuação balanceada é baseada em análise de dados on-chain,
-
-métricas sociais, técnicas e de mercado. Os principais critérios incluem:
-
-</p> <ul>
-
-<li>Variação de preço (7, 30, 90 dias)</li>
-
-<li>Aumento ou perda de holders</li>
-
-<li>Engajamento social e visitas</li>
-
-<li>Oscilação e tempo em tendência</li>
-
-<li>Número de listagens, corretoras e pares</li>
-
-<li>Presença em múltiplas blockchains</li>
-
-<li>Auditoria, votos, estrelas e score de perfil</li> <li>Fase de acumulação e hype</li>
-
-</ul>
-
-<h2>0bjetivo</h2>
-
-<p>
-
-Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.
-
-</p>
-  </p>
-
-  <div id="loginArea">
+  <div class="login" id="areaLogin">
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
@@ -153,10 +123,8 @@ Fornecer aos usuários um radar confiável, transparente e visual para tomada de
     <table id="tabela" class="display"></table>
   </div>
 
-  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
@@ -172,10 +140,13 @@ Fornecer aos usuários um radar confiável, transparente e visual para tomada de
             return;
           }
 
+          // Ocultar introdução e login
+          document.getElementById("textoIntro").style.display = "none";
+          document.getElementById("areaLogin").style.display = "none";
           document.getElementById("erroMsg").innerText = "";
+
+          // Mostrar tabela
           document.getElementById("mainContent").style.display = "block";
-          document.getElementById("loginArea").style.display = "none";
-          document.getElementById("introText").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
@@ -184,10 +155,7 @@ Fornecer aos usuários um radar confiável, transparente e visual para tomada de
             destroy: true,
             paging: false,
             searching: true,
-            info: false,
-            initComplete: function () {
-              $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
-            }
+            info: false
           });
 
           setTimeout(() => {
