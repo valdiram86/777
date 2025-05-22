@@ -21,7 +21,7 @@
 
     #introText {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
@@ -38,6 +38,14 @@
     #mainContent {
       display: none;
       margin-top: 30px;
+    }
+
+    #contadorDestaque {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: #333;
     }
 
     #erroMsg {
@@ -58,6 +66,33 @@
       border: 1px solid #ddd;
     }
 
+    td[data-score] {
+      font-weight: bold;
+      color: black;
+    }
+
+    td[data-score="700"],
+    td[data-score^="6"] {
+      background: #3399ff;
+      color: white;
+    }
+
+    td[data-score^="5"] {
+      background: #00cc00;
+      color: black;
+    }
+
+    td[data-score^="3"],
+    td[data-score^="4"] {
+      background: #ffff00;
+      color: black;
+    }
+
+    td[data-score^="2"] {
+      background: #ff00ff;
+      color: black;
+    }
+
     .dataTables_filter {
       text-align: center !important;
       margin-bottom: 20px;
@@ -67,10 +102,6 @@
       width: 250px;
       padding: 8px;
       font-size: 14px;
-    }
-
-    #mainContent table {
-      text-align: center;
     }
   </style>
 </head>
@@ -96,7 +127,6 @@
 
     <h4>Objetivo</h4>
     <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-
     <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
   </div>
 
@@ -108,6 +138,7 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
+    <div id="contadorDestaque">Carregando total de moedas destacadas...</div>
     <table id="tabela" class="display"></table>
   </div>
 
@@ -149,28 +180,20 @@
           });
 
           setTimeout(() => {
-            $('#tabela tbody tr').each(function () {
-              const $tds = $(this).find("td");
-              const link = $tds.eq(4).text();
-              if (link.startsWith("http")) {
-                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
+            let destaque = 0;
+            const linhas = document.querySelectorAll("#tabela tbody tr");
+            linhas.forEach(linha => {
+              const score = parseInt(linha.cells[5]?.textContent || "0");
+              if (score >= 250) destaque++;
+              const link = linha.cells[4]?.textContent;
+              if (link?.startsWith("http")) {
+                linha.cells[4].innerHTML = `<a href="${link}" target="_blank">Abrir</a>`;
               }
-
-              const score = parseInt($tds.eq(5).text());
-              if (!isNaN(score)) {
-                if (score >= 600) {
-                  $tds.eq(5).css({ background: '#3399ff', color: 'white' }); // azul
-                } else if (score >= 500) {
-                  $tds.eq(5).css({ background: '#00cc00', color: 'black' }); // verde
-                } else if (score >= 300) {
-                  $tds.eq(5).css({ background: '#ffff00', color: 'black' }); // amarelo
-                } else if (score >= 250) {
-                  $tds.eq(5).css({ background: '#ff00ff', color: 'black' }); // rosa neon
-                } else {
-                  $tds.eq(5).css({ background: 'transparent', color: 'black' });
-                }
-              }
+              linha.cells[5]?.setAttribute("data-score", score);
             });
+            const total = linhas.length;
+            const percentual = ((destaque / total) * 100).toFixed(1);
+            document.getElementById("contadorDestaque").innerText = `${destaque} moedas destacadas (${percentual}% do total)`;
           }, 300);
         })
         .catch(() => {
