@@ -58,33 +58,6 @@
       border: 1px solid #ddd;
     }
 
-    td[data-score] {
-      font-weight: bold;
-      color: black;
-    }
-
-    td[data-score="700"],
-    td[data-score^="6"] {
-      background: #3399ff;
-      color: white;
-    }
-
-    td[data-score^="5"] {
-      background: #00cc00;
-      color: black;
-    }
-
-    td[data-score^="3"],
-    td[data-score^="4"] {
-      background: #ffff00;
-      color: black;
-    }
-
-    td[data-score^="2"] {
-      background: #ff00ff;
-      color: black;
-    }
-
     .dataTables_filter {
       text-align: center !important;
       margin-bottom: 20px;
@@ -182,8 +155,21 @@
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-              const score = $tds.eq(5).text();
-              $tds.eq(5).attr("data-score", score);
+
+              const score = parseInt($tds.eq(5).text());
+              if (!isNaN(score)) {
+                if (score >= 600) {
+                  $tds.eq(5).css({ background: '#3399ff', color: 'white' }); // azul
+                } else if (score >= 500) {
+                  $tds.eq(5).css({ background: '#00cc00', color: 'black' }); // verde
+                } else if (score >= 300) {
+                  $tds.eq(5).css({ background: '#ffff00', color: 'black' }); // amarelo
+                } else if (score >= 250) {
+                  $tds.eq(5).css({ background: '#ff00ff', color: 'black' }); // rosa neon
+                } else {
+                  $tds.eq(5).css({ background: 'transparent', color: 'black' });
+                }
+              }
             });
           }, 300);
         })
