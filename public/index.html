@@ -5,79 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
 
-  <!-- Google Login -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
       padding: 30px;
     }
+
     #mainContent { display: none; }
-    #erroMsg { color: red; margin-top: 15px; }
+    #erroMsg { color: red; margin-top: 10px; }
+
+    table.dataTable {
+      width: 100% !important;
+      overflow-x: auto;
+      display: block;
+    }
+
+    td[data-score] {
+      font-weight: bold;
+      color: white;
+    }
+
+    td[data-score^="6"] { background: #3399ff; } /* azul */
+    td[data-score^="5"] { background: #00cc00; } /* verde */
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; } /* amarelo */
+    td[data-score^="2"] { background: #ff00ff; } /* rosa neon */
   </style>
 </head>
 <body>
-
   <h2>On-Chain SetValues</h2>
-
-  <div id="loginContainer">
-    <div id="g_id_onload"
-         data-client_id="878338673157-9dlur4bpkcqamua9ccmmh2v95nquo0ce.apps.googleusercontent.com"
-         data-callback="onLogin"
-         data-auto_prompt="false">
-    </div>
-
-    <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-    </div>
-    <div id="erroMsg"></div>
+  <div>
+    <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
+    <button onclick="carregarDados()">Acessar</button>
   </div>
+
+  <div id="erroMsg"></div>
 
   <div id="mainContent">
     <br/>
-    <table id="tabela" class="display"></table>
+    <table id="tabela" class="display nowrap" cellspacing="0"></table>
   </div>
 
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = decodeURIComponent(atob(base64Url).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-      );
-      return JSON.parse(base64);
-    }
+    function carregarDados() {
+      const email = document.getElementById("emailInput").value.trim().toLowerCase();
+      if (!email) return alert("Digite um e-mail autorizado.");
 
-    function onLogin(response) {
-      const payload = parseJwt(response.credential);
-      const email = payload.email.toLowerCase();
-      carregarDadosComEmail(email);
-    }
-
-    function carregarDadosComEmail(email) {
       fetch(`${API_URL}?email=${email}`)
         .then(res => res.json())
         .then(dados => {
           if (dados.erro) {
-            document.getElementById("erroMsg").innerText = "Acesso negado. E-mail não autorizado.";
+            document.getElementById("erroMsg").innerText = "Acesso negado. Verifique seu e-mail.";
             return;
           }
 
           document.getElementById("erroMsg").innerText = "";
-          document.getElementById("loginContainer").style.display = "none";
           document.getElementById("mainContent").style.display = "block";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
@@ -85,18 +74,27 @@
             data: dados,
             columns: colunas,
             destroy: true,
-            pageLength: 15
+            scrollX: true,
+            pageLength: 20
           });
+
+          setTimeout(() => {
+            $('#tabela tbody tr').each(function () {
+              const $tds = $(this).find("td");
+              const link = $tds.eq(4).text();
+              if (link.startsWith("http")) {
+                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              }
+
+              const score = $tds.eq(5).text();
+              $tds.eq(5).attr("data-score", score);
+            });
+          }, 300);
         })
         .catch(() => {
-          document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
+          document.getElementById("erroMsg").innerText = "Erro ao carregar dados.";
         });
     }
   </script>
 </body>
 </html>
-
-
-  
-         
-        
