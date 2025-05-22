@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
 
-  <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
     body {
@@ -17,21 +16,17 @@
 
     #mainContent { display: none; }
     #erroMsg { color: red; margin-top: 10px; }
+    #loginArea { margin-bottom: 20px; }
 
     td[data-score] {
       font-weight: bold;
       color: white;
     }
 
-    td[data-score^="6"] { background: #3399ff; } /* azul */
-    td[data-score^="5"] { background: #00cc00; } /* verde */
-    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; } /* amarelo */
-    td[data-score^="2"] { background: #ff00ff; } /* rosa neon */
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    td[data-score^="6"] { background: #3399ff; }
+    td[data-score^="5"] { background: #00cc00; }
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
+    td[data-score^="2"] { background: #ff00ff; }
 
     th, td {
       padding: 8px;
@@ -46,7 +41,12 @@
 </head>
 <body>
   <h2>On-Chain SetValues</h2>
-  <div>
+
+  <p id="introText">
+    Bem-vindo ao <strong>On-Chain SetValues</strong>, um radar inteligente que analisa automaticamente mais de 2.000 criptomoedas com base em dados on-chain, volume, engajamento, supply e sinais técnicos. A pontuação vai de 1 a 700 e serve como um termômetro de oportunidade ou risco. Acesse abaixo com seu e-mail autorizado.
+  </p>
+
+  <div id="loginArea">
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
@@ -58,9 +58,9 @@
     <table id="tabela" class="display"></table>
   </div>
 
-  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
@@ -78,28 +78,35 @@
 
           document.getElementById("erroMsg").innerText = "";
           document.getElementById("mainContent").style.display = "block";
+          document.getElementById("loginArea").style.display = "none";
+          document.getElementById("introText").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
+
           $('#tabela').DataTable({
             data: dados,
             columns: colunas,
             destroy: true,
             paging: false,
-            searching: false,
-            info: false
+            searching: true,
+            info: false,
+            initComplete: function () {
+              // Altera placeholder do campo de busca
+              $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
+            }
           });
 
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
 
-              // Link CMC
+              // Link
               const link = $tds.eq(4).text();
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
 
-              // Score para coloração
+              // Score
               const score = $tds.eq(5).text();
               $tds.eq(5).attr("data-score", score);
             });
