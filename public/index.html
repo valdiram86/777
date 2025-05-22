@@ -12,16 +12,21 @@
       background: #f5f5f5;
       padding: 30px;
       margin: 0;
-      text-align: center;
     }
 
     h2 {
       font-size: 32px;
-      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #introText {
+      text-align: center;
+      margin-bottom: 15px;
     }
 
     #loginArea {
-      margin: 0 auto 20px;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     #mainContent {
@@ -32,12 +37,13 @@
     #erroMsg {
       color: red;
       margin-top: 10px;
+      text-align: center;
     }
 
     table {
-      margin: 0 auto;
       border-collapse: collapse;
       width: 95%;
+      margin: 0 auto;
     }
 
     th, td {
@@ -51,10 +57,27 @@
       color: black;
     }
 
-    td[data-score^="6"] { background: #3399ff; color: white; }
-    td[data-score^="5"] { background: #00cc00; color: black; }
-    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
-    td[data-score^="2"] { background: #ff00ff; color: black; }
+    td[data-score="700"],
+    td[data-score^="6"] {
+      background: #3399ff;
+      color: white;
+    }
+
+    td[data-score^="5"] {
+      background: #00cc00;
+      color: black;
+    }
+
+    td[data-score^="3"],
+    td[data-score^="4"] {
+      background: #ffff00;
+      color: black;
+    }
+
+    td[data-score^="2"] {
+      background: #ff00ff;
+      color: black;
+    }
 
     .dataTables_filter {
       text-align: center !important;
@@ -65,6 +88,10 @@
       width: 250px;
       padding: 8px;
       font-size: 14px;
+    }
+
+    #mainContent table {
+      text-align: center;
     }
   </style>
 </head>
@@ -86,6 +113,7 @@
     <table id="tabela" class="display"></table>
   </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
