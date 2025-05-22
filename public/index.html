@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
 
+  <!-- Google Login -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <!-- DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
-  <!-- Google OAuth -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
     body {
@@ -19,26 +19,21 @@
       background: #f5f5f5;
       padding: 30px;
     }
-    #mainContent {
-      display: none;
-    }
-    table {
-      width: 100%;
-      margin-top: 20px;
-    }
-    #status {
-      margin-top: 10px;
-      font-weight: bold;
-    }
+    #mainContent { display: none; }
+    #erroMsg { color: red; margin-top: 15px; }
   </style>
 </head>
 <body>
+
+  <h2>On-Chain SetValues</h2>
+
   <div id="loginContainer">
     <div id="g_id_onload"
          data-client_id="878338673157-9dlur4bpkcqamua9ccmmh2v95nquo0ce.apps.googleusercontent.com"
          data-callback="onLogin"
          data-auto_prompt="false">
     </div>
+
     <div class="g_id_signin"
          data-type="standard"
          data-size="large"
@@ -47,85 +42,61 @@
          data-shape="rectangular"
          data-logo_alignment="left">
     </div>
+    <div id="erroMsg"></div>
   </div>
 
   <div id="mainContent">
-    <h2>On-Chain SetValues – Painel</h2>
-    <input type="text" id="searchBox" placeholder="Buscar nome ou símbolo..." />
-    <button onclick="atualizarDados()">Atualizar Dados</button>
-    <p id="status"></p>
-    <table id="cryptoTable" class="display">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Nome</th>
-          <th>Símbolo</th>
-          <th>Preço (USD)</th>
-          <th>Pontuação</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <br/>
+    <table id="tabela" class="display"></table>
   </div>
 
   <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec";
 
     function parseJwt(token) {
       const base64Url = token.split('.')[1];
       const base64 = decodeURIComponent(atob(base64Url).split('').map(c =>
-        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-      ).join(''));
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+      );
       return JSON.parse(base64);
     }
 
     function onLogin(response) {
       const payload = parseJwt(response.credential);
-      const email = payload.email;
-
-      // Exibe o painel apenas para usuários autorizados (se necessário, pode validar domínio aqui)
-      if (email.endsWith("@gmail.com")) {
-        document.getElementById("mainContent").style.display = "block";
-        document.getElementById("loginContainer").style.display = "none";
-        atualizarDados();
-      } else {
-        alert("Acesso não autorizado.");
-      }
+      const email = payload.email.toLowerCase();
+      carregarDadosComEmail(email);
     }
 
-    function atualizarDados() {
-      document.getElementById("status").innerText = "Carregando...";
-      fetch(endpoint)
-        .then(response => response.json())
-        .then(data => {
-          const tabela = $('#cryptoTable').DataTable();
-          tabela.clear();
-          tabela.rows.add(data);
-          tabela.draw();
-          document.getElementById("status").innerText = "Atualizado com sucesso.";
+    function carregarDadosComEmail(email) {
+      fetch(`${API_URL}?email=${email}`)
+        .then(res => res.json())
+        .then(dados => {
+          if (dados.erro) {
+            document.getElementById("erroMsg").innerText = "Acesso negado. E-mail não autorizado.";
+            return;
+          }
+
+          document.getElementById("erroMsg").innerText = "";
+          document.getElementById("loginContainer").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+
+          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
+          $('#tabela').DataTable({
+            data: dados,
+            columns: colunas,
+            destroy: true,
+            pageLength: 15
+          });
         })
-        .catch(error => {
-          console.error("Erro ao carregar dados:", error);
-          document.getElementById("status").innerText = "Erro ao carregar dados.";
+        .catch(() => {
+          document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
         });
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      $('#cryptoTable').DataTable({
-        data: [],
-        columns: [
-          { data: 'rank' },
-          { data: 'nome' },
-          { data: 'simbolo' },
-          { data: 'preco' },
-          { data: 'pontuacao' }
-        ]
-      });
-
-      document.getElementById("searchBox").addEventListener("keyup", function () {
-        $('#cryptoTable').DataTable().search(this.value).draw();
-      });
-    });
   </script>
 </body>
 </html>
+
+
+  
+         
+        
