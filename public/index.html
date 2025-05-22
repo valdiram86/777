@@ -62,10 +62,6 @@
       color: black;
     }
 
-    td[data-score] {
-      font-weight: bold;
-    }
-
     td[data-score^="6"],
     td[data-score="700"] {
       background: #3399ff;
@@ -83,9 +79,7 @@
       color: black;
     }
 
-    td[data-score^="2"],
-    td[data-score="250"],
-    td[data-score="299"] {
+    td[data-score^="2"] {
       background: #ff00ff;
       color: black;
     }
@@ -111,8 +105,9 @@
 
   <div id="introText">
     <h3>Sobre o Projeto On-Chain SetValues</h3>
-    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
     <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+
     <h4>Como funciona</h4>
     <ul style="text-align: left; max-width: 800px; margin: auto;">
       <li>Variação de preço (7, 30, 90 dias)</li>
@@ -124,8 +119,10 @@
       <li>Auditoria, votos, estrelas e score de perfil</li>
       <li>Fase de acumulação e hype</li>
     </ul>
+
     <h4>Objetivo</h4>
     <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
     <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
   </div>
 
@@ -142,6 +139,7 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
@@ -163,7 +161,7 @@
           document.getElementById("introText").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
-          const tabela = $('#tabela').DataTable({
+          $('#tabela').DataTable({
             data: dados,
             columns: colunas,
             destroy: true,
@@ -177,16 +175,19 @@
 
           setTimeout(() => {
             const headers = $('#tabela thead th').map(function () {
-              return $(this).text().toLowerCase();
+              return $(this).text().trim().toLowerCase();
             }).get();
 
+            const indexPontuacao = headers.findIndex(h => h.includes("pontuação balanceada"));
+
             $('#tabela tbody tr').each(function () {
-              $(this).find("td").each(function (i) {
-                if (headers[i].includes("pontuação")) {
-                  const score = $(this).text();
-                  $(this).attr("data-score", score);
+              if (indexPontuacao >= 0) {
+                const $td = $(this).find("td").eq(indexPontuacao);
+                const score = $td.text().trim();
+                if (!isNaN(score) && Number(score) >= 250) {
+                  $td.attr("data-score", score);
                 }
-              });
+              }
             });
           }, 300);
         })
