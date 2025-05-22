@@ -12,21 +12,33 @@
       background: #f5f5f5;
       padding: 30px;
       margin: 0;
+      text-align: center;
     }
 
-    #mainContent { display: none; }
-    #erroMsg { color: red; margin-top: 10px; }
-    #loginArea { margin-bottom: 20px; }
-
-    td[data-score] {
-      font-weight: bold;
-      color: white;
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
     }
 
-    td[data-score^="6"] { background: #3399ff; }
-    td[data-score^="5"] { background: #00cc00; }
-    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
-    td[data-score^="2"] { background: #ff00ff; }
+    #loginArea {
+      margin: 0 auto 20px;
+    }
+
+    #mainContent {
+      display: none;
+      margin-top: 30px;
+    }
+
+    #erroMsg {
+      color: red;
+      margin-top: 10px;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 95%;
+    }
 
     th, td {
       padding: 8px;
@@ -34,8 +46,25 @@
       border: 1px solid #ddd;
     }
 
-    table.dataTable {
-      width: 100% !important;
+    td[data-score] {
+      font-weight: bold;
+      color: black;
+    }
+
+    td[data-score^="6"] { background: #3399ff; color: white; }
+    td[data-score^="5"] { background: #00cc00; color: black; }
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
+    td[data-score^="2"] { background: #ff00ff; color: black; }
+
+    .dataTables_filter {
+      text-align: center !important;
+      margin-bottom: 20px;
+    }
+
+    .dataTables_filter input {
+      width: 250px;
+      padding: 8px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -43,7 +72,7 @@
   <h2>On-Chain SetValues</h2>
 
   <p id="introText">
-    Bem-vindo ao <strong>On-Chain SetValues</strong>, um radar inteligente que analisa automaticamente mais de 2.000 criptomoedas com base em dados on-chain, volume, engajamento, supply e sinais técnicos. A pontuação vai de 1 a 700 e serve como um termômetro de oportunidade ou risco. Acesse abaixo com seu e-mail autorizado.
+    Radar inteligente de criptomoedas emergentes. Acesse com seu e-mail autorizado.
   </p>
 
   <div id="loginArea">
@@ -54,7 +83,6 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
-    <br/>
     <table id="tabela" class="display"></table>
   </div>
 
@@ -82,7 +110,6 @@
           document.getElementById("introText").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
-
           $('#tabela').DataTable({
             data: dados,
             columns: colunas,
@@ -91,7 +118,6 @@
             searching: true,
             info: false,
             initComplete: function () {
-              // Altera placeholder do campo de busca
               $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
             }
           });
@@ -99,14 +125,10 @@
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-
-              // Link
               const link = $tds.eq(4).text();
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-
-              // Score
               const score = $tds.eq(5).text();
               $tds.eq(5).attr("data-score", score);
             });
