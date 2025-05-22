@@ -20,12 +20,21 @@
       margin-bottom: 10px;
     }
 
-    .intro {
+    .intro, .info-btn {
       text-align: center;
       max-width: 800px;
       margin: 0 auto 15px;
       font-size: 16px;
       color: #333;
+    }
+
+    .info-btn a {
+      text-decoration: none;
+      background: #007BFF;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 14px;
     }
 
     .login {
@@ -45,22 +54,6 @@
       color: red;
       text-align: center;
       margin: 15px;
-    }
-
-    .info-btn {
-      display: block;
-      margin: 0 auto;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .info-btn a {
-      text-decoration: none;
-      background: #007BFF;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 5px;
-      font-size: 14px;
     }
 
     td[data-score] {
@@ -100,15 +93,15 @@
 
   <h2>On-Chain SetValues</h2>
 
-  <div class="intro">
+  <div class="intro" id="textoIntro">
     Um radar automatizado para identificar criptomoedas com alto potencial de valorização com base em dados on-chain, volume, supply, engajamento e tendências. Use seu e-mail autorizado para acessar.
   </div>
 
-  <div class="info-btn">
-    <a href="https://on-chainsetvalues.com/info" target="_blank">Saiba mais sobre o projeto</a>
+  <div class="info-btn" id="btnSaibaMais">
+    <a href="/info" target="_blank">Saiba mais sobre o projeto</a>
   </div>
 
-  <div class="login">
+  <div class="login" id="areaLogin">
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
@@ -137,8 +130,14 @@
             return;
           }
 
-          document.getElementById("erroMsg").innerText = "";
+          // Esconder elementos de introdução
+          document.getElementById("textoIntro").style.display = "none";
+          document.getElementById("btnSaibaMais").style.display = "none";
+          document.getElementById("areaLogin").style.display = "none";
+
+          // Mostrar conteúdo principal
           document.getElementById("mainContent").style.display = "block";
+          document.getElementById("erroMsg").innerText = "";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
