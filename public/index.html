@@ -21,7 +21,7 @@
 
     #introText {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
@@ -38,14 +38,6 @@
     #mainContent {
       display: none;
       margin-top: 30px;
-    }
-
-    #contadorDestaque {
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 15px;
-      font-size: 16px;
-      color: #333;
     }
 
     #erroMsg {
@@ -103,6 +95,10 @@
       padding: 8px;
       font-size: 14px;
     }
+
+    #mainContent table {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -127,6 +123,7 @@
 
     <h4>Objetivo</h4>
     <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
     <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
   </div>
 
@@ -138,7 +135,6 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
-    <div id="contadorDestaque">Carregando total de moedas destacadas...</div>
     <table id="tabela" class="display"></table>
   </div>
 
@@ -166,10 +162,13 @@
           document.getElementById("loginArea").style.display = "none";
           document.getElementById("introText").style.display = "none";
 
-          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
+          const colunas = Object.keys(dados[0]);
+          const indicePontuacao = colunas.findIndex(t => t.includes("Pontuação Balanceada"));
+
+          const colDefs = colunas.map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
             data: dados,
-            columns: colunas,
+            columns: colDefs,
             destroy: true,
             paging: false,
             searching: true,
@@ -180,20 +179,21 @@
           });
 
           setTimeout(() => {
-            let destaque = 0;
-            const linhas = document.querySelectorAll("#tabela tbody tr");
-            linhas.forEach(linha => {
-              const score = parseInt(linha.cells[5]?.textContent || "0");
-              if (score >= 250) destaque++;
-              const link = linha.cells[4]?.textContent;
-              if (link?.startsWith("http")) {
-                linha.cells[4].innerHTML = `<a href="${link}" target="_blank">Abrir</a>`;
+            $('#tabela tbody tr').each(function () {
+              const $tds = $(this).find("td");
+
+              // Coluna com link (posição fixa: 4)
+              const link = $tds.eq(4).text();
+              if (link.startsWith("http")) {
+                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-              linha.cells[5]?.setAttribute("data-score", score);
+
+              // Aplicar cor dinamicamente na coluna certa
+              if (indicePontuacao >= 0) {
+                const score = $tds.eq(indicePontuacao).text();
+                $tds.eq(indicePontuacao).attr("data-score", score);
+              }
             });
-            const total = linhas.length;
-            const percentual = ((destaque / total) * 100).toFixed(1);
-            document.getElementById("contadorDestaque").innerText = `${destaque} moedas destacadas (${percentual}% do total)`;
           }, 300);
         })
         .catch(() => {
