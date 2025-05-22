@@ -5,47 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
 
+  <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
-      padding: 20px;
+      padding: 30px;
       margin: 0;
     }
-    #mainContent {
-      margin-top: 30px;
+
+    #mainContent { display: none; }
+    #erroMsg { color: red; margin-top: 10px; }
+
+    td[data-score] {
+      font-weight: bold;
+      color: white;
     }
-    #erroMsg {
-      color: red;
-    }
-    td, th {
-      color: black !important;
-    }
+
+    td[data-score^="6"] { background: #3399ff; } /* azul */
+    td[data-score^="5"] { background: #00cc00; } /* verde */
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; } /* amarelo */
+    td[data-score^="2"] { background: #ff00ff; } /* rosa neon */
+
     table {
-      width: 100% !important;
+      width: 100%;
       border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table.dataTable {
+      width: 100% !important;
     }
   </style>
 </head>
 <body>
   <h2>On-Chain SetValues</h2>
-
-  <p><strong>Radar Inteligente de Criptomoedas:</strong> O <em>On-Chain SetValues</em> é um painel automatizado que analisa mais de 2.000 criptomoedas em tempo real. Com base em dados on-chain, variações de preço, engajamento e segurança, ele gera uma pontuação exclusiva (1–700) que identifica as oportunidades mais promissoras e alerta riscos de colapso. Acesse com seu e-mail autorizado.</p>
-
   <div>
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
+
   <div id="erroMsg"></div>
 
   <div id="mainContent">
-    <table id="tabela" class="display nowrap" style="width:100%"></table>
+    <br/>
+    <table id="tabela" class="display"></table>
   </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
@@ -64,33 +79,29 @@
           document.getElementById("erroMsg").innerText = "";
           document.getElementById("mainContent").style.display = "block";
 
-          // Remover coluna "Faixa de Cor" visualmente
-          const colunas = Object.keys(dados[0])
-            .filter(k => k !== "Faixa de Cor")
-            .map(k => ({ title: k, data: k }));
-
+          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
             data: dados,
             columns: colunas,
             destroy: true,
-            pageLength: 100,
-            scrollY: "70vh",
-            scrollCollapse: true,
-            paging: false
+            paging: false,
+            searching: false,
+            info: false
           });
 
-          // Aplicar cores com base na pontuação
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
-              const score = parseInt($(this).find('td:eq(4)').text()); // índice da pontuação
-              if (!isNaN(score)) {
-                let cor = "white";
-                if (score >= 600) cor = "#3399ff";
-                else if (score >= 500) cor = "#00ff00";
-                else if (score >= 300) cor = "#ffff00";
-                else if (score >= 250) cor = "#ff00ff";
-                $(this).find('td:eq(4)').css("background-color", cor);
+              const $tds = $(this).find("td");
+
+              // Link CMC
+              const link = $tds.eq(4).text();
+              if (link.startsWith("http")) {
+                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
+
+              // Score para coloração
+              const score = $tds.eq(5).text();
+              $tds.eq(5).attr("data-score", score);
             });
           }, 300);
         })
