@@ -63,8 +63,8 @@
       color: black;
     }
 
-    td[data-score="700"],
-    td[data-score^="6"] {
+    td[data-score^="6"],
+    td[data-score="700"] {
       background: #3399ff;
       color: white;
     }
@@ -94,10 +94,6 @@
       width: 250px;
       padding: 8px;
       font-size: 14px;
-    }
-
-    #mainContent table {
-      text-align: center;
     }
   </style>
 </head>
@@ -138,7 +134,6 @@
     <table id="tabela" class="display"></table>
   </div>
 
-  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
@@ -162,13 +157,10 @@
           document.getElementById("loginArea").style.display = "none";
           document.getElementById("introText").style.display = "none";
 
-          const colunas = Object.keys(dados[0]);
-          const indicePontuacao = colunas.findIndex(t => t.includes("Pontuação Balanceada"));
-
-          const colDefs = colunas.map(k => ({ title: k, data: k }));
+          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
             data: dados,
-            columns: colDefs,
+            columns: colunas,
             destroy: true,
             paging: false,
             searching: true,
@@ -181,17 +173,14 @@
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-
-              // Coluna com link (posição fixa: 4)
               const link = $tds.eq(4).text();
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
 
-              // Aplicar cor dinamicamente na coluna certa
-              if (indicePontuacao >= 0) {
-                const score = $tds.eq(indicePontuacao).text();
-                $tds.eq(indicePontuacao).attr("data-score", score);
+              const score = parseInt($tds.eq(5).text().trim());
+              if (!isNaN(score) && score >= 250) {
+                $tds.eq(5).attr("data-score", score.toString());
               }
             });
           }, 300);
