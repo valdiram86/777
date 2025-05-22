@@ -10,46 +10,57 @@
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
-      padding: 30px;
       margin: 0;
+      padding: 30px;
     }
 
     h2 {
-      font-size: 32px;
       text-align: center;
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
-    #introText {
+    .intro {
       text-align: center;
-      margin-bottom: 15px;
+      max-width: 800px;
+      margin: 0 auto 15px;
+      font-size: 16px;
+      color: #333;
     }
 
-    #loginArea {
-      text-align: center;
-      margin-bottom: 20px;
+    .login {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
     }
 
     #mainContent {
       display: none;
-      margin-top: 30px;
+      overflow-x: auto;
     }
 
     #erroMsg {
       color: red;
-      margin-top: 10px;
       text-align: center;
+      margin: 15px;
     }
 
-    table {
-      border-collapse: collapse;
-      width: 95%;
+    .info-btn {
+      display: block;
       margin: 0 auto;
+      text-align: center;
+      margin-top: 10px;
     }
 
-    th, td {
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ddd;
+    .info-btn a {
+      text-decoration: none;
+      background: #007BFF;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 14px;
     }
 
     td[data-score] {
@@ -58,51 +69,46 @@
     }
 
     td[data-score="700"],
-    td[data-score^="6"] {
+    td[data-score^="7"] {
       background: #3399ff;
       color: white;
     }
 
-    td[data-score^="5"] {
-      background: #00cc00;
-      color: black;
-    }
-
+    td[data-score^="6"] { background: #3399ff; color: white; }
+    td[data-score^="5"] { background: #00cc00; color: white; }
     td[data-score^="3"],
-    td[data-score^="4"] {
-      background: #ffff00;
-      color: black;
+    td[data-score^="4"] { background: #ffff00; color: black; }
+    td[data-score^="2"] { background: #ff00ff; color: white; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
     }
 
-    td[data-score^="2"] {
-      background: #ff00ff;
-      color: black;
-    }
-
-    .dataTables_filter {
-      text-align: center !important;
-      margin-bottom: 20px;
-    }
-
-    .dataTables_filter input {
-      width: 250px;
+    th, td {
       padding: 8px;
-      font-size: 14px;
+      text-align: center;
+      border: 1px solid #ddd;
     }
 
-    #mainContent table {
-      text-align: center;
+    table.dataTable {
+      width: 100% !important;
     }
   </style>
 </head>
 <body>
+
   <h2>On-Chain SetValues</h2>
 
-  <p id="introText">
-    <p><strong>Radar Inteligente de Criptomoedas:</strong> O <em>On-Chain SetValues</em> é um painel automatizado que analisa mais de 2.000 criptomoedas em tempo real. Com base em dados on-chain, variações de preço, engajamento e segurança, ele gera uma pontuação exclusiva (1–700) que identifica as oportunidades mais promissoras e alerta riscos de colapso. Acesse com seu e-mail autorizado.</p>
-  </p>
+  <div class="intro">
+    Um radar automatizado para identificar criptomoedas com alto potencial de valorização com base em dados on-chain, volume, supply, engajamento e tendências. Use seu e-mail autorizado para acessar.
+  </div>
 
-  <div id="loginArea">
+  <div class="info-btn">
+    <a href="https://on-chainsetvalues.com/info" target="_blank">Saiba mais sobre o projeto</a>
+  </div>
+
+  <div class="login">
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
@@ -110,13 +116,12 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
+    <br/>
     <table id="tabela" class="display"></table>
   </div>
 
-  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbx1uCilEUjMTsgu6UZl0EimrwA8GpsvpyLOKKmIbIwGH64USsvUm8yquTo4TTn0Id8/exec";
 
@@ -134,8 +139,6 @@
 
           document.getElementById("erroMsg").innerText = "";
           document.getElementById("mainContent").style.display = "block";
-          document.getElementById("loginArea").style.display = "none";
-          document.getElementById("introText").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
@@ -144,10 +147,7 @@
             destroy: true,
             paging: false,
             searching: true,
-            info: false,
-            initComplete: function () {
-              $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
-            }
+            info: false
           });
 
           setTimeout(() => {
