@@ -12,16 +12,11 @@
       font-family: Arial, sans-serif;
       background: #f5f5f5;
       padding: 30px;
+      margin: 0;
     }
 
     #mainContent { display: none; }
     #erroMsg { color: red; margin-top: 10px; }
-
-    table.dataTable {
-      width: 100% !important;
-      overflow-x: auto;
-      display: block;
-    }
 
     td[data-score] {
       font-weight: bold;
@@ -32,6 +27,21 @@
     td[data-score^="5"] { background: #00cc00; } /* verde */
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; } /* amarelo */
     td[data-score^="2"] { background: #ff00ff; } /* rosa neon */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table.dataTable {
+      width: 100% !important;
+    }
   </style>
 </head>
 <body>
@@ -45,7 +55,7 @@
 
   <div id="mainContent">
     <br/>
-    <table id="tabela" class="display nowrap" cellspacing="0"></table>
+    <table id="tabela" class="display"></table>
   </div>
 
   <!-- Scripts -->
@@ -74,18 +84,22 @@
             data: dados,
             columns: colunas,
             destroy: true,
-            scrollX: true,
-            pageLength: 20
+            paging: false,
+            searching: false,
+            info: false
           });
 
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
+
+              // Link CMC
               const link = $tds.eq(4).text();
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
 
+              // Score para coloração
               const score = $tds.eq(5).text();
               $tds.eq(5).attr("data-score", score);
             });
