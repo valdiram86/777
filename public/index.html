@@ -17,7 +17,6 @@
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
-      color: #000;
       padding: 30px;
     }
     #mainContent {
@@ -26,6 +25,10 @@
     table {
       width: 100%;
       margin-top: 20px;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -47,9 +50,10 @@
   </div>
 
   <div id="mainContent">
-    <h2>On-Chain SetValues</h2>
+    <h2>On-Chain SetValues – Painel</h2>
     <input type="text" id="searchBox" placeholder="Buscar nome ou símbolo..." />
     <button onclick="atualizarDados()">Atualizar Dados</button>
+    <p id="status"></p>
     <table id="cryptoTable" class="display">
       <thead>
         <tr>
@@ -62,10 +66,11 @@
       </thead>
       <tbody></tbody>
     </table>
-    <p id="status"></p>
   </div>
 
   <script>
+    const endpoint = "https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec";
+
     function parseJwt(token) {
       const base64Url = token.split('.')[1];
       const base64 = decodeURIComponent(atob(base64Url).split('').map(c =>
@@ -76,9 +81,10 @@
 
     function onLogin(response) {
       const payload = parseJwt(response.credential);
-      const emailPermitido = payload.email.endsWith("@gmail.com");
+      const email = payload.email;
 
-      if (emailPermitido) {
+      // Exibe o painel apenas para usuários autorizados (se necessário, pode validar domínio aqui)
+      if (email.endsWith("@gmail.com")) {
         document.getElementById("mainContent").style.display = "block";
         document.getElementById("loginContainer").style.display = "none";
         atualizarDados();
@@ -88,13 +94,18 @@
     }
 
     function atualizarDados() {
-      fetch("https://script.google.com/macros/s/AKfycbwfamJDHV1RRE4Q3Lv2ZyKiXhCNQj-qwusmJJJo5Fwzy4L2gAyhRWcnrr2_7il3uNA/exec")
-        .then(r => r.json())
-        .then(json => {
-          $("#cryptoTable").DataTable().clear().rows.add(json).draw();
-          document.getElementById("status").innerText = "Atualização concluída.";
+      document.getElementById("status").innerText = "Carregando...";
+      fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+          const tabela = $('#cryptoTable').DataTable();
+          tabela.clear();
+          tabela.rows.add(data);
+          tabela.draw();
+          document.getElementById("status").innerText = "Atualizado com sucesso.";
         })
-        .catch(() => {
+        .catch(error => {
+          console.error("Erro ao carregar dados:", error);
           document.getElementById("status").innerText = "Erro ao carregar dados.";
         });
     }
