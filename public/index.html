@@ -6,69 +6,20 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 10px;
-      background: #f5f5f5;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 20px;
-      margin: 5px 0;
-    }
-
-    #intro {
-      background: #fff;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    #mainContent {
-      overflow-x: auto;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      min-width: 900px;
-    }
-
-    th, td {
-      padding: 4px 6px;
-      text-align: center;
-      border: 1px solid #ccc;
-      font-size: 12px;
-    }
-
-    td[data-score] {
-      font-weight: bold;
-    }
-
+    body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f5f5f5; }
+    h2 { text-align: center; font-size: 22px; margin: 5px 0; }
+    #intro, #loginArea { background: #fff; padding: 10px; margin-bottom: 10px; border-radius: 8px; font-size: 14px; }
+    #mainContent { display: none; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; min-width: 900px; }
+    th, td { padding: 4px 6px; text-align: center; border: 1px solid #ccc; font-size: 12px; }
+    td[data-score] { font-weight: bold; }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
     td[data-score^="5"] { background: #00cc00; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; }
     td[data-score^="2"] { background: #ff00ff; }
     td[data-score^="0"], td[data-score^="1"] { background: white; }
-
-    .dataTables_filter {
-      text-align: right;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .dataTables_filter input {
-      width: 180px;
-      font-size: 12px;
-      padding: 4px;
-    }
-
-    ul {
-      padding-left: 18px;
-    }
+    .dataTables_filter { text-align: right; font-size: 12px; margin-bottom: 8px; }
+    .dataTables_filter input { width: 180px; font-size: 12px; padding: 4px; }
   </style>
 </head>
 <body>
@@ -77,12 +28,7 @@
 
   <div id="intro">
     <h3>Sobre o Projeto On-Chain SetValues</h3>
-    <p>
-      O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 
-      <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma 
-      <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.
-    </p>
-
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
     <h4>Como Funciona</h4>
     <ul>
       <li>Variação de preço (7, 30, 60 e 90 dias)</li>
@@ -94,19 +40,18 @@
       <li>Fase atual: hype, tendência ou acumulação</li>
       <li>Histórico de valorização e desvalorização</li>
     </ul>
-
     <h4>Objetivo</h4>
-    <p>
-      Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, 
-      identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. 
-      Tudo isso de forma automatizada e acessível.
-    </p>
-
-    <p>
-      <strong>Contato:</strong><br>
+    <p>Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. Tudo isso de forma automatizada e acessível.</p>
+    <p><strong>Contato:</strong><br>
       E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
       WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
     </p>
+  </div>
+
+  <div id="loginArea" style="text-align: center;">
+    <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
+    <button onclick="carregarDados()">Acessar</button>
+    <div id="erroMsg" style="color:red; margin-top:8px;"></div>
   </div>
 
   <div id="mainContent">
@@ -118,17 +63,27 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwBaN3SYvwHzKvJ9HuW8Zo7WSa5z-E7dj2Za4DiawqZzRDO7bkeBkZK6sfeEOWFMRQYZg/exec";
 
-    $(document).ready(function () {
-      fetch(API_URL + "?email=valdiram.lima.2013@gmail.com")
+    function carregarDados() {
+      const email = document.getElementById("emailInput").value.trim().toLowerCase();
+      if (!email) {
+        document.getElementById("erroMsg").innerText = "Digite um e-mail válido.";
+        return;
+      }
+
+      fetch(`${API_URL}?email=${email}`)
         .then(res => res.json())
         .then(dados => {
-          if (!Array.isArray(dados)) {
-            alert("Erro ao carregar os dados.");
+          if (dados.erro) {
+            document.getElementById("erroMsg").innerText = "Acesso negado. E-mail não autorizado.";
             return;
           }
 
-          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
+          document.getElementById("intro").style.display = "none";
+          document.getElementById("loginArea").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("erroMsg").innerText = "";
 
+          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
             data: dados,
             columns: colunas,
@@ -152,8 +107,11 @@
               });
             }
           });
+        })
+        .catch(() => {
+          document.getElementById("erroMsg").innerText = "Erro ao carregar dados.";
         });
-    });
+    }
   </script>
 
 </body>
