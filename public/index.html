@@ -2,188 +2,116 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=10, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
-
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css"/>
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f0f0f0;
-      padding: 20px;
       margin: 0;
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-
-    #introText {
-      text-align: center;
-      max-width: 1000px;
-      margin: 0 auto 20px;
-      background: #ffffff;
       padding: 20px;
-      border-radius: 10px;
-      font-size: 16px;
     }
-
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    #intro {
+      background: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
     #loginArea {
       text-align: center;
-      margin-bottom: 20px;
-    }
-
-    #erroMsg {
-      color: red;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    #mainContent {
-      display: none;
-      overflow-x: auto;
-    }
-
-    .dataTables_filter {
-      text-align: center !important;
-      margin-bottom: 20px;
-    }
-
-    .dataTables_filter input {
-      width: 250px;
-      padding: 8px;
-      font-size: 14px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
       margin-top: 20px;
     }
-
-    th, td {
-      padding: 8px;
-      text-align: center;
-      border: 1px solid #ddd;
+    #mainContent {
+      display: none;
     }
-
-    td[data-score] {
-      font-weight: bold;
-      color: black;
-    }
-
-    td[data-score^="6"], td[data-score="700"] {
-      background: #3399ff;
-      color: white;
-    }
-
-    td[data-score^="5"] {
-      background: #00cc00;
-      color: black;
-    }
-
-    td[data-score^="3"], td[data-score^="4"] {
-      background: #ffff00;
-      color: black;
-    }
-
-    td[data-score^="2"] {
-      background: #ff00ff;
-      color: black;
+    table.dataTable thead th {
+      background: #e0e0e0;
     }
   </style>
 </head>
 <body>
 
-  <h2>On-Chain SetValues</h2>
+<header>
+  <h1>On-Chain SetValues</h1>
+</header>
 
-  <div id="introText">
-    <h3>Sobre o Projeto On-Chain SetValues</h3>
-    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-    <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-    <h4>Como funciona</h4>
-    <ul style="text-align: left; max-width: 800px; margin: auto;">
-      <li>Variação de preço (7, 30, 90 dias)</li>
-      <li>Aumento ou perda de holders</li>
-      <li>Engajamento social e visitas</li>
-      <li>Oscilação e tempo em tendência</li>
-      <li>Número de listagens, corretoras e pares</li>
-      <li>Presença em múltiplas blockchains</li>
-      <li>Auditoria, votos, estrelas e score de perfil</li>
-      <li>Fase de acumulação e hype</li>
-    </ul>
-    <h4>Objetivo</h4>
-    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
-  </div>
+<div id="intro">
+  <h2>Sobre o Projeto On-Chain SetValues</h2>
+  <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+  <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+  <h3>Como funciona</h3>
+  <ul>
+    <li>Variação de preço (7, 30, 90 dias)</li>
+    <li>Aumento ou perda de holders</li>
+    <li>Engajamento social e visitas</li>
+    <li>Oscilação e tempo em tendência</li>
+    <li>Número de listagens, corretoras e pares</li>
+    <li>Presença em múltiplas blockchains</li>
+    <li>Auditoria, votos, estrelas e score de perfil</li>
+    <li>Fase de acumulação e hype</li>
+  </ul>
+  <h3>Objetivo</h3>
+  <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+  <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
 
   <div id="loginArea">
-    <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
-    <button onclick="carregarDados()">Acessar</button>
+    <input type="text" id="email" placeholder="Digite seu e-mail autorizado..." />
+    <button onclick="acessarPainel()">Acessar</button>
   </div>
+</div>
 
-  <div id="erroMsg"></div>
+<div id="mainContent">
+  <table id="tabela" class="display nowrap" style="width:100%">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</div>
 
-  <div id="mainContent">
-    <table id="tabela" class="display"></table>
-  </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbzZv1b5icT45uJ3ajNwkak7yRrb2QzDd0Ig0tf87sAjcVUI_bQk151sgSOspGVjFt_6VA/exec";
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzZv1b5icT45uJ3ajNwkak7yRrb2QzDd0Ig0tf87sAjcVUI_bQk151sgSOspGVjFt_6VA/exec";
+  function acessarPainel() {
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    if (!email) return alert("Digite um e-mail autorizado.");
 
-    function carregarDados() {
-      const email = document.getElementById("emailInput").value.trim().toLowerCase();
-      if (!email) return alert("Digite um e-mail autorizado.");
-
-      fetch(`${API_URL}?email=${email}`)
-        .then(res => res.json())
-        .then(dados => {
-          if (dados.erro) {
-            document.getElementById("erroMsg").innerText = "Acesso negado. Verifique seu e-mail.";
-            return;
-          }
-
-          document.getElementById("erroMsg").innerText = "";
+    fetch(`${API_URL}?email=${email}`)
+      .then(res => res.json())
+      .then(dados => {
+        if (dados.erro) {
+          alert(dados.erro);
+        } else {
+          document.getElementById("intro").style.display = "none";
           document.getElementById("mainContent").style.display = "block";
-          document.getElementById("loginArea").style.display = "none";
-          document.getElementById("introText").style.display = "none";
 
-          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
-          $('#tabela').DataTable({
-            data: dados,
-            columns: colunas,
-            destroy: true,
-            paging: false,
-            searching: true,
-            info: false,
-            initComplete: function () {
-              $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
-            }
+          const colunas = Object.keys(dados[0]);
+          const thead = document.querySelector("#tabela thead");
+          const tbody = document.querySelector("#tabela tbody");
+
+          thead.innerHTML = "<tr>" + colunas.map(c => `<th>${c}</th>`).join("") + "</tr>";
+          tbody.innerHTML = dados.map(l => `<tr>${colunas.map(c => `<td>${l[c]}</td>`).join("")}</tr>`).join("");
+
+          $("#tabela").DataTable({
+            scrollX: true,
+            dom: 'Bfrtip',
+            buttons: ['csv', 'pdf']
           });
-
-          setTimeout(() => {
-            $('#tabela tbody tr').each(function () {
-              const $tds = $(this).find("td");
-              const link = $tds.eq(4).text();
-              if (link.startsWith("http")) {
-                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
-              }
-              const score = $tds.eq(5).text();
-              $tds.eq(5).attr("data-score", score);
-            });
-          }, 300);
-        })
-        .catch(() => {
-          document.getElementById("erroMsg").innerText = "Erro ao carregar dados.";
-        });
-    }
-  </script>
+        }
+      });
+  }
+</script>
 
 </body>
 </html>
