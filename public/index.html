@@ -9,63 +9,65 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 10px;
       background: #f5f5f5;
     }
+
     h2 {
       text-align: center;
-      font-size: 28px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin: 5px 0;
     }
+
     #intro {
       background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 1000px;
-      margin: 0 auto 30px auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      font-size: 14px;
     }
+
     #mainContent {
       overflow-x: auto;
-      padding: 10px;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
-      min-width: 800px;
+      min-width: 900px;
     }
+
     th, td {
-      padding: 8px;
+      padding: 4px 6px;
       text-align: center;
       border: 1px solid #ccc;
-      font-size: 14px;
+      font-size: 12px;
     }
+
     td[data-score] {
       font-weight: bold;
     }
-    td[data-score="700"], td[data-score^="6"] {
-      background: #3399ff; color: white;
-    }
-    td[data-score^="5"] {
-      background: #00cc00;
-    }
-    td[data-score^="3"], td[data-score^="4"] {
-      background: #ffff00;
-    }
-    td[data-score^="2"] {
-      background: #ff00ff;
-    }
-    td[data-score^="0"], td[data-score^="1"] {
-      background: white;
-    }
+
+    td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
+    td[data-score^="5"] { background: #00cc00; }
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; }
+    td[data-score^="2"] { background: #ff00ff; }
+    td[data-score^="0"], td[data-score^="1"] { background: white; }
+
     .dataTables_filter {
-      text-align: center;
-      margin-bottom: 15px;
+      text-align: right;
+      font-size: 12px;
+      margin-bottom: 8px;
     }
+
     .dataTables_filter input {
-      width: 90%;
-      padding: 6px;
-      max-width: 320px;
+      width: 180px;
+      font-size: 12px;
+      padding: 4px;
+    }
+
+    ul {
+      padding-left: 18px;
     }
   </style>
 </head>
@@ -80,8 +82,9 @@
       <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma 
       <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.
     </p>
+
     <h4>Como Funciona</h4>
-    <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <ul>
       <li>Variação de preço (7, 30, 60 e 90 dias)</li>
       <li>Aumento ou perda de holders</li>
       <li>Engajamento social e número de visitas</li>
@@ -91,13 +94,15 @@
       <li>Fase atual: hype, tendência ou acumulação</li>
       <li>Histórico de valorização e desvalorização</li>
     </ul>
+
     <h4>Objetivo</h4>
     <p>
       Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, 
       identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. 
       Tudo isso de forma automatizada e acessível.
     </p>
-    <p style="margin-top: 15px;">
+
+    <p>
       <strong>Contato:</strong><br>
       E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
       WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
@@ -150,5 +155,6 @@
         });
     });
   </script>
+
 </body>
 </html>
