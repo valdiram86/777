@@ -2,15 +2,15 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #e0e0e0;
       margin: 0;
-      padding: 20px;
+      padding: 30px;
     }
 
     h2 {
@@ -41,7 +41,6 @@
     #erroMsg {
       text-align: center;
       color: red;
-      margin-bottom: 10px;
     }
 
     td[data-score] {
@@ -66,11 +65,6 @@
 
     td[data-score^="2"] {
       background: #ff00ff;
-      color: black;
-    }
-
-    td[data-score^="0"], td[data-score^="1"] {
-      background: white;
       color: black;
     }
 
@@ -103,7 +97,6 @@
   <div id="intro">
     <h3>Sobre o Projeto On-Chain SetValues</h3>
     <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-
     <h4>Como Funciona</h4>
     <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
       <li>Variação de preço (7, 30, 60 e 90 dias)</li>
@@ -115,13 +108,12 @@
       <li>Fase atual: hype, tendência ou acumulação</li>
       <li>Histórico de valorização e desvalorização</li>
     </ul>
-
     <h4>Objetivo</h4>
     <p>Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. Tudo isso de forma automatizada e acessível.</p>
-
-    <p style="margin-top: 15px;"><strong>Contato:</strong> <br>
-    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> <br>
-    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+    <p style="margin-top: 15px;"><strong>Contato:</strong><br>
+      E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+      WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+    </p>
   </div>
 
   <div id="loginArea">
@@ -137,8 +129,9 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzZv1b5icT45uJ3ajNwkak7yRrb2QzDd0Ig0tf87sAjcVUI_bQk151sgSOspGVjFt_6VA/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwBaN3SYvwHzKvJ9HuW8Zo7WSa5z-E7dj2Za4DiawqZzRDO7bkeBkZK6sfeEOWFMRQYZg/exec";
 
     function carregarDados() {
       const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -152,10 +145,10 @@
             return;
           }
 
-          document.getElementById("intro").style.display = "none";
-          document.getElementById("loginArea").style.display = "none";
           document.getElementById("erroMsg").innerText = "";
           document.getElementById("mainContent").style.display = "block";
+          document.getElementById("intro").style.display = "none";
+          document.getElementById("loginArea").style.display = "none";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
@@ -178,8 +171,9 @@
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
+
               const score = parseInt($tds.eq(5).text());
-              if (!isNaN(score) && score >= 250) {
+              if (score >= 250) {
                 $tds.eq(5).attr("data-score", score);
               }
             });
@@ -191,4 +185,4 @@
     }
   </script>
 </body>
-</html>
+</html>    
