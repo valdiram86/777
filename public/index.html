@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
@@ -52,9 +52,6 @@
     }
     td[data-score^="2"] {
       background: #ff00ff; color: black;
-    }
-    td[data-score^="0"], td[data-score^="1"] {
-      background: white; color: black;
     }
     table {
       border-collapse: collapse;
@@ -147,8 +144,9 @@
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-              const score = $tds.eq(5).text();
-              if (parseInt(score) >= 250) {
+
+              const score = parseInt($tds.eq(5).text());
+              if (!isNaN(score) && score >= 250) {
                 $tds.eq(5).attr("data-score", score);
               }
             });
