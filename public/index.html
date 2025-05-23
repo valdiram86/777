@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=yes" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
@@ -101,18 +101,27 @@
   <h2>On-Chain SetValues</h2>
 
   <div id="intro">
-    <h3>Sobre o Projeto</h3>
-    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-    <p>Ela foi desenvolvida para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-    <p><strong>Critérios analisados:</strong></p>
+    <h3>Sobre o Projeto On-Chain SetValues</h3>
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
+
+    <h4>Como Funciona</h4>
     <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-      <li>Variação de preço (7, 30, 60, 90 dias)</li>
+      <li>Variação de preço (7, 30, 60 e 90 dias)</li>
       <li>Aumento ou perda de holders</li>
-      <li>Engajamento social, visitas e oscilação</li>
-      <li>Hype, auditoria, estrelas e score</li>
-      <li>Listagens, corretoras e múltiplas blockchains</li>
+      <li>Engajamento social e número de visitas</li>
+      <li>Oscilação e tempo em tendência</li>
+      <li>Listagens, corretoras, múltiplas blockchains</li>
+      <li>Auditoria, votos, estrelas e score de perfil</li>
+      <li>Fase atual: hype, tendência ou acumulação</li>
+      <li>Histórico de valorização e desvalorização</li>
     </ul>
-    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
+
+    <h4>Objetivo</h4>
+    <p>Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. Tudo isso de forma automatizada e acessível.</p>
+
+    <p style="margin-top: 15px;"><strong>Contato:</strong> <br>
+    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> <br>
+    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
   </div>
 
   <div id="loginArea">
@@ -156,6 +165,7 @@
             paging: false,
             searching: true,
             info: false,
+            scrollX: true,
             initComplete: function () {
               $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
             }
