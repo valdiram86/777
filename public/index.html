@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
@@ -10,24 +10,24 @@
       font-family: Arial, sans-serif;
       background: #e0e0e0;
       margin: 0;
-      padding: 10px;
+      padding: 30px;
     }
     h2 {
       text-align: center;
-      font-size: 26px;
-      margin: 10px 0;
+      font-size: 32px;
+      margin-bottom: 10px;
     }
     #intro {
       text-align: center;
       background: #fff;
       border-radius: 10px;
-      padding: 15px;
-      max-width: 100%;
-      margin: 0 auto 20px;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto 30px;
     }
     #loginArea {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     #mainContent {
       display: none;
@@ -36,16 +36,6 @@
     #erroMsg {
       text-align: center;
       color: red;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      min-width: 900px;
-    }
-    th, td {
-      padding: 6px;
-      text-align: center;
-      border: 1px solid #ccc;
     }
     td[data-score] {
       font-weight: bold;
@@ -63,13 +53,22 @@
     td[data-score^="2"] {
       background: #ff00ff; color: black;
     }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
     .dataTables_filter {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     .dataTables_filter input {
       width: 240px;
-      padding: 5px;
+      padding: 6px;
     }
   </style>
 </head>
@@ -78,8 +77,18 @@
   <h2>On-Chain SetValues</h2>
 
   <div id="intro">
-    <p><strong>Radar de criptomoedas 100% automatizado</strong></p>
-    <p>Com análise de 3.000 ativos e pontuação baseada em dezenas de critérios.</p>
+    <h3>Sobre o Projeto</h3>
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.000 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+    <p>Ela foi desenvolvida para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+    <p><strong>Critérios analisados:</strong></p>
+    <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+      <li>Variação de preço (7, 30, 90 dias)</li>
+      <li>Aumento ou perda de holders</li>
+      <li>Engajamento social e visitas</li>
+      <li>Oscilação, hype, auditoria, estrelas</li>
+      <li>Listagens, corretoras, múltiplas blockchains</li>
+    </ul>
+    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
   </div>
 
   <div id="loginArea">
@@ -90,9 +99,7 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
-    <div style="overflow-x: auto;">
-      <table id="tabela" class="display"></table>
-    </div>
+    <table id="tabela" class="display"></table>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -125,7 +132,6 @@
             paging: false,
             searching: true,
             info: false,
-            scrollX: true,
             initComplete: function () {
               $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
             }
