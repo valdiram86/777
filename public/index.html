@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=10, minimum-scale=0.2" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.1, maximum-scale=10" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
@@ -12,27 +12,33 @@
       padding: 20px;
       background: #f5f5f5;
     }
+
     h2 {
       text-align: center;
       font-size: 28px;
       margin-bottom: 10px;
     }
+
     #intro {
+      text-align: center;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
       max-width: 900px;
       margin: 0 auto 30px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
     }
+
     #loginArea {
       text-align: center;
       margin-bottom: 20px;
     }
+
     #mainContent {
       display: none;
       overflow-x: auto;
       padding: 10px;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
@@ -40,42 +46,52 @@
       border-left: none;
       border-right: none;
     }
+
     th, td {
       padding: 8px;
       text-align: center;
       border-top: 1px solid #ccc;
       border-bottom: 1px solid #ccc;
-      border-left: none;
-      border-right: none;
+      border-left: none !important;
+      border-right: none !important;
       font-size: 14px;
     }
+
     td[data-score] {
       font-weight: bold;
     }
+
     td[data-score="700"], td[data-score^="6"] {
       background: #3399ff; color: white;
     }
+
     td[data-score^="5"] {
       background: #00cc00;
     }
+
     td[data-score^="3"], td[data-score^="4"] {
       background: #ffff00;
     }
+
     td[data-score^="2"] {
       background: #ff00ff;
     }
+
     td[data-score^="0"], td[data-score^="1"] {
       background: white;
     }
+
     .dataTables_filter {
       text-align: center;
       margin-bottom: 15px;
     }
+
     .dataTables_filter input {
       width: 90%;
       padding: 6px;
       max-width: 320px;
     }
+
     #erroMsg {
       text-align: center;
       color: red;
@@ -86,29 +102,19 @@
   <h2>On-Chain SetValues</h2>
 
   <div id="intro">
-    <h3>Sobre o Projeto On-Chain SetValues</h3>
-    <p>
-      O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 
-      <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma 
-      <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.
-    </p>
+    <h3>Sobre o Projeto</h3>
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real e atribui a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
     <h4>Como Funciona</h4>
     <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
       <li>Variação de preço (7, 30, 60 e 90 dias)</li>
       <li>Aumento ou perda de holders</li>
-      <li>Engajamento social e número de visitas</li>
+      <li>Engajamento social e visitas</li>
       <li>Oscilação e tempo em tendência</li>
       <li>Listagens, corretoras, múltiplas blockchains</li>
-      <li>Auditoria, votos, estrelas e score de perfil</li>
-      <li>Fase atual: hype, tendência ou acumulação</li>
-      <li>Histórico de valorização e desvalorização</li>
+      <li>Auditoria, votos, estrelas, perfil e hype</li>
     </ul>
     <h4>Objetivo</h4>
-    <p>
-      Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, 
-      identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. 
-      Tudo isso de forma automatizada e acessível.
-    </p>
+    <p>Oferecer um radar confiável e visual para encontrar <strong>gemas promissoras</strong> e evitar projetos com alto risco de colapso.</p>
     <p style="margin-top: 15px;">
       <strong>Contato:</strong><br>
       E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
@@ -120,6 +126,7 @@
     <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
     <button onclick="carregarDados()">Acessar</button>
   </div>
+
   <div id="erroMsg"></div>
 
   <div id="mainContent">
@@ -143,16 +150,12 @@
             return;
           }
 
-          document.getElementById("erroMsg").innerText = "";
-          document.getElementById("mainContent").style.display = "block";
           document.getElementById("intro").style.display = "none";
           document.getElementById("loginArea").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("erroMsg").innerText = "";
 
-          const colunas = Object.keys(dados[0]).map(k => ({
-            title: k === "Pontuação Balanceada (1–700)" ? "PB 1–700" : k,
-            data: k
-          }));
-
+          const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
             data: dados,
             columns: colunas,
@@ -183,4 +186,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
