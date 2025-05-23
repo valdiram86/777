@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
 
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
@@ -11,37 +11,46 @@
       font-family: Arial, sans-serif;
       background: #e0e0e0;
       margin: 0;
-      padding: 30px;
+      padding: 0;
     }
+
     h2 {
       text-align: center;
       font-size: 32px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
+
     #intro {
       text-align: center;
       background: #fff;
       border-radius: 10px;
       padding: 20px;
-      max-width: 1200px;
+      max-width: 900px;
       margin: 0 auto 30px;
     }
+
     #loginArea {
       text-align: center;
       margin-bottom: 20px;
     }
+
+    #erroMsg {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
     #mainContent {
       display: none;
+      padding: 10px;
       overflow-x: auto;
     }
-    #erroMsg {
-      text-align: center;
-      color: red;
-    }
+
     td[data-score] {
       font-weight: bold;
       color: black;
     }
+
     td[data-score="700"], td[data-score^="6"] {
       background: #3399ff; color: white;
     }
@@ -54,21 +63,29 @@
     td[data-score^="2"] {
       background: #ff00ff; color: black;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
     }
+
     th, td {
       padding: 8px;
       text-align: center;
       border: 1px solid #ccc;
     }
+
     .dataTables_filter {
       text-align: center;
       margin-bottom: 20px;
     }
+
+    .dataTables_wrapper {
+      overflow-x: auto;
+    }
+
     .dataTables_filter input {
-      width: 240px;
+      width: 250px;
       padding: 6px;
     }
   </style>
@@ -80,6 +97,7 @@
   <div id="intro">
     <h3>Sobre o Projeto On-Chain SetValues</h3>
     <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
+
     <h4>Como Funciona</h4>
     <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
       <li>Variação de preço (7, 30, 60 e 90 dias)</li>
@@ -91,11 +109,14 @@
       <li>Fase atual: hype, tendência ou acumulação</li>
       <li>Histórico de valorização e desvalorização</li>
     </ul>
+
     <h4>Objetivo</h4>
     <p>Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. Tudo isso de forma automatizada e acessível.</p>
+
     <p style="margin-top: 15px;"><strong>Contato:</strong> <br>
-    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> <br>
-    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+      E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+      WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+    </p>
   </div>
 
   <div id="loginArea">
@@ -106,12 +127,15 @@
   <div id="erroMsg"></div>
 
   <div id="mainContent">
-    <table id="tabela" class="display"></table>
+    <div style="overflow-x:auto;">
+      <table id="tabela" class="display nowrap" style="width:100%"></table>
+    </div>
   </div>
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwBaN3SYvwHzKvJ9HuW8Zo7WSa5z-E7dj2Za4DiawqZzRDO7bkeBkZK6sfeEOWFMRQYZg/exec";
 
@@ -149,17 +173,19 @@
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-              const link = $tds.eq(3).text(); // Coluna D
+
+              const link = $tds.eq(4).text();
               if (link.startsWith("http")) {
-                $tds.eq(3).html(`<a href="${link}" target="_blank">Abrir</a>`);
+                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
 
-              const score = $tds.eq(4).text(); // Coluna E
-              const p = parseInt(score);
-              if (!isNaN(p) && p >= 250) {
-                $tds.eq(4).attr("data-score", score);
+              const score = $tds.eq(5).text();
+              if (parseInt(score) >= 250) {
+                $tds.eq(5).attr("data-score", score);
               }
             });
+
+            $('#tabela').DataTable().columns.adjust().draw();
           }, 300);
         })
         .catch(() => {
