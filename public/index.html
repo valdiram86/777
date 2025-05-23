@@ -2,15 +2,15 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.3, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.2, maximum-scale=5.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #e0e0e0;
       margin: 0;
-      padding: 15px;
+      padding: 20px;
       font-size: 10px;
     }
 
@@ -54,6 +54,11 @@
       border: 1px solid #ccc;
     }
 
+    .dataTables_filter {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
     .dataTables_filter input {
       width: 200px;
       padding: 4px;
@@ -76,8 +81,26 @@
 
   <div id="intro">
     <h3>Sobre o Projeto On-Chain SetValues</h3>
-    <p>O <strong>On-Chain SetValues</strong> monitora mais de <strong>3.000 criptomoedas</strong> em tempo real e calcula uma <strong>pontuação de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
+    <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo a cada uma uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
+
+    <h4>Como Funciona</h4>
+    <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+      <li>Variação de preço (7, 30, 60 e 90 dias)</li>
+      <li>Aumento ou perda de holders</li>
+      <li>Engajamento social e número de visitas</li>
+      <li>Oscilação e tempo em tendência</li>
+      <li>Listagens, corretoras, múltiplas blockchains</li>
+      <li>Auditoria, votos, estrelas e score de perfil</li>
+      <li>Fase atual: hype, tendência ou acumulação</li>
+      <li>Histórico de valorização e desvalorização</li>
+    </ul>
+
+    <h4>Objetivo</h4>
+    <p>Oferecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com risco elevado de colapso. Tudo isso de forma automatizada e acessível.</p>
+
+    <p style="margin-top: 15px;"><strong>Contato:</strong> <br>
+    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> <br>
+    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
   </div>
 
   <div id="loginArea">
@@ -94,7 +117,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwBaN3SYvwHzKvJ9HuW8Zo7WSa5z-E7dj2Za4DiawqZzRDO7bkeBkZK6sfeEOWFMRQYZg/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbzZv1b5icT45uJ3ajNwkak7yRrb2QzDd0Ig0tf87sAjcVUI_bQk151sgSOspGVjFt_6VA/exec";
 
     function carregarDados() {
       const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -104,10 +127,11 @@
         .then(res => res.json())
         .then(dados => {
           if (dados.erro) {
-            document.getElementById("erroMsg").innerText = "Acesso negado.";
+            document.getElementById("erroMsg").innerText = "Acesso negado. Verifique seu e-mail.";
             return;
           }
 
+          document.getElementById("erroMsg").innerText = "";
           document.getElementById("mainContent").style.display = "block";
           document.getElementById("intro").style.display = "none";
           document.getElementById("loginArea").style.display = "none";
@@ -129,13 +153,12 @@
           setTimeout(() => {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-              const linkText = $tds.eq(4).text();
-              if (linkText.includes("http")) {
-                $tds.eq(4).html(`<a href="${linkText}" target="_blank">Abrir</a>`);
+              const link = $tds.eq(4).text();
+              if (link.startsWith("http")) {
+                $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-
-              const score = parseInt($tds.eq(5).text());
-              if (!isNaN(score) && score >= 250) {
+              const score = $tds.eq(5).text();
+              if (parseInt(score) >= 250) {
                 $tds.eq(5).attr("data-score", score);
               }
             });
