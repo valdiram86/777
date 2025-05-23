@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
   <style>
@@ -10,13 +10,15 @@
       font-family: Arial, sans-serif;
       background: #e0e0e0;
       margin: 0;
-      padding: 30px;
+      padding: 20px;
     }
+
     h2 {
       text-align: center;
       font-size: 32px;
       margin-bottom: 10px;
     }
+
     #intro {
       text-align: center;
       background: #fff;
@@ -25,47 +27,69 @@
       max-width: 900px;
       margin: 0 auto 30px;
     }
+
     #loginArea {
       text-align: center;
       margin-bottom: 20px;
     }
+
     #mainContent {
       display: none;
       overflow-x: auto;
     }
+
     #erroMsg {
       text-align: center;
       color: red;
+      margin-bottom: 10px;
     }
+
     td[data-score] {
       font-weight: bold;
       color: black;
     }
+
     td[data-score="700"], td[data-score^="6"] {
-      background: #3399ff; color: white;
+      background: #3399ff;
+      color: white;
     }
+
     td[data-score^="5"] {
-      background: #00cc00; color: black;
+      background: #00cc00;
+      color: black;
     }
+
     td[data-score^="3"], td[data-score^="4"] {
-      background: #ffff00; color: black;
+      background: #ffff00;
+      color: black;
     }
+
     td[data-score^="2"] {
-      background: #ff00ff; color: black;
+      background: #ff00ff;
+      color: black;
     }
+
+    td[data-score^="0"], td[data-score^="1"] {
+      background: white;
+      color: black;
+    }
+
     table {
       border-collapse: collapse;
       width: 100%;
     }
+
     th, td {
       padding: 8px;
       text-align: center;
       border: 1px solid #ccc;
     }
+
     .dataTables_filter {
       text-align: center;
       margin-bottom: 20px;
     }
+
     .dataTables_filter input {
       width: 240px;
       padding: 6px;
@@ -82,11 +106,11 @@
     <p>Ela foi desenvolvida para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
     <p><strong>Critérios analisados:</strong></p>
     <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-      <li>Variação de preço (7, 30, 90 dias)</li>
+      <li>Variação de preço (7, 30, 60, 90 dias)</li>
       <li>Aumento ou perda de holders</li>
-      <li>Engajamento social e visitas</li>
-      <li>Oscilação, hype, auditoria, estrelas</li>
-      <li>Listagens, corretoras, múltiplas blockchains</li>
+      <li>Engajamento social, visitas e oscilação</li>
+      <li>Hype, auditoria, estrelas e score</li>
+      <li>Listagens, corretoras e múltiplas blockchains</li>
     </ul>
     <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
   </div>
@@ -119,10 +143,10 @@
             return;
           }
 
-          document.getElementById("erroMsg").innerText = "";
-          document.getElementById("mainContent").style.display = "block";
           document.getElementById("intro").style.display = "none";
           document.getElementById("loginArea").style.display = "none";
+          document.getElementById("erroMsg").innerText = "";
+          document.getElementById("mainContent").style.display = "block";
 
           const colunas = Object.keys(dados[0]).map(k => ({ title: k, data: k }));
           $('#tabela').DataTable({
@@ -144,7 +168,6 @@
               if (link.startsWith("http")) {
                 $tds.eq(4).html(`<a href="${link}" target="_blank">Abrir</a>`);
               }
-
               const score = parseInt($tds.eq(5).text());
               if (!isNaN(score) && score >= 250) {
                 $tds.eq(5).attr("data-score", score);
