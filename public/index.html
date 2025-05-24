@@ -141,4 +141,115 @@
 
   <table id="tabela" class="display nowrap"></table>
   <div id="ultimaAtualizacao"></div>
-</div>
+</div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
+  let tabela;
+
+  function carregarDados() {
+    const email = document.getElementById("emailInput").value.trim().toLowerCase();
+    if (!email) return alert("Digite um e-mail autorizado.");
+
+    fetch(`${API_URL}?email=${email}`)
+      .then(res => res.json())
+      .then(dados => {
+        if (dados.erro) {
+          document.getElementById("erroMsg").innerText = "Acesso negado.";
+          return;
+        }
+
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("loginArea").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+
+        const colunas = Object.keys(dados[0]).map(k => {
+          const titulo = (k === "Pontuação Balanceada (1–700)") ? "PB 1–700" : k;
+          return { title: titulo, data: k };
+        });
+
+        tabela = $('#tabela').DataTable({
+          data: dados,
+          columns: colunas,
+          scrollX: true,
+          paging: false,
+          info: false,
+          searching: true,
+          destroy: true,
+          initComplete: function () {
+            $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
+            $('#tabela tbody tr').each(function () {
+              const $tds = $(this).find("td");
+              const link = $tds.eq(2).text();
+              const score = parseInt($tds.eq(3).text());
+              if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              if (score >= 250) $tds.eq(3).attr("data-score", score);
+            });
+
+            atualizarDestaques();
+            exibirUltimaAtualizacao(dados);
+          }
+        });
+
+        tabela.on('draw', atualizarDestaques);
+      })
+      .catch(() => {
+        document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
+      });
+  }
+
+  function atualizarDestaques() {
+    const total = tabela.rows({ filter: 'applied' }).count();
+    let destaques = 0;
+
+    tabela.rows({ filter: 'applied' }).every(function () {
+      const score = parseInt(this.data()[3]);
+      if (!isNaN(score) && score >= 250) destaques++;
+    });
+
+    const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
+    document.getElementById("destaqueInfo").innerText =
+      `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
+  }
+
+  function exibirUltimaAtualizacao(dados) {
+    try {
+      const linhaValida = [...dados].reverse().find(obj => {
+        const valor = Object.values(obj).slice(-1)[0];
+        return valor && !isNaN(new Date(valor));
+      });
+
+      if (!linhaValida) return;
+
+      const rawData = Object.values(linhaValida).slice(-1)[0];
+      const data = new Date(rawData);
+      if (isNaN(data.getTime())) return;
+
+      const dia = String(data.getDate()).padStart(2, '0');
+      const mes = String(data.getMonth() + 1).padStart(2, '0');
+      const ano = data.getFullYear();
+      const hora = String(data.getHours()).padStart(2, '0');
+      const min = String(data.getMinutes()).padStart(2, '0');
+
+      document.getElementById("ultimaAtualizacao").innerText =
+        `Última atualização: ${dia}/${mes}/${ano} às ${hora}:${min}`;
+    } catch (e) {
+      console.log("Erro ao processar data:", e);
+    }
+  }
+
+  function filtrarRank() {
+    const min = parseInt(document.getElementById("minRank").value, 10);
+    const max = parseInt(document.getElementById("maxRank").value, 10);
+
+    $.fn.dataTable.ext.search.push(function (settings, data) {
+      const rank = parseInt(data[0], 10);
+      return (isNaN(min) || rank >= min) && (isNaN(max) || rank <= max);
+    });
+
+    tabela.draw();
+    $.fn.dataTable.ext.search.pop();
+  }
+</script>
+</body>
+</html>
