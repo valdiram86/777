@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,21 +7,89 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
-    h2 { text-align: center; margin: 20px 0 10px; }
-    #intro { background: #fff; padding: 20px; border-radius: 8px; margin: 20px auto; max-width: 1000px; }
-    #loginArea { text-align: center; margin: 20px 0; }
-    #mainContent { display: none; padding: 0 15px; }
-    table { border-collapse: collapse; width: 100%; white-space: nowrap; }
-    th, td { padding: 8px; text-align: center; font-size: 14px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+    #intro {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 1000px;
+    }
+    #loginArea {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #mainContent {
+      display: none;
+      padding: 0 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      white-space: nowrap;
+      table-layout: auto !important;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
     td[data-score^="5"] { background: #00cc00; color: black; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
-    .filter-bar { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 15px; gap: 15px; align-items: center; }
-    .filter-group { display: flex; align-items: center; gap: 6px; }
-    .filter-group input { padding: 5px; width: 85px; }
-    .dataTables_filter input { width: 180px; padding: 6px; }
+
+    .dataTables_wrapper {
+      overflow-x: auto;
+    }
+
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 5px 0;
+    }
+
+    .filter-group input {
+      padding: 5px;
+      width: 80px;
+    }
+
+    .dataTables_filter {
+      float: right;
+    }
+    .dataTables_filter input {
+      width: 160px;
+      padding: 6px;
+    }
+
+    #destaqueInfo {
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +99,22 @@
 <div id="intro">
   <h3>Sobre o Projeto On-Chain SetValues</h3>
   <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-  <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+  <h4>Como Funciona</h4>
+  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
+    <li>Aumento ou perda de holders</li>
+    <li>Engajamento social e número de visitas</li>
+    <li>Oscilação e tempo em tendência</li>
+    <li>Listagens, corretoras, múltiplas blockchains</li>
+    <li>Auditoria, votos, estrelas e score de perfil</li>
+    <li>Fase atual: hype, tendência ou acumulação</li>
+    <li>Histórico de valorização e desvalorização</li>
+  </ul>
+  <h4>Objetivo</h4>
+  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
+  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
+  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
 
 <div id="loginArea">
@@ -41,6 +125,7 @@
 <div id="erroMsg" style="text-align:center; color:red;"></div>
 
 <div id="mainContent">
+
   <div class="filter-bar">
     <div class="filter-group">
       <label for="minRank">Rank de:</label>
@@ -48,14 +133,16 @@
       <input type="number" id="maxRank" placeholder="máx" />
       <button onclick="filtrarRank()">Filtrar</button>
     </div>
+    <div id="destaqueInfo"></div>
   </div>
+
   <table id="tabela" class="display nowrap"></table>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
-  const API_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
   let tabela;
 
   function carregarDados() {
@@ -70,22 +157,17 @@
           return;
         }
 
-        const dadosFiltrados = dados.filter(l => {
-          const score = parseInt(l["Pontuação Balanceada (1–700)"]);
-          return !isNaN(score) && score >= 250;
-        });
-
         document.getElementById("intro").style.display = "none";
         document.getElementById("loginArea").style.display = "none";
         document.getElementById("mainContent").style.display = "block";
 
-        const colunas = Object.keys(dadosFiltrados[0]).map(k => {
-          const titulo = (k === "Pontuação Balanceada (1–700)" || k === "PB 1–700") ? "PB 1–700" : k;
+        const colunas = Object.keys(dados[0]).map(k => {
+          const titulo = (k === "Pontuação Balanceada (1–700)") ? "PB 1–700" : k;
           return { title: titulo, data: k };
         });
 
         tabela = $('#tabela').DataTable({
-          data: dadosFiltrados,
+          data: dados,
           columns: colunas,
           scrollX: true,
           paging: false,
@@ -93,18 +175,24 @@
           searching: true,
           destroy: true,
           initComplete: function () {
-            const headers = tabela.columns().header().toArray().map(h => h.innerText.trim());
-            const idxScore = headers.indexOf("PB 1–700");
-            const idxLink = headers.findIndex(h => h.includes("Link"));
-
+            $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-              const score = parseInt($tds.eq(idxScore).text());
-              const link = $tds.eq(idxLink).text();
-              if (!isNaN(score)) $tds.eq(idxScore).attr("data-score", score);
-              if (link.startsWith("http")) $tds.eq(idxLink).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              const link = $tds.eq(2).text();
+              const score = parseInt($tds.eq(3).text());
+              if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
+
+            setTimeout(() => {
+              tabela.columns.adjust().draw();
+              atualizarDestaques();
+            }, 300);
           }
+        });
+
+        tabela.on('draw', function () {
+          atualizarDestaques();
         });
       })
       .catch(() => {
@@ -112,11 +200,25 @@
       });
   }
 
+  function atualizarDestaques() {
+    const total = tabela.rows({ filter: 'applied' }).count();
+    let destaques = 0;
+
+    tabela.rows({ filter: 'applied' }).every(function () {
+      const score = parseInt(this.data()[3]);
+      if (!isNaN(score) && score >= 250) destaques++;
+    });
+
+    const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
+    document.getElementById("destaqueInfo").innerText =
+      `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
+  }
+
   function filtrarRank() {
     const min = parseInt(document.getElementById("minRank").value, 10);
     const max = parseInt(document.getElementById("maxRank").value, 10);
 
-    $.fn.dataTable.ext.search.push(function (_, data) {
+    $.fn.dataTable.ext.search.push(function (settings, data) {
       const rank = parseInt(data[0], 10);
       return (isNaN(min) || rank >= min) && (isNaN(max) || rank <= max);
     });
