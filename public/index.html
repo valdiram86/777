@@ -87,16 +87,6 @@
 <div id="intro">
   <h3>Sobre o Projeto On-Chain SetValues</h3>
   <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-  <h4>Como Funciona</h4>
-  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-    <li>Variação de preço (5, 10, 20, 30 dias)</li>
-    <li>Aumento ou perda de holders</li>
-    <li>Engajamento social e visitas</li>
-    <li>Oscilação e tempo em tendência</li>
-    <li>Listagens, corretoras, blockchains</li>
-    <li>Auditoria, votos, estrelas e score de perfil</li>
-    <li>Fase atual: hype, tendência ou acumulação</li>
-  </ul>
   <p><strong>Contato:</strong><br>
   E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
   WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
@@ -182,11 +172,16 @@
   }
 
   function atualizarDestaques() {
+    const debug = [];
     const headers = tabela.columns().header().toArray().map(h => h.textContent.trim());
     const colIndex = headers.findIndex(h => h === "PB 1–700");
 
+    debug.push("Headers: " + headers.join(", "));
+    debug.push("Índice da coluna de score: " + colIndex);
+
     if (colIndex === -1) {
       document.getElementById("destaqueInfo").innerText = "Pontuação não encontrada.";
+      alert("Coluna 'PB 1–700' não encontrada.");
       return;
     }
 
@@ -196,6 +191,7 @@
     tabela.rows({ filter: 'applied' }).every(function () {
       const row = this.data();
       const raw = row[colIndex];
+      debug.push("Score bruto: " + raw);
       const score = parseFloat(typeof raw === "string" ? raw.replace(",", ".") : raw);
       if (!isNaN(score) && score >= 250) destaques++;
     });
@@ -203,6 +199,9 @@
     const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
     document.getElementById("destaqueInfo").innerText =
       `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
+
+    console.log(debug.join("\n"));
+    alert(debug.slice(0, 5).join("\n")); // mostra os primeiros logs
   }
 
   function filtrarRank() {
