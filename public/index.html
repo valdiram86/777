@@ -6,9 +6,7 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
@@ -52,30 +50,25 @@
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
 
-    .dataTables_wrapper {
-      overflow-x: auto;
-    }
+    .dataTables_wrapper { overflow-x: auto; }
 
     .filter-bar {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin-bottom: 10px;
       align-items: center;
+      margin-bottom: 10px;
     }
-
     .filter-group {
       display: flex;
       align-items: center;
       gap: 5px;
       margin: 5px 0;
     }
-
     .filter-group input {
       padding: 5px;
       width: 80px;
     }
-
     .dataTables_filter {
       float: right;
     }
@@ -83,11 +76,21 @@
       width: 160px;
       padding: 6px;
     }
-
     #destaqueInfo {
       font-weight: bold;
       margin-top: 8px;
       font-size: 15px;
+    }
+    .export-buttons {
+      margin: 10px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .export-buttons button {
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -97,23 +100,12 @@
 
 <div id="intro">
   <h3>Sobre o Projeto On-Chain SetValues</h3>
-  <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-  <h4>Como Funciona</h4>
-  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
-    <li>Aumento ou perda de holders</li>
-    <li>Engajamento social e número de visitas</li>
-    <li>Oscilação e tempo em tendência</li>
-    <li>Listagens, corretoras, múltiplas blockchains</li>
-    <li>Auditoria, votos, estrelas e score de perfil</li>
-    <li>Fase atual: hype, tendência ou acumulação</li>
-    <li>Histórico de valorização e desvalorização</li>
-  </ul>
-  <h4>Objetivo</h4>
-  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
-  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
-  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+  <p>O <strong>On-Chain SetValues</strong> é um radar inteligente que escaneia mais de <strong>3.000 criptomoedas</strong> em tempo real e destaca apenas as que apresentam sinais reais de vida, atividade e potencial.</p>
+  <h4>Contato Oficial</h4>
+  <p>
+    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+  </p>
 </div>
 
 <div id="loginArea">
@@ -124,7 +116,6 @@
 <div id="erroMsg" style="text-align:center; color:red;"></div>
 
 <div id="mainContent">
-
   <div class="filter-bar">
     <div class="filter-group">
       <label for="minRank">Rank de:</label>
@@ -133,6 +124,13 @@
       <button onclick="filtrarRank()">Filtrar</button>
     </div>
     <div id="destaqueInfo"></div>
+  </div>
+
+  <div class="export-buttons">
+    <button onclick="exportarPorCor(600, 700)">Exportar Azul (≥600)</button>
+    <button onclick="exportarPorCor(500, 599)">Exportar Verde (500–599)</button>
+    <button onclick="exportarPorCor(300, 499)">Exportar Amarelo (300–499)</button>
+    <button onclick="exportarPorCor(250, 299)">Exportar Rosa-Neon (250–299)</button>
   </div>
 
   <table id="tabela" class="display nowrap"></table>
@@ -183,22 +181,32 @@
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
-            // Mostrar quantidade de moedas em destaque
-            const total = dados.length;
-            const destaques = $('#tabela tbody td[data-score]').length;
-            const porcentagem = ((destaques / total) * 100).toFixed(1);
-            document.getElementById("destaqueInfo").innerText =
-              `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
-
             setTimeout(() => {
               tabela.columns.adjust().draw();
+              atualizarDestaques();
             }, 300);
           }
         });
+
+        tabela.on('draw', atualizarDestaques);
       })
       .catch(() => {
         document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
       });
+  }
+
+  function atualizarDestaques() {
+    const total = tabela.rows({ filter: 'applied' }).count();
+    let destaques = 0;
+
+    tabela.rows({ filter: 'applied' }).every(function () {
+      const score = parseInt(this.data()[3]);
+      if (!isNaN(score) && score >= 250) destaques++;
+    });
+
+    const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
+    document.getElementById("destaqueInfo").innerText =
+      `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
   }
 
   function filtrarRank() {
@@ -213,7 +221,37 @@
     tabela.draw();
     $.fn.dataTable.ext.search.pop();
   }
-</script>
 
+  function exportarPorCor(minScore, maxScore) {
+    const headers = tabela.columns().header().toArray().map(h => h.innerText);
+    const linhas = [];
+
+    tabela.rows({ filter: 'applied' }).every(function () {
+      const row = this.data();
+      const score = parseInt(row[3]); // Coluna 4 = score
+      if (!isNaN(score) && score >= minScore && score <= maxScore) {
+        linhas.push(Object.values(row));
+      }
+    });
+
+    if (linhas.length === 0) {
+      alert("Nenhuma criptomoeda encontrada nessa faixa.");
+      return;
+    }
+
+    let csv = headers.join(",") + "\n";
+    linhas.forEach(linha => {
+      csv += linha.map(val => `"${val}"`).join(",") + "\n";
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `criptos_${minScore}-${maxScore}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
 </body>
 </html>
