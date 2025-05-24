@@ -6,9 +6,6 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
@@ -38,7 +35,6 @@
       border-collapse: collapse;
       width: 100%;
       white-space: nowrap;
-      table-layout: auto !important;
     }
     th, td {
       padding: 8px;
@@ -51,10 +47,6 @@
     td[data-score^="5"] { background: #00cc00; color: black; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
-
-    .dataTables_wrapper {
-      overflow-x: auto;
-    }
 
     .filter-bar {
       display: flex;
@@ -76,24 +68,15 @@
       width: 80px;
     }
 
-    .dataTables_filter {
-      float: right;
-    }
     .dataTables_filter input {
       width: 160px;
       padding: 6px;
     }
 
-    #destaqueInfoBox {
-      background: #ffffff;
-      border: 1px solid #ccc;
-      padding: 10px 16px;
-      border-radius: 6px;
+    #destaqueInfo {
       font-weight: bold;
+      margin-top: 8px;
       font-size: 15px;
-      box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
-      white-space: nowrap;
-      margin-top: 5px;
     }
   </style>
 </head>
@@ -117,7 +100,7 @@
   </ul>
   <h4>Objetivo</h4>
   <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
-  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
+  <p><strong>Contato:</strong><br>
   E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
   WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
@@ -130,7 +113,6 @@
 <div id="erroMsg" style="text-align:center; color:red;"></div>
 
 <div id="mainContent">
-
   <div class="filter-bar">
     <div class="filter-group">
       <label for="minRank">Rank de:</label>
@@ -138,9 +120,8 @@
       <input type="number" id="maxRank" placeholder="máx" />
       <button onclick="filtrarRank()">Filtrar</button>
     </div>
-    <div id="destaqueInfoBox">Carregando destaques...</div>
+    <div id="destaqueInfo"></div>
   </div>
-
   <table id="tabela" class="display nowrap"></table>
 </div>
 
@@ -167,7 +148,7 @@
         document.getElementById("mainContent").style.display = "block";
 
         const colunas = Object.keys(dados[0]).map(k => {
-          const titulo = (k === "Pontuação Balanceada (1–700)") ? "PB 1–700" : k;
+          const titulo = (k === "Pontuação Balanceada (1–700)" || k === "PB 1–700") ? "PB 1–700" : k;
           return { title: titulo, data: k };
         });
 
@@ -196,9 +177,7 @@
           }
         });
 
-        tabela.on('draw', function () {
-          atualizarDestaques();
-        });
+        tabela.on('draw', atualizarDestaques);
       })
       .catch(() => {
         document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
@@ -206,20 +185,21 @@
   }
 
   function atualizarDestaques() {
-    const headers = tabela.columns().header().toArray().map(h => h.innerText.trim());
-    const colScoreIndex = headers.indexOf("PB 1–700");
-    if (colScoreIndex === -1) return;
-
     const total = tabela.rows({ filter: 'applied' }).count();
     let destaques = 0;
 
+    // Localiza índice da coluna "PB 1–700"
+    const colIndex = tabela.columns().header().toArray().findIndex(
+      th => th.textContent.trim() === "PB 1–700"
+    );
+
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseInt(this.data()[colScoreIndex]);
+      const score = parseInt(this.data()[colIndex]);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
     const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
-    document.getElementById("destaqueInfoBox").innerText =
+    document.getElementById("destaqueInfo").innerText =
       `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
   }
 
@@ -238,4 +218,4 @@
 </script>
 
 </body>
-      </html>
+</html>
