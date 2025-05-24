@@ -56,19 +56,23 @@
       align-items: center;
       margin-bottom: 10px;
     }
+
     .filter-group {
       display: flex;
       align-items: center;
       gap: 5px;
     }
+
     .filter-group input {
       padding: 5px;
       width: 80px;
     }
+
     .dataTables_filter input {
       width: 160px;
       padding: 6px;
     }
+
     #destaqueInfo {
       font-weight: bold;
       margin-top: 10px;
@@ -82,7 +86,7 @@
 <div id="intro">
   <h3>Sobre o Projeto On-Chain SetValues</h3>
   <p>Plataforma que escaneia automaticamente milhares de criptomoedas, aplicando uma pontuação entre 1 a 700 com base em mais de 20 critérios. Filtra, ranqueia, classifica e destaca gemas em potencial.</p>
-  <p>Contatos:<br>
+  <p><strong>Contatos:</strong><br>
      E-mail: onchainsetvalues@gmail.com<br>
      WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
   </p>
@@ -113,7 +117,7 @@
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
   let tabela;
-  let indicePontuacao = -1;
+  let nomeColunaPontuacao = "Pontuação Balanceada (1–700)";
 
   function carregarDados() {
     const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -131,9 +135,11 @@
         document.getElementById("loginArea").style.display = "none";
         document.getElementById("mainContent").style.display = "block";
 
-        const colunas = Object.keys(dados[0]).map((k, i) => {
-          if (k.includes("Pontuação")) indicePontuacao = i;
-          return { title: k.includes("Pontuação") ? "PB 1–700" : k, data: k };
+        const colunas = Object.keys(dados[0]).map(k => {
+          return {
+            title: k === nomeColunaPontuacao ? "PB 1–700" : k,
+            data: k
+          };
         });
 
         tabela = $('#tabela').DataTable({
@@ -146,8 +152,23 @@
           destroy: true,
           initComplete: function () {
             $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
-            destacarPontuacoes();
-            atualizarDestaques();
+
+            $('#tabela tbody tr').each(function () {
+              const $tds = $(this).find("td");
+              const link = $tds.eq(2).text();
+              const score = parseInt($tds.eq(3).text());
+              if (link.startsWith("http")) {
+                $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              }
+              if (!isNaN(score) && score >= 250) {
+                $tds.eq(3).attr("data-score", score);
+              }
+            });
+
+            setTimeout(() => {
+              tabela.columns.adjust().draw();
+              atualizarDestaques();
+            }, 200);
           }
         });
 
@@ -158,22 +179,21 @@
       });
   }
 
-  function destacarPontuacoes() {
-    $('#tabela tbody tr').each(function () {
-      const $tds = $(this).find("td");
-      const score = parseInt($tds.eq(indicePontuacao).text());
-      if (!isNaN(score) && score >= 250) {
-        $tds.eq(indicePontuacao).attr("data-score", score);
+  function atualizarDestaques() {
+    let destaques = 0;
+    let total = tabela.rows({ filter: 'applied' }).count();
+    let indexScore = -1;
+
+    tabela.columns().every(function (idx) {
+      if (tabela.column(idx).header().innerText.includes("PB")) {
+        indexScore = idx;
       }
     });
-  }
 
-  function atualizarDestaques() {
-    const total = tabela.rows({ filter: 'applied' }).count();
-    let destaques = 0;
+    if (indexScore === -1) return;
 
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseInt(this.data()[indicePontuacao]);
+      const score = parseInt(this.data()[indexScore]);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
