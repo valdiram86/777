@@ -4,12 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
-
-  <!-- DataTables + Responsive -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css"/>
-
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
@@ -35,46 +34,80 @@
       display: none;
       padding: 0 10px;
     }
-    .dataTables_wrapper {
+    table {
+      border-collapse: collapse;
       width: 100%;
-      overflow-x: auto;
-    }
-    table.dataTable {
-      width: 100% !important;
+      white-space: nowrap;
       table-layout: auto !important;
     }
     th, td {
       padding: 8px;
       text-align: center;
       font-size: 14px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
     }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
     td[data-score^="5"] { background: #00cc00; color: black; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
 
-    .dataTables_filter {
-      float: right;
-      margin-top: -42px;
+    .dataTables_wrapper {
+      overflow-x: auto;
     }
 
-    .custom-filter {
-      float: left;
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
       margin-bottom: 15px;
     }
-    .custom-filter input {
-      width: 70px;
-      padding: 5px;
-      margin-right: 5px;
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 5px 0;
     }
-    .custom-filter button {
-      padding: 6px 12px;
+
+    .filter-group input {
+      padding: 5px;
+      width: 80px;
+    }
+
+    .dataTables_filter {
+      float: right;
+    }
+    .dataTables_filter input {
+      width: 160px;
+      padding: 6px;
     }
   </style>
 </head>
 <body>
 
 <h2>On-Chain SetValues</h2>
+
+<div id="intro">
+  <h3>Sobre o Projeto On-Chain SetValues</h3>
+  <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
+  <h4>Como Funciona</h4>
+  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
+    <li>Aumento ou perda de holders</li>
+    <li>Engajamento social e número de visitas</li>
+    <li>Oscilação e tempo em tendência</li>
+    <li>Listagens, corretoras, múltiplas blockchains</li>
+    <li>Auditoria, votos, estrelas e score de perfil</li>
+    <li>Fase atual: hype, tendência ou acumulação</li>
+    <li>Histórico de valorização e desvalorização</li>
+  </ul>
+  <h4>Objetivo</h4>
+  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
+  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
+  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+</div>
 
 <div id="loginArea">
   <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
@@ -85,23 +118,20 @@
 
 <div id="mainContent">
 
-  <!-- Filtro por faixa de posições -->
-  <div class="custom-filter">
-    <label>Rank de:</label>
-    <input type="number" id="minRank" placeholder="mín" />
-    <input type="number" id="maxRank" placeholder="máx" />
-    <button onclick="filtrarRank()">Filtrar</button>
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label for="minRank">Rank de:</label>
+      <input type="number" id="minRank" placeholder="mín" />
+      <input type="number" id="maxRank" placeholder="máx" />
+      <button onclick="filtrarRank()">Filtrar</button>
+    </div>
   </div>
 
-  <!-- Tabela -->
-  <table id="tabela" class="display responsive nowrap"></table>
+  <table id="tabela" class="display nowrap"></table>
 </div>
 
-<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
   let tabela;
@@ -118,6 +148,7 @@
           return;
         }
 
+        document.getElementById("intro").style.display = "none";
         document.getElementById("loginArea").style.display = "none";
         document.getElementById("mainContent").style.display = "block";
 
@@ -129,7 +160,7 @@
         tabela = $('#tabela').DataTable({
           data: dados,
           columns: colunas,
-          responsive: true,
+          scrollX: true,
           paging: false,
           info: false,
           searching: true,
@@ -144,9 +175,8 @@
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
-            // Corrige colunas desalinhadas logo ao abrir
             setTimeout(() => {
-              tabela.columns.adjust().responsive.recalc();
+              tabela.columns.adjust().draw();
             }, 300);
           }
         });
@@ -160,12 +190,9 @@
     const min = parseInt(document.getElementById("minRank").value, 10);
     const max = parseInt(document.getElementById("maxRank").value, 10);
 
-    $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+    $.fn.dataTable.ext.search.push(function (settings, data) {
       const rank = parseInt(data[0], 10);
-      if ((isNaN(min) || rank >= min) && (isNaN(max) || rank <= max)) {
-        return true;
-      }
-      return false;
+      return (isNaN(min) || rank >= min) && (isNaN(max) || rank <= max);
     });
 
     tabela.draw();
