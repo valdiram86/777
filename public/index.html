@@ -60,7 +60,8 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
+      align-items: center;
     }
 
     .filter-group {
@@ -81,6 +82,12 @@
     .dataTables_filter input {
       width: 160px;
       padding: 6px;
+    }
+
+    #destaqueInfo {
+      font-weight: bold;
+      margin-top: 8px;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -125,6 +132,7 @@
       <input type="number" id="maxRank" placeholder="máx" />
       <button onclick="filtrarRank()">Filtrar</button>
     </div>
+    <div id="destaqueInfo"></div>
   </div>
 
   <table id="tabela" class="display nowrap"></table>
@@ -174,6 +182,13 @@
               if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
+
+            // Mostrar quantidade de moedas em destaque
+            const total = dados.length;
+            const destaques = $('#tabela tbody td[data-score]').length;
+            const porcentagem = ((destaques / total) * 100).toFixed(1);
+            document.getElementById("destaqueInfo").innerText =
+              `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
 
             setTimeout(() => {
               tabela.columns.adjust().draw();
