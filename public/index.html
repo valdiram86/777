@@ -2,29 +2,31 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=10, minimum-scale=0.3"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 0;
       background: #f5f5f5;
+      overflow-x: hidden;
     }
     h2 {
       text-align: center;
       font-size: 28px;
-      margin-bottom: 10px;
+      margin: 20px 0 10px;
     }
     #intro {
       background: #fff;
       padding: 20px;
       border-radius: 8px;
-      margin-bottom: 20px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 20px auto;
+      max-width: 1000px;
     }
     #loginArea {
       text-align: center;
@@ -32,14 +34,16 @@
     }
     #mainContent {
       display: none;
-      overflow-x: auto;
+      width: 100vw;
+      padding: 0;
+      margin: 0;
     }
     table {
       border-collapse: collapse;
       width: 100%;
-      min-width: 800px;
       border-left: none !important;
       border-right: none !important;
+      white-space: nowrap;
     }
     th, td {
       padding: 8px;
@@ -54,9 +58,15 @@
     td[data-score^="5"] { background: #00cc00; color: black; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
+
+    .dataTables_wrapper {
+      width: 100% !important;
+      margin: 0 auto !important;
+      overflow-x: auto;
+    }
     .dataTables_filter {
       text-align: center;
-      margin-bottom: 15px;
+      margin: 15px 0;
     }
     .dataTables_filter input {
       width: 90%;
@@ -153,4 +163,4 @@
   }
 </script>
 </body>
-</html>
+  </html>
