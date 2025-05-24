@@ -89,17 +89,14 @@
   <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
   <h4>Como Funciona</h4>
   <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
+    <li>Variação de preço (5, 10, 20, 30 dias)</li>
     <li>Aumento ou perda de holders</li>
-    <li>Engajamento social e número de visitas</li>
+    <li>Engajamento social e visitas</li>
     <li>Oscilação e tempo em tendência</li>
-    <li>Listagens, corretoras, múltiplas blockchains</li>
+    <li>Listagens, corretoras, blockchains</li>
     <li>Auditoria, votos, estrelas e score de perfil</li>
     <li>Fase atual: hype, tendência ou acumulação</li>
-    <li>Histórico de valorização e desvalorização</li>
   </ul>
-  <h4>Objetivo</h4>
-  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
   <p><strong>Contato:</strong><br>
   E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
   WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
@@ -148,7 +145,7 @@
         document.getElementById("mainContent").style.display = "block";
 
         const colunas = Object.keys(dados[0]).map(k => {
-          const titulo = (k === "Pontuação Balanceada (1–700)" || k === "PB 1–700") ? "PB 1–700" : k;
+          const titulo = (k.includes("Pontuação")) ? "PB 1–700" : k;
           return { title: titulo, data: k };
         });
 
@@ -185,16 +182,15 @@
   }
 
   function atualizarDestaques() {
+    const headers = tabela.columns().header().toArray().map(h => h.textContent.trim());
+    const colIndex = headers.findIndex(h => h.includes("PB 1–700") || h.includes("Pontuação"));
+    if (colIndex === -1) return;
+
     const total = tabela.rows({ filter: 'applied' }).count();
     let destaques = 0;
 
-    // Localiza índice da coluna "PB 1–700"
-    const colIndex = tabela.columns().header().toArray().findIndex(
-      th => th.textContent.trim() === "PB 1–700"
-    );
-
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseInt(this.data()[colIndex]);
+      const score = parseFloat(this.data()[colIndex]);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
