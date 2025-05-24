@@ -183,22 +183,34 @@
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
-            // Mostrar quantidade de moedas em destaque
-            const total = dados.length;
-            const destaques = $('#tabela tbody td[data-score]').length;
-            const porcentagem = ((destaques / total) * 100).toFixed(1);
-            document.getElementById("destaqueInfo").innerText =
-              `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
-
             setTimeout(() => {
               tabela.columns.adjust().draw();
+              atualizarDestaques();
             }, 300);
           }
+        });
+
+        tabela.on('draw', function () {
+          atualizarDestaques();
         });
       })
       .catch(() => {
         document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
       });
+  }
+
+  function atualizarDestaques() {
+    const total = tabela.rows({ filter: 'applied' }).count();
+    let destaques = 0;
+
+    tabela.rows({ filter: 'applied' }).every(function () {
+      const score = parseInt(this.data()[3]);
+      if (!isNaN(score) && score >= 250) destaques++;
+    });
+
+    const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
+    document.getElementById("destaqueInfo").innerText =
+      `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
   }
 
   function filtrarRank() {
