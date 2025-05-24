@@ -2,26 +2,23 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=10, minimum-scale=0.3"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>On-Chain SetValues</title>
+
+  <!-- DataTables + Responsive -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css"/>
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     html, body {
-      touch-action: manipulation;
-      -webkit-user-select: auto;
-      user-select: auto;
-      overflow-x: auto !important;
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
       background: #f5f5f5;
     }
     h2 {
       text-align: center;
-      font-size: 28px;
       margin: 20px 0 10px;
     }
     #intro {
@@ -37,32 +34,14 @@
     }
     #mainContent {
       display: none;
-      width: 100vw;
-      padding: 0;
-      margin: 0;
+      padding: 0 10px;
     }
-    .dataTables_wrapper {
+    table.dataTable {
       width: 100% !important;
-      margin: 0 auto !important;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    #tabela {
-      border-collapse: collapse;
-      width: 100%;
-      border-left: none !important;
-      border-right: none !important;
-      white-space: nowrap;
-      transform: scale(0.8);
-      transform-origin: left center;
     }
     th, td {
       padding: 8px;
       text-align: center;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-      border-left: none !important;
-      border-right: none !important;
       font-size: 14px;
     }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
@@ -88,7 +67,6 @@
 <div id="intro">
   <h3>Sobre o Projeto On-Chain SetValues</h3>
   <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-  <h4>Como Funciona</h4>
   <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
     <li>Variação de preço (7, 30, 60 e 90 dias)</li>
     <li>Aumento ou perda de holders</li>
@@ -99,11 +77,9 @@
     <li>Fase atual: hype, tendência ou acumulação</li>
     <li>Histórico de valorização e desvalorização</li>
   </ul>
-  <h4>Objetivo</h4>
-  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
-  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
-  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+  <p><strong>Contato:</strong><br>
+    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
 
 <div id="loginArea">
@@ -114,11 +90,14 @@
 <div id="erroMsg" style="text-align:center; color:red;"></div>
 
 <div id="mainContent">
-  <table id="tabela" class="display nowrap"></table>
+  <table id="tabela" class="display responsive nowrap"></table>
 </div>
 
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
 
@@ -146,7 +125,7 @@
         $('#tabela').DataTable({
           data: dados,
           columns: colunas,
-          scrollX: true,
+          responsive: true,
           paging: false,
           info: false,
           searching: true,
@@ -169,4 +148,4 @@
   }
 </script>
 </body>
-      </html>
+</html>
