@@ -106,12 +106,15 @@
           searching: true,
           destroy: true,
           initComplete: function () {
+            const idxScore = tabela.columns().header().toArray().findIndex(h => h.innerText.trim() === "PB 1–700");
+            const idxLink = tabela.columns().header().toArray().findIndex(h => h.innerText.includes("Link"));
+
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-              const score = parseInt($tds.eq(3).text());
-              if (score >= 250) $tds.eq(3).attr("data-score", score);
-              const link = $tds.eq(2).text();
-              if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              const score = parseInt($tds.eq(idxScore).text());
+              const link = $tds.eq(idxLink).text();
+              if (!isNaN(score) && score >= 250) $tds.eq(idxScore).attr("data-score", score);
+              if (link.startsWith("http")) $tds.eq(idxLink).html(`<a href="${link}" target="_blank">Abrir</a>`);
             });
 
             setTimeout(() => {
