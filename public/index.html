@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -37,7 +36,7 @@
     }
     table {
       border-collapse: collapse;
-      width: 50%;
+      width: 100%;
       white-space: nowrap;
       table-layout: auto !important;
     }
@@ -85,10 +84,16 @@
       padding: 6px;
     }
 
-    #destaqueInfo {
+    #destaqueInfoBox {
+      background: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px 16px;
+      border-radius: 6px;
       font-weight: bold;
-      margin-top: 8px;
       font-size: 15px;
+      box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -133,7 +138,7 @@
       <input type="number" id="maxRank" placeholder="máx" />
       <button onclick="filtrarRank()">Filtrar</button>
     </div>
-    <div id="destaqueInfo"></div>
+    <div id="destaqueInfoBox">Carregando destaques...</div>
   </div>
 
   <table id="tabela" class="display nowrap"></table>
@@ -201,16 +206,20 @@
   }
 
   function atualizarDestaques() {
+    const headers = tabela.columns().header().toArray().map(h => h.innerText.trim());
+    const colScoreIndex = headers.indexOf("PB 1–700");
+    if (colScoreIndex === -1) return;
+
     const total = tabela.rows({ filter: 'applied' }).count();
     let destaques = 0;
 
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseInt(this.data()[3]);
+      const score = parseInt(this.data()[colScoreIndex]);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
     const porcentagem = total > 0 ? ((destaques / total) * 100).toFixed(1) : 0;
-    document.getElementById("destaqueInfo").innerText =
+    document.getElementById("destaqueInfoBox").innerText =
       `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
   }
 
@@ -229,4 +238,4 @@
 </script>
 
 </body>
-</html>
+      </html>
