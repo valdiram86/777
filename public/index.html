@@ -2,19 +2,22 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=10, minimum-scale=0.3"/>
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
     * {
       box-sizing: border-box;
     }
-    body {
+    html, body {
+      touch-action: manipulation;
+      -webkit-user-select: auto;
+      user-select: auto;
+      overflow-x: auto !important;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #f5f5f5;
-      overflow-x: hidden;
     }
     h2 {
       text-align: center;
