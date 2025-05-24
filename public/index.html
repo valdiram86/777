@@ -41,12 +41,20 @@
       padding: 0;
       margin: 0;
     }
-    table {
+    .dataTables_wrapper {
+      width: 100% !important;
+      margin: 0 auto !important;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #tabela {
       border-collapse: collapse;
       width: 100%;
       border-left: none !important;
       border-right: none !important;
       white-space: nowrap;
+      transform: scale(0.8);
+      transform-origin: left center;
     }
     th, td {
       padding: 8px;
@@ -62,11 +70,6 @@
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
 
-    .dataTables_wrapper {
-      width: 100% !important;
-      margin: 0 auto !important;
-      overflow-x: auto;
-    }
     .dataTables_filter {
       text-align: center;
       margin: 15px 0;
@@ -166,4 +169,4 @@
   }
 </script>
 </body>
-  </html>
+      </html>
