@@ -35,7 +35,6 @@
       border-collapse: collapse;
       width: 100%;
       white-space: nowrap;
-      table-layout: auto;
     }
     th, td {
       padding: 8px;
@@ -53,8 +52,8 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      align-items: center;
       margin-bottom: 10px;
+      align-items: center;
     }
 
     .filter-group {
@@ -75,7 +74,8 @@
 
     #destaqueInfo {
       font-weight: bold;
-      margin-top: 10px;
+      margin-top: 8px;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -84,12 +84,28 @@
 <h2>On-Chain SetValues</h2>
 
 <div id="intro">
-  <h3>Sobre o Projeto On-Chain SetValues</h3>
-  <p>Plataforma que escaneia automaticamente milhares de criptomoedas, aplicando uma pontuação entre 1 a 700 com base em mais de 20 critérios. Filtra, ranqueia, classifica e destaca gemas em potencial.</p>
-  <p><strong>Contatos:</strong><br>
-     E-mail: onchainsetvalues@gmail.com<br>
-     WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-  </p>
+  <h3>Bem-vindo ao Painel On-Chain SetValues</h3>
+  <p>Este painel exclusivo apresenta dados em tempo real sobre mais de <strong>3.000 criptomoedas</strong>, pontuadas com base em critérios técnicos, sociais e de mercado. A pontuação varia de <strong>1 a 700</strong> e é atualizada automaticamente todos os dias às <strong>11h30</strong>.</p>
+
+  <h4>Como funciona:</h4>
+  <ul style="text-align: left; max-width: 850px; margin: 0 auto;">
+    <li>Monitoramento de milhares de criptomoedas com coleta automática via CoinMarketCap</li>
+    <li>Análise por variação de preço (3, 7, 15, 30, 60 e 90 dias)</li>
+    <li>Avaliação de engajamento social, número de visitas, votos, estrelas, holders</li>
+    <li>Destaque visual com cores: Azul, Verde, Amarelo e Rosa-neon</li>
+    <li>Histórico diário de pontuação para rastrear tendências e explosões</li>
+    <li>Filtros por rank, busca por nome e exportação de dados</li>
+  </ul>
+
+  <h4>Objetivo:</h4>
+  <p>Identificar <strong>gemas promissoras</strong> e antecipar movimentos de alta com base em análise estatística e inteligência de dados on-chain.</p>
+
+  <p style="margin-top: 15px;"><strong>Este painel é privado.</strong><br>
+  Insira um e-mail autorizado para acessar os dados.</p>
+
+  <p><strong>Contato:</strong><br>
+  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
 
 <div id="loginArea">
@@ -109,6 +125,7 @@
     </div>
     <div id="destaqueInfo"></div>
   </div>
+
   <table id="tabela" class="display nowrap"></table>
 </div>
 
@@ -117,7 +134,6 @@
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
   let tabela;
-  let nomeColunaPontuacao = "Pontuação Balanceada (1–700)";
 
   function carregarDados() {
     const email = document.getElementById("emailInput").value.trim().toLowerCase();
@@ -136,10 +152,8 @@
         document.getElementById("mainContent").style.display = "block";
 
         const colunas = Object.keys(dados[0]).map(k => {
-          return {
-            title: k === nomeColunaPontuacao ? "PB 1–700" : k,
-            data: k
-          };
+          const titulo = (k === "Pontuação Balanceada (1–700)" || k === "PB 1–700") ? "PB 1–700" : k;
+          return { title: titulo, data: k };
         });
 
         tabela = $('#tabela').DataTable({
@@ -151,24 +165,16 @@
           searching: true,
           destroy: true,
           initComplete: function () {
-            $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
-
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
-              const link = $tds.eq(2).text();
               const score = parseInt($tds.eq(3).text());
-              if (link.startsWith("http")) {
-                $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
-              }
-              if (!isNaN(score) && score >= 250) {
-                $tds.eq(3).attr("data-score", score);
-              }
+              if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
             setTimeout(() => {
               tabela.columns.adjust().draw();
               atualizarDestaques();
-            }, 200);
+            }, 300);
           }
         });
 
@@ -180,20 +186,15 @@
   }
 
   function atualizarDestaques() {
+    const headers = tabela.columns().header().toArray().map(h => h.innerText.trim());
+    const idxScore = headers.indexOf("PB 1–700");
+    if (idxScore === -1) return;
+
+    const total = tabela.rows({ filter: 'applied' }).count();
     let destaques = 0;
-    let total = tabela.rows({ filter: 'applied' }).count();
-    let indexScore = -1;
-
-    tabela.columns().every(function (idx) {
-      if (tabela.column(idx).header().innerText.includes("PB")) {
-        indexScore = idx;
-      }
-    });
-
-    if (indexScore === -1) return;
 
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseInt(this.data()[indexScore]);
+      const score = parseInt(this.data()[idxScore]);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
