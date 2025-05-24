@@ -6,77 +6,22 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    h2 {
-      text-align: center;
-      margin: 20px 0 10px;
-    }
-    #intro {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      margin: 20px auto;
-      max-width: 1000px;
-    }
-    #loginArea {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #mainContent {
-      display: none;
-      padding: 0 10px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      white-space: nowrap;
-    }
-    th, td {
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
-    }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+    h2 { text-align: center; margin: 20px 0 10px; }
+    #intro { background: #fff; padding: 20px; border-radius: 8px; margin: 20px auto; max-width: 1000px; }
+    #loginArea { text-align: center; margin-bottom: 20px; }
+    #mainContent { display: none; padding: 0 10px; }
+    table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+    th, td { padding: 8px; text-align: center; font-size: 14px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
     td[data-score^="5"] { background: #00cc00; color: black; }
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
-
-    .filter-bar {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      align-items: center;
-    }
-
-    .filter-group {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .filter-group input {
-      padding: 5px;
-      width: 80px;
-    }
-
-    .dataTables_filter input {
-      width: 160px;
-      padding: 6px;
-    }
-
-    #destaqueInfo {
-      font-weight: bold;
-      margin-top: 8px;
-      font-size: 15px;
-    }
+    .filter-bar { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 10px; align-items: center; }
+    .filter-group { display: flex; align-items: center; gap: 5px; }
+    .filter-group input { padding: 5px; width: 80px; }
+    .dataTables_filter input { width: 160px; padding: 6px; }
+    #destaqueInfo { font-weight: bold; margin-top: 8px; font-size: 15px; }
   </style>
 </head>
 <body>
@@ -84,26 +29,22 @@
 <h2>On-Chain SetValues</h2>
 
 <div id="intro">
-  <h3>Bem-vindo ao Painel On-Chain SetValues</h3>
-  <p>Este painel exclusivo apresenta dados em tempo real sobre mais de <strong>3.000 criptomoedas</strong>, pontuadas com base em critérios técnicos, sociais e de mercado. A pontuação varia de <strong>1 a 700</strong> e é atualizada automaticamente todos os dias às <strong>11h30</strong>.</p>
-
-  <h4>Como funciona:</h4>
-  <ul style="text-align: left; max-width: 850px; margin: 0 auto;">
-    <li>Monitoramento de milhares de criptomoedas com coleta automática via CoinMarketCap</li>
-    <li>Análise por variação de preço (3, 7, 15, 30, 60 e 90 dias)</li>
-    <li>Avaliação de engajamento social, número de visitas, votos, estrelas, holders</li>
-    <li>Destaque visual com cores: Azul, Verde, Amarelo e Rosa-neon</li>
-    <li>Histórico diário de pontuação para rastrear tendências e explosões</li>
-    <li>Filtros por rank, busca por nome e exportação de dados</li>
+  <h3>Sobre o Projeto On-Chain SetValues</h3>
+  <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
+  <h4>Como Funciona</h4>
+  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
+    <li>Aumento ou perda de holders</li>
+    <li>Engajamento social e número de visitas</li>
+    <li>Oscilação e tempo em tendência</li>
+    <li>Listagens, corretoras, múltiplas blockchains</li>
+    <li>Auditoria, votos, estrelas e score de perfil</li>
+    <li>Fase atual: hype, tendência ou acumulação</li>
+    <li>Histórico de valorização e desvalorização</li>
   </ul>
-
-  <h4>Objetivo:</h4>
-  <p>Identificar <strong>gemas promissoras</strong> e antecipar movimentos de alta com base em análise estatística e inteligência de dados on-chain.</p>
-
-  <p style="margin-top: 15px;"><strong>Este painel é privado.</strong><br>
-  Insira um e-mail autorizado para acessar os dados.</p>
-
-  <p><strong>Contato:</strong><br>
+  <h4>Objetivo</h4>
+  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
+  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
   E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
   WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
@@ -169,6 +110,8 @@
               const $tds = $(this).find("td");
               const score = parseInt($tds.eq(3).text());
               if (score >= 250) $tds.eq(3).attr("data-score", score);
+              const link = $tds.eq(2).text();
+              if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
             });
 
             setTimeout(() => {
