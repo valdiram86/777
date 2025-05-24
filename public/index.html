@@ -162,9 +162,9 @@
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
               const link = $tds.eq(2).text();
-              const score = parseInt($tds.eq(3).text());
+              const score = parseFloat($tds.eq(3).text().replace(",", "."));
               if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
-              if (score >= 250) $tds.eq(3).attr("data-score", score);
+              if (!isNaN(score) && score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
             setTimeout(() => {
@@ -183,14 +183,20 @@
 
   function atualizarDestaques() {
     const headers = tabela.columns().header().toArray().map(h => h.textContent.trim());
-    const colIndex = headers.findIndex(h => h.includes("PB 1–700") || h.includes("Pontuação"));
-    if (colIndex === -1) return;
+    const colIndex = headers.findIndex(h => h === "PB 1–700");
+
+    if (colIndex === -1) {
+      document.getElementById("destaqueInfo").innerText = "Pontuação não encontrada.";
+      return;
+    }
 
     const total = tabela.rows({ filter: 'applied' }).count();
     let destaques = 0;
 
     tabela.rows({ filter: 'applied' }).every(function () {
-      const score = parseFloat(this.data()[colIndex]);
+      const row = this.data();
+      const raw = row[colIndex];
+      const score = parseFloat(typeof raw === "string" ? raw.replace(",", ".") : raw);
       if (!isNaN(score) && score >= 250) destaques++;
     });
 
