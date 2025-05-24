@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,7 +7,9 @@
   <title>On-Chain SetValues</title>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: Arial, sans-serif;
       background: #f5f5f5;
@@ -50,7 +53,9 @@
     td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: black; }
     td[data-score^="2"] { background: #ff00ff; color: black; }
 
-    .dataTables_wrapper { overflow-x: auto; }
+    .dataTables_wrapper {
+      overflow-x: auto;
+    }
 
     .filter-bar {
       display: flex;
@@ -85,13 +90,6 @@
       margin-top: 8px;
       font-size: 15px;
     }
-
-    #ultimaAtualizacao {
-      margin-top: 10px;
-      text-align: right;
-      font-size: 13px;
-      font-style: italic;
-    }
   </style>
 </head>
 <body>
@@ -107,18 +105,16 @@
     <li>Aumento ou perda de holders</li>
     <li>Engajamento social e número de visitas</li>
     <li>Oscilação e tempo em tendência</li>
-    <li>Listagens, corretoras e múltiplas blockchains</li>
+    <li>Listagens, corretoras, múltiplas blockchains</li>
     <li>Auditoria, votos, estrelas e score de perfil</li>
     <li>Fase atual: hype, tendência ou acumulação</li>
     <li>Histórico de valorização e desvalorização</li>
   </ul>
   <h4>Objetivo</h4>
   <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
-  <h4>Contato Oficial</h4>
-  <p>
-    E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-  </p>
+  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
+  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
 </div>
 
 <div id="loginArea">
@@ -129,6 +125,7 @@
 <div id="erroMsg" style="text-align:center; color:red;"></div>
 
 <div id="mainContent">
+
   <div class="filter-bar">
     <div class="filter-group">
       <label for="minRank">Rank de:</label>
@@ -140,8 +137,9 @@
   </div>
 
   <table id="tabela" class="display nowrap"></table>
-  <div id="ultimaAtualizacao"></div>
-</div><script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
@@ -186,12 +184,16 @@
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
 
-            atualizarDestaques();
-            exibirUltimaAtualizacao(dados);
+            setTimeout(() => {
+              tabela.columns.adjust().draw();
+              atualizarDestaques();
+            }, 300);
           }
         });
 
-        tabela.on('draw', atualizarDestaques);
+        tabela.on('draw', function () {
+          atualizarDestaques();
+        });
       })
       .catch(() => {
         document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
@@ -212,32 +214,6 @@
       `Moedas em destaque: ${destaques} de ${total} (${porcentagem}%)`;
   }
 
-  function exibirUltimaAtualizacao(dados) {
-    try {
-      const linhaValida = [...dados].reverse().find(obj => {
-        const valor = Object.values(obj).slice(-1)[0];
-        return valor && !isNaN(new Date(valor));
-      });
-
-      if (!linhaValida) return;
-
-      const rawData = Object.values(linhaValida).slice(-1)[0];
-      const data = new Date(rawData);
-      if (isNaN(data.getTime())) return;
-
-      const dia = String(data.getDate()).padStart(2, '0');
-      const mes = String(data.getMonth() + 1).padStart(2, '0');
-      const ano = data.getFullYear();
-      const hora = String(data.getHours()).padStart(2, '0');
-      const min = String(data.getMinutes()).padStart(2, '0');
-
-      document.getElementById("ultimaAtualizacao").innerText =
-        `Última atualização: ${dia}/${mes}/${ano} às ${hora}:${min}`;
-    } catch (e) {
-      console.log("Erro ao processar data:", e);
-    }
-  }
-
   function filtrarRank() {
     const min = parseInt(document.getElementById("minRank").value, 10);
     const max = parseInt(document.getElementById("maxRank").value, 10);
@@ -251,5 +227,6 @@
     $.fn.dataTable.ext.search.pop();
   }
 </script>
+
 </body>
 </html>
