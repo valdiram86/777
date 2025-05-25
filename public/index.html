@@ -50,17 +50,17 @@
 
     .filter-bar {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
-      margin-bottom: 10px;
+      justify-content: space-between;
       align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
     }
 
     .filter-group {
       display: flex;
       align-items: center;
       gap: 5px;
-      margin: 5px 0;
     }
 
     .filter-group input {
@@ -76,11 +76,6 @@
     #destaqueInfo {
       font-weight: bold;
       font-size: 15px;
-      padding: 5px 15px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin: 5px;
     }
   </style>
 </head>
@@ -165,7 +160,6 @@
           searching: true,
           destroy: true,
           initComplete: function () {
-            $('div.dataTables_filter input').attr('placeholder', 'Buscar criptomoeda...');
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
               const link = $tds.eq(2).text();
@@ -173,7 +167,6 @@
               if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
               if (score >= 250) $tds.eq(3).attr("data-score", score);
             });
-
             atualizarDestaques();
           }
         });
@@ -190,7 +183,7 @@
     let destaques = 0;
 
     const colIndex = tabela.columns().header().toArray().findIndex(
-      th => th.textContent.trim() === "PB 1–700"
+      th => th.textContent.trim().includes("PB 1–700")
     );
 
     tabela.rows({ filter: 'applied' }).every(function () {
