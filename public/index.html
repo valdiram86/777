@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,24 +11,49 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f5f5f5;
+      background: #121212;
+      color: #f0f0f0;
       overflow-x: hidden;
     }
     h2 {
       text-align: center;
       font-size: 28px;
       margin: 20px 0 10px;
+      color: #00ccff;
     }
     #intro {
-      background: #fff;
+      background: #1b1b1b;
       padding: 20px;
       border-radius: 8px;
       margin: 20px auto;
       max-width: 1000px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     #loginArea {
       text-align: center;
       margin-bottom: 20px;
+    }
+    input {
+      padding: 8px;
+      width: 250px;
+      border-radius: 4px;
+      border: none;
+      margin: 5px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #00ccff;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00aacc;
     }
     #mainContent {
       display: none;
@@ -45,9 +69,11 @@
     th, td {
       padding: 8px;
       text-align: center;
-      border-top: 1px solid #ccc;
-      border-bottom: 1px solid #ccc;
+      border-top: 1px solid #444;
+      border-bottom: 1px solid #444;
       font-size: 14px;
+      color: #fff;
+      background-color: #2a2a2a;
     }
     td[data-score="700"], td[data-score^="6"] { background: #3399ff; color: white; }
     td[data-score^="5"] { background: #00cc00; color: black; }
@@ -75,24 +101,28 @@
 <h2>On-Chain SetValues</h2>
 
 <div id="intro">
-  <h3>Sobre o Projeto On-Chain SetValues</h3>
-  <p>O <strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de <strong>3.000 criptomoedas</strong> em tempo real, atribuindo uma <strong>pontuação balanceada de 1 a 700</strong> com base em critérios técnicos, sociais e de mercado.</p>
-  <h4>Como Funciona</h4>
-  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
-    <li>Variação de preço (7, 30, 60 e 90 dias)</li>
-    <li>Aumento ou perda de holders</li>
-    <li>Engajamento social e número de visitas</li>
-    <li>Oscilação e tempo em tendência</li>
-    <li>Listagens, corretoras, múltiplas blockchains</li>
-    <li>Auditoria, votos, estrelas e score de perfil</li>
-    <li>Fase atual: hype, tendência ou acumulação</li>
-    <li>Histórico de valorização e desvalorização</li>
+  <h3 style="text-align:center; color:#00ccff;">Sobre o On-Chain SetValues</h3>
+  <p><strong>On-Chain SetValues</strong> é uma plataforma automatizada de análise que acompanha, em tempo real, mais de <strong>3.500 criptomoedas</strong>, atribuindo a cada uma delas uma <strong>pontuação equilibrada de 1 a 700</strong>, baseada em critérios técnicos, sociais e de mercado.</p>
+
+  <h4 style="color:#ffcc00;">Como a plataforma funciona:</h4>
+  <ul style="max-width:800px; margin: 0 auto; text-align:left;">
+    <li>Variações de preço nos últimos 7, 30, 60 e 90 dias</li>
+    <li>Crescimento ou queda no número de holders</li>
+    <li>Nível de engajamento social e volume de acessos</li>
+    <li>Tempo e força de uma tendência de alta ou baixa</li>
+    <li>Presença em exchanges, listagens e diferentes blockchains</li>
+    <li>Informações de auditoria, sistema de votos, avaliações e perfil de reputação</li>
+    <li>Fase do ativo: hype, tendência ou acumulação</li>
+    <li>Histórico de valorização e quedas ao longo do tempo</li>
   </ul>
-  <h4>Objetivo</h4>
-  <p>Fornecer um radar visual e confiável para encontrar <strong>gemas promissoras</strong>, identificar criptomoedas em tendência e evitar ativos com alto risco de colapso.</p>
-  <p style="margin-top: 15px;"><strong>Contato:</strong><br>
-  E-mail: <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-  WhatsApp: <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a></p>
+
+  <p style="margin-top:15px;">O objetivo da plataforma é oferecer uma <strong>visão clara e confiável</strong> para quem busca identificar boas oportunidades no universo cripto, auxiliando a descobrir gemas promissoras, reconhecer ativos em ascensão e evitar aqueles com sinais de possível colapso.</p>
+
+  <p style="margin-top:15px;">
+    <strong>Contato:</strong><br>
+    E-mail: <a href="mailto:onchainsetvalues@gmail.com" style="color:#00ccff">onchainsetvalues@gmail.com</a><br>
+    WhatsApp: <a href="https://wa.me/5521982252303" target="_blank" style="color:#00ccff">(21) 98225-2303</a>
+  </p>
 </div>
 
 <div id="loginArea">
