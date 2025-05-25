@@ -202,3 +202,48 @@
 </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On-Chain SetValues</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<h2 style="text-align:center">On-Chain SetValues</h2>
+
+<div id="loginArea" style="text-align:center; margin-top: 20px;">
+  <input type="email" id="emailInput" placeholder="E-mail autorizado" />
+  <input type="password" id="senhaInput" placeholder="Senha" />
+  <button onclick="carregarDados()">Acessar</button>
+</div>
+
+<div id="erroMsg" style="text-align:center; color:red;"></div>
+
+<div id="painel" style="display:none; padding: 15px;">
+  <div style="text-align:center; margin-bottom: 10px;">
+    <label for="filtroPontuacao">Filtrar por Pontuação:</label>
+    <select id="filtroPontuacao" onchange="$('#tabela').DataTable().draw()">
+      <option value="">Todas</option>
+      <option value="600">Azul (≥ 600)</option>
+      <option value="500">Verde (500–599)</option>
+      <option value="300">Amarelo (300–499)</option>
+      <option value="250">Rosa Neon (250–299)</option>
+    </select>
+  </div>
+
+  <div id="resumo" style="text-align:center; margin-bottom: 10px;"></div>
+
+  <table id="tabela" class="display nowrap" style="width:100%"></table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
