@@ -135,6 +135,12 @@
           searching: true,
           destroy: true,
           order: [[4, "desc"]],
+          columnDefs: [
+            {
+              targets: 3, // PB 1–700
+              orderData: 4 // usa ScoreNum para ordenar
+            }
+          ],
           initComplete: function () {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
@@ -188,4 +194,4 @@
   }
 </script>
 </body>
-  </html>
+</html>
