@@ -54,7 +54,7 @@
 <div id="intro">
   <div style="background:#fff; padding:15px; border-radius:8px; margin-bottom:20px;">
     <h3 style="text-align:center;">Sobre o Projeto</h3>
-    <p><strong>On-Chain SetValues</strong> é um radar automatizado que monitora mais de <strong>3.500 criptomoedas</strong>, calculando uma pontuação balanceada entre <strong>1 e 700</strong> com base em mais de 20 critérios técnicos, sociais e on-chain.</p>
+    <p><strong>On-Chain SetValues</strong> é um radar automatizado que monitora mais de <strong>3.500 criptomoedas</strong>, calculando uma pontuação balanceada entre <strong>1 e 700</strong> com base em critérios técnicos, sociais e on-chain.</p>
     <ul>
       <li>Tendência nos últimos 7, 30 e 90 dias</li>
       <li>Aumento ou queda de holders</li>
@@ -63,7 +63,7 @@
       <li>Dados on-chain, auditorias e listagens</li>
     </ul>
     <p><strong>Objetivo:</strong> detectar gemas promissoras, antecipar movimentos e evitar colapsos silenciosos.</p>
-    <p style="margin-top:10px;"><strong>Acesse com seu e-mail autorizado:</strong></p>
+    <p><strong>Acesse com seu e-mail autorizado:</strong></p>
     <div style="text-align:center; margin-top:10px;">
       <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
       <button onclick="carregarDados()">Acessar</button>
@@ -107,21 +107,34 @@
         document.getElementById("intro").style.display = "none";
         document.getElementById("mainContent").style.display = "block";
 
-        const colunas = Object.keys(dados[0])
-          .filter(k => !["Score Antigo", "Data Registro", "PB 1–700"].includes(k))
-          .map(k => {
-            const titulo = (k === "Pontuação Balanceada (1–700)") ? "PB 1–700" : k;
-            return { title: titulo, data: k };
-          });
-
-        $('#tabela').DataTable({
+        const tabela = $('#tabela').DataTable({
           data: dados,
-          columns: colunas,
+          columns: [
+            { title: "Rank", data: "Rank" },
+            { title: "Símbolo", data: "Símbolo" },
+            { title: "Link CMC", data: "Link CMC" },
+            {
+              title: "PB 1–700",
+              data: "Pontuação Balanceada (1–700)"
+            },
+            {
+              title: "ScoreNum",
+              data: d => {
+                const texto = d["Pontuação Balanceada (1–700)"];
+                return parseInt(String(texto).split("|")[1]) || 0;
+              },
+              visible: false
+            },
+            { title: "Relatório", data: "Relatório" },
+            { title: "Estáveis", data: "Estáveis" },
+            { title: "Em queda", data: "Em queda" }
+          ],
           scrollX: true,
           paging: false,
           info: false,
           searching: true,
           destroy: true,
+          order: [[4, "desc"]],
           initComplete: function () {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
@@ -175,4 +188,4 @@
   }
 </script>
 </body>
-</html>
+  </html>
