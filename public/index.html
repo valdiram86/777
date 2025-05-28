@@ -135,12 +135,196 @@
           searching: true,
           destroy: true,
           order: [[4, "desc"]],
-          columnDefs: [
+          initComplete: function () {
+            $('#tabela tbody tr').each(function () {
+              const $tds = $(this).find("td");
+              const link = $tds.eq(2).text();
+              const scoreTexto = $tds.eq(3).text().split("|")[1]?.trim() || "";
+              const score = parseInt(scoreTexto);
+              if (link.startsWith("http")) $tds.eq(2).html(`<a href="${link}" target="_blank">Abrir</a>`);
+              if (score >= 250) $tds.eq(3).attr("data-score", score);
+            });
+
+            const pontuacoes = dados.map(d => {
+              const p = d["Pontuação Balanceada (1–700)"];
+              return Number(String(p).split("|")[1]) || 0;
+            });
+
+            const total = pontuacoes.length;
+            const azul = pontuacoes.filter(p => p >= 600).length;
+            const verde = pontuacoes.filter(p => p >= 500 && p < 600).length;
+            const amarelo = pontuacoes.filter(p => p >= 300 && p < 500).length;
+            const rosa = pontuacoes.filter(p => p >= 250 && p < 300).length;
+            const destaques = pontuacoes.filter(p => p >= 250).length;
+            const porcentagem = ((destaques / total) * 100).toFixed(1);
+
+            document.getElementById("resumoPontuacoes").innerHTML = `
+              <strong>Resumo:</strong>
+              Azul: ${(azul / total * 100).toFixed(1)}% |
+              Verde: ${(verde / total * 100).toFixed(1)}% |
+              Amarelo: ${(amarelo / total * 100).toFixed(1)}% |
+              Rosa: ${(rosa / total * 100).toFixed(1)}%`;
+
+            document.getElementById("contadorDestaques").innerHTML =
+              `<strong>${destaques} moedas destacadas</strong> (${porcentagem}% do total)`;
+          }
+        });
+
+        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
+          const min = parseInt(document.getElementById("rankingMin").value);
+          const max = parseInt(document.getElementById("rankingMax").value);
+          const ranking = parseInt(data[0]);
+          if (isNaN(min) || isNaN(max)) return true;
+          return ranking >= min && ranking <= max;
+        });
+      })
+      .catch(() => {
+        document.getElementById("erroMsg").innerText = "Erro ao carregar os dados.";
+      });
+  }
+
+  function filtrarRanking() {
+    $('#tabela').DataTable().draw();
+  }
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On-Chain SetValues</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+    #intro, #mainContent {
+      max-width: 1200px;
+      margin: auto;
+      padding: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: center;
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    td[data-score^="6"], td[data-score="700"] { background: #3399ff; color: #fff; }
+    td[data-score^="5"] { background: #00cc00; color: #000; }
+    td[data-score^="3"], td[data-score^="4"] { background: #ffff00; color: #000; }
+    td[data-score^="2"] { background: #ff00ff; color: #000; }
+
+    .dataTables_filter {
+      text-align: center;
+      margin: 15px 0;
+    }
+    .dataTables_filter input {
+      width: 90%;
+      max-width: 320px;
+      padding: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>On-Chain SetValues</h2>
+
+<div id="intro">
+  <div style="background:#fff; padding:15px; border-radius:8px; margin-bottom:20px;">
+    <h3 style="text-align:center;">Sobre o Projeto</h3>
+    <p><strong>On-Chain SetValues</strong> é um radar automatizado que monitora mais de <strong>3.500 criptomoedas</strong>, calculando uma pontuação balanceada entre <strong>1 e 700</strong> com base em critérios técnicos, sociais e on-chain.</p>
+    <ul>
+      <li>Tendência nos últimos 7, 30 e 90 dias</li>
+      <li>Aumento ou queda de holders</li>
+      <li>Oscilação, engajamento e hype</li>
+      <li>Fase de acumulação ou explosão</li>
+      <li>Dados on-chain, auditorias e listagens</li>
+    </ul>
+    <p><strong>Objetivo:</strong> detectar gemas promissoras, antecipar movimentos e evitar colapsos silenciosos.</p>
+    <p><strong>Acesse com seu e-mail autorizado:</strong></p>
+    <div style="text-align:center; margin-top:10px;">
+      <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado..." />
+      <button onclick="carregarDados()">Acessar</button>
+      <div id="erroMsg" style="color:red;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="mainContent" style="display:none;">
+  <div style="text-align:center; margin: 15px;">
+    <label>Pesquisar Ranking de:</label>
+    <input type="number" id="rankingMin" placeholder="Ex: 100" style="width: 80px;" />
+    até
+    <input type="number" id="rankingMax" placeholder="Ex: 500" style="width: 80px;" />
+    <button onclick="filtrarRanking()">Filtrar</button>
+  </div>
+
+  <div id="resumoPontuacoes" style="text-align:center; margin: 10px;"></div>
+  <div id="contadorDestaques" style="text-align:center; margin: 10px;"></div>
+
+  <table id="tabela" class="display nowrap"></table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbx0xMlLwJwRQVkBjhBA7ej7TvkrSPItPlUz_ZPFkakyJ4VX6K1CHpu0J3w4nA0K_mu25A/exec";
+
+  function carregarDados() {
+    const email = document.getElementById("emailInput").value.trim().toLowerCase();
+    if (!email) return alert("Digite seu e-mail autorizado.");
+
+    fetch(`${API_URL}?email=${email}`)
+      .then(res => res.json())
+      .then(dados => {
+        if (dados.erro) {
+          document.getElementById("erroMsg").innerText = "Acesso negado.";
+          return;
+        }
+
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+
+        const tabela = $('#tabela').DataTable({
+          data: dados,
+          columns: [
+            { title: "Rank", data: "Rank" },
+            { title: "Símbolo", data: "Símbolo" },
+            { title: "Link CMC", data: "Link CMC" },
             {
-              targets: 3, // PB 1–700
-              orderData: 4 // usa ScoreNum para ordenar
-            }
+              title: "PB 1–700",
+              data: "Pontuação Balanceada (1–700)"
+            },
+            {
+              title: "ScoreNum",
+              data: d => {
+                const texto = d["Pontuação Balanceada (1–700)"];
+                return parseInt(String(texto).split("|")[1]) || 0;
+              },
+              visible: false
+            },
+            { title: "Relatório", data: "Relatório" },
+            { title: "Estáveis", data: "Estáveis" },
+            { title: "Em queda", data: "Em queda" }
           ],
+          scrollX: true,
+          paging: false,
+          info: false,
+          searching: true,
+          destroy: true,
+          order: [[4, "desc"]],
           initComplete: function () {
             $('#tabela tbody tr').each(function () {
               const $tds = $(this).find("td");
