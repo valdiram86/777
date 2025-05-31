@@ -95,8 +95,6 @@
       <li>Auditoria, votos, estrelas e score de perfil</li>
       <li>Fase de acumulação e hype</li>
     </ul>
-    <p><strong>Objetivo</strong></p>
-    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
     <p><strong>Contato:</strong>
       <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
       <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
@@ -148,7 +146,7 @@
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          if (typeof data !== "object" || data.length === undefined) {
+          if (!Array.isArray(data)) {
             document.getElementById("erro").innerText = data;
             document.getElementById("tabela").style.display = "none";
             document.getElementById("filtrosExtras").style.display = "none";
@@ -159,16 +157,16 @@
           document.getElementById("tabela").style.display = "table";
           document.getElementById("filtrosExtras").style.display = "block";
 
-          tabela = $('#tabela').DataTable();
           tabela.clear();
 
           data.forEach(item => {
             const score = parseFloat(item.score);
             let cor = "white";
-            if (score >= 650) cor = "#3399ff";
-            else if (score >= 500) cor = "#00cc00";
-            else if (score >= 300) cor = "#ffff00";
-            else if (score >= 180) cor = "#ff00ff";
+            if (score >= 650) cor = "#3399ff";     // Azul
+            else if (score >= 500) cor = "#00cc00"; // Verde
+            else if (score >= 300) cor = "#ffff00"; // Amarelo
+            else if (score >= 180) cor = "#ff00ff"; // Rosa neon
+            else if (score >= 80)  cor = "#bf862a"; // Bronze novo
 
             const scoreStyled = `<span style="display:block; background-color:${cor}; padding:4px; text-align:center; font-weight:bold;">${score}</span>`;
 
@@ -177,14 +175,14 @@
               item.simbolo,
               `<a href="${item.link}" target="_blank">🔗</a>`,
               scoreStyled,
-              `<span>${item.score_1d}</span>`,
-              `<span>${item.score_7d}</span>`,
-              `<span>${item.score_30d}</span>`,
-              `<span>${item.score_60d}</span>`,
-              `<span>${item.score_90d}</span>`,
-              `<span>${item.score_anterior}</span>`,
-              `<span>${item.variacao}</span>`,
-              `<span>${item.destaque}</span>`
+              item.score_1d,
+              item.score_7d,
+              item.score_30d,
+              item.score_60d,
+              item.score_90d,
+              item.score_anterior,
+              item.variacao,
+              item.destaque
             ]);
           });
 
@@ -202,15 +200,13 @@
       const min = parseInt(document.getElementById("rankingMin").value) || 0;
       const max = parseInt(document.getElementById("rankingMax").value) || 99999;
 
-      tabela.draw(); // força renderização
-
       $.fn.dataTable.ext.search.push(function (settings, data) {
         const rank = parseInt(data[0]); // coluna 0 = ranking
         return rank >= min && rank <= max;
       });
 
       tabela.draw();
-      $.fn.dataTable.ext.search.pop(); // limpa para uso futuro
+      $.fn.dataTable.ext.search.pop(); // limpa após uso
     }
 
     $(document).ready(function () {
