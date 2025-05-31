@@ -8,67 +8,55 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #ffffff;
+      background-image: url('https://i.imgur.com/U9kfhkU.jpg'); /* Troque pelo link direto da imagem */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       margin: 0;
       padding: 20px;
+      color: #ffffff;
     }
     h1 {
       text-align: center;
-      color: #222;
     }
     #introducao {
       max-width: 800px;
-      background: #f0f0f0;
+      background: rgba(0,0,0,0.7);
       padding: 20px;
       border-radius: 10px;
-      color: #333;
       margin: 0 auto 30px auto;
     }
     #introducao ul {
       text-align: left;
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin: 10px 0;
     }
-    #emailForm {
+    a { color: #00ffff; }
+
+    #emailForm, #erro, #filtrosExtras {
       text-align: center;
       margin-bottom: 20px;
     }
-    #email {
-      width: 300px;
-      padding: 8px;
-      font-size: 16px;
-    }
-    #carregar {
-      padding: 8px 16px;
-      font-size: 16px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    #erro {
-      text-align: center;
-      color: red;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    #filtrosExtras {
-      margin: 20px 0;
-      text-align: center;
-    }
-    #filtrosExtras input {
-      width: 120px;
+
+    #emailForm input, #filtrosExtras input {
+      width: 200px;
       padding: 6px;
-      margin: 0 5px;
       font-size: 14px;
+      margin: 4px;
     }
-    #filtrosExtras button {
+
+    #filtrosExtras button, #carregar {
       padding: 6px 12px;
       font-size: 14px;
       cursor: pointer;
     }
+
     table {
       width: 100%;
       font-size: 14px;
       border-collapse: collapse;
+      background: white;
+      color: black;
     }
     td a {
       color: #0066cc;
@@ -81,21 +69,18 @@
 
   <div id="introducao">
     <h2>Sobre o Projeto On-Chain SetValues</h2>
-    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-    <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-    <p><strong>Como funciona</strong></p>
+    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas e atribui uma pontuação de 1 a 700 com base em critérios objetivos.</p>
+    <p>O sistema identifica ativos com potencial e alerta sobre riscos de colapso.</p>
     <ul>
       <li>Variação de preço (7, 30, 90 dias)</li>
       <li>Aumento ou perda de holders</li>
       <li>Engajamento social e visitas</li>
       <li>Oscilação e tempo em tendência</li>
-      <li>Número de listagens, corretoras e pares</li>
+      <li>Listagens, corretoras e pares</li>
       <li>Presença em múltiplas blockchains</li>
-      <li>Auditoria, votos, estrelas e score de perfil</li>
-      <li>Fase de acumulação e hype</li>
+      <li>Auditoria, votos, estrelas e score</li>
+      <li>Fase de hype ou acumulação</li>
     </ul>
-    <p><strong>Objetivo</strong></p>
-    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
     <p><strong>Contato:</strong>
       <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
       <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
@@ -201,15 +186,13 @@
       const min = parseInt(document.getElementById("rankingMin").value) || 0;
       const max = parseInt(document.getElementById("rankingMax").value) || 99999;
 
-      tabela.draw(); // força renderização
-
       $.fn.dataTable.ext.search.push(function (settings, data) {
-        const rank = parseInt(data[0]); // coluna 0 = ranking
+        const rank = parseInt(data[0]);
         return rank >= min && rank <= max;
       });
 
       tabela.draw();
-      $.fn.dataTable.ext.search.pop(); // limpa para uso futuro
+      $.fn.dataTable.ext.search.pop();
     }
 
     $(document).ready(function () {
