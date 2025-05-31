@@ -6,16 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
+    body {
       font-family: Arial, sans-serif;
       background-color: #ffffff;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin: 0;
       padding: 20px;
     }
     h1 {
@@ -28,13 +22,10 @@
       padding: 20px;
       border-radius: 10px;
       color: #333;
-      text-align: center;
-      margin-top: auto;
-      margin-bottom: 30px;
+      margin: 0 auto 30px auto;
     }
     #introducao ul {
       text-align: left;
-      display: inline-block;
       margin-top: 10px;
       margin-bottom: 10px;
     }
@@ -60,13 +51,19 @@
       margin-bottom: 20px;
     }
     #filtrosExtras {
-      margin: 10px 0;
+      margin: 20px 0;
       text-align: center;
     }
-    #filtroRanking {
-      width: 200px;
+    #filtrosExtras input {
+      width: 120px;
       padding: 6px;
+      margin: 0 5px;
       font-size: 14px;
+    }
+    #filtrosExtras button {
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
     }
     table {
       width: 100%;
@@ -113,7 +110,9 @@
   <div id="erro"></div>
 
   <div id="filtrosExtras" style="display:none;">
-    <input type="number" id="filtroRanking" placeholder="Buscar por ranking...">
+    <input type="number" id="rankingMin" placeholder="Ranking mínimo">
+    <input type="number" id="rankingMax" placeholder="Ranking máximo">
+    <button onclick="filtrarRanking()">Filtrar</button>
   </div>
 
   <table id="tabela" class="display" style="display:none;">
@@ -198,6 +197,21 @@
         });
     });
 
+    function filtrarRanking() {
+      const min = parseInt(document.getElementById("rankingMin").value) || 0;
+      const max = parseInt(document.getElementById("rankingMax").value) || 99999;
+
+      tabela.draw(); // força renderização
+
+      $.fn.dataTable.ext.search.push(function (settings, data) {
+        const rank = parseInt(data[0]); // coluna 0 = ranking
+        return rank >= min && rank <= max;
+      });
+
+      tabela.draw();
+      $.fn.dataTable.ext.search.pop(); // limpa para uso futuro
+    }
+
     $(document).ready(function () {
       tabela = $('#tabela').DataTable({
         responsive: true,
@@ -205,11 +219,6 @@
         language: {
           url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
         }
-      });
-
-      $('#filtroRanking').on('keyup change', function () {
-        const valor = this.value;
-        tabela.column(0).search(valor).draw();
       });
     });
   </script>
