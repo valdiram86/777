@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,66 +8,53 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #ffffff;
+      background: #fff;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      color: #222;
     }
-    #introducao {
-      max-width: 800px;
-      background: #f0f0f0;
-      padding: 20px;
+    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #loginBox {
+      background: #f2f2f2;
+      padding: 30px;
       border-radius: 10px;
-      color: #333;
-      margin: 0 auto 30px auto;
+      margin-bottom: 30px;
     }
-    #introducao ul {
-      text-align: left;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    #emailForm {
+    #loginBox h2 {
       text-align: center;
-      margin-bottom: 20px;
+      font-size: 24px;
     }
-    #email {
-      width: 300px;
-      padding: 8px;
-      font-size: 16px;
-    }
-    #carregar {
-      padding: 8px 16px;
-      font-size: 16px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    #erro {
+    #loginBox h3 {
       text-align: center;
-      color: red;
       font-weight: bold;
-      margin-bottom: 20px;
     }
-    #filtrosExtras {
-      margin: 20px 0;
-      text-align: center;
+    #loginBox p, #loginBox li {
+      font-size: 15px;
+      line-height: 1.6;
     }
-    #filtrosExtras input {
-      width: 120px;
-      padding: 6px;
-      margin: 0 5px;
-      font-size: 14px;
+    #loginBox ul {
+      padding-left: 20px;
     }
-    #filtrosExtras button {
-      padding: 6px 12px;
+    #painelExplicativo {
+      background: #f8f8f8;
+      border-left: 5px solid #222;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .btn-busca {
+      margin: 10px;
+      padding: 8px 16px;
       font-size: 14px;
       cursor: pointer;
     }
     table {
       width: 100%;
-      font-size: 14px;
+      font-size: 13px;
       border-collapse: collapse;
     }
     td a {
@@ -80,59 +66,89 @@
 <body>
   <h1>On-Chain SetValues</h1>
 
-  <div id="introducao">
-    <h2>Sobre o Projeto On-Chain SetValues</h2>
-    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-    <p>O sistema foi desenvolvido para destacar criptomoedas com forte desempenho on-chain, ajudando investidores a identificar oportunidades com base em dados reais.</p>
-    <p><strong>Como funciona</strong></p>
-    <ul>
-      <li>Variação de preço (7, 30, 90 dias)</li>
-      <li>Aumento ou perda de holders</li>
-      <li>Engajamento social e visitas</li>
-      <li>Oscilação e tempo em tendência</li>
-      <li>Número de listagens, corretoras e pares</li>
-      <li>Presença em múltiplas blockchains</li>
-      <li>Auditoria, votos, estrelas e score de perfil</li>
-      <li>Fase de acumulação e hype</li>
-    </ul>
-    <p><strong>Contato:</strong>
-      <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
-      <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-    </p>
+  <!-- PARTE EXTERNA -->
+  <div id="loginExterno">
+    <div id="loginBox">
+      <h2>On-Chain SetValues</h2>
+      <h3>Sobre o Projeto On-Chain SetValues</h3>
+      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+
+      <h4>Como funciona</h4>
+      <ul>
+        <li>Variação de preço (7, 30, 90 dias)</li>
+        <li>Aumento ou perda de holders</li>
+        <li>Engajamento social e visitas</li>
+        <li>Oscilação e tempo em tendência</li>
+        <li>Número de listagens, corretoras e pares</li>
+        <li>Presença em múltiplas blockchains</li>
+        <li>Auditoria, votos, estrelas e score de perfil</li>
+        <li>Fase de acumulação e hype</li>
+      </ul>
+
+      <h4>Objetivo</h4>
+      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
+      <p><strong>Contato:</strong> 
+        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
+        <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+      </p>
+
+      <div style="text-align:center; margin-top:20px;">
+        <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
+        <button id="carregar" style="padding:10px 16px;">Acessar</button>
+        <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
+      </div>
+    </div>
   </div>
 
-  <div id="emailForm">
-    <input type="email" id="email" placeholder="Digite seu e-mail autorizado...">
-    <button id="carregar">Acessar</button>
+  <!-- PAINEL INTERNO -->
+  <div id="painelInterno" style="display:none;">
+    <div id="painelExplicativo">
+      <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
+      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
+      <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
+      <ul>
+        <li>🟦 Azul (650 a 700) – Potencial Máximo</li>
+        <li>🟩 Verde (500 a 649) – Forte Potencial</li>
+        <li>🟨 Amarelo (300 a 499) – Zona de atenção</li>
+        <li>🌸 Rosa Neon (180 a 299) – Risco técnico</li>
+        <li>🟫 Bronze (80 a 179) – Acumulação inicial</li>
+        <li>⚪ Abaixo de 80 – Sem prioridade</li>
+      </ul>
+      <p><strong>🧠 Importância:</strong> Esse sistema é atualizado todos os dias às 11h30 com base em dados reais.</p>
+      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” – 1 Coríntios 15:19</em></p>
+    </div>
+
+    <div id="filtrosExtras">
+      <input type="number" id="rankingMin" placeholder="Ranking mínimo">
+      <input type="number" id="rankingMax" placeholder="Ranking máximo">
+      <button onclick="filtrarRanking()" class="btn-busca">Buscar por Rank</button>
+
+      <input type="text" id="buscarCripto" placeholder="Buscar Criptomoeda">
+      <button onclick="filtrarPorNome()" class="btn-busca">Buscar Criptomoeda</button>
+    </div>
+
+    <table id="tabela" class="display" style="display:none;">
+      <thead>
+        <tr>
+          <th>Ranking</th>
+          <th>Símbolo</th>
+          <th>Link</th>
+          <th>Score</th>
+          <th>1D</th>
+          <th>7D</th>
+          <th>30D</th>
+          <th>60D</th>
+          <th>90D</th>
+          <th>Anterior</th>
+          <th>Variação</th>
+          <th>Destaque</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
-
-  <div id="erro"></div>
-
-  <div id="filtrosExtras" style="display:none;">
-    <input type="number" id="rankingMin" placeholder="Ranking mínimo">
-    <input type="number" id="rankingMax" placeholder="Ranking máximo">
-    <button onclick="filtrarRanking()">Filtrar</button>
-  </div>
-
-  <table id="tabela" class="display" style="display:none;">
-    <thead>
-      <tr>
-        <th>Ranking</th>
-        <th>Símbolo</th>
-        <th>Link</th>
-        <th>Score</th>
-        <th>1D</th>
-        <th>7D</th>
-        <th>30D</th>
-        <th>60D</th>
-        <th>90D</th>
-        <th>Anterior</th>
-        <th>Variação</th>
-        <th>Destaque</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -148,27 +164,26 @@
         .then(data => {
           if (!Array.isArray(data)) {
             document.getElementById("erro").innerText = data;
-            document.getElementById("tabela").style.display = "none";
-            document.getElementById("filtrosExtras").style.display = "none";
             return;
           }
 
-          document.getElementById("erro").innerText = "";
+          document.getElementById("loginExterno").style.display = "none";
+          document.getElementById("painelInterno").style.display = "block";
           document.getElementById("tabela").style.display = "table";
-          document.getElementById("filtrosExtras").style.display = "block";
 
+          tabela = $('#tabela').DataTable();
           tabela.clear();
 
           data.forEach(item => {
             const score = parseFloat(item.score);
-            let cor = "white";
-            if (score >= 650) cor = "#3399ff";     // Azul
-            else if (score >= 500) cor = "#00cc00"; // Verde
-            else if (score >= 300) cor = "#ffff00"; // Amarelo
-            else if (score >= 180) cor = "#ff00ff"; // Rosa neon
-            else if (score >= 80)  cor = "#bf862a"; // Bronze novo
+            let cor = '';
+            if (score >= 650) cor = '#3399ff';
+            else if (score >= 500) cor = '#00cc00';
+            else if (score >= 300) cor = '#ffff00';
+            else if (score >= 180) cor = '#ff00ff';
+            else if (score >= 80)  cor = '#bf862a';
 
-            const scoreStyled = `<span style="display:block; background-color:${cor}; padding:4px; text-align:center; font-weight:bold;">${score}</span>`;
+            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
 
             tabela.row.add([
               item.ranking,
@@ -187,31 +202,27 @@
           });
 
           tabela.draw();
-        })
-        .catch(err => {
-          document.getElementById("erro").innerText = "Erro ao carregar dados.";
-          document.getElementById("tabela").style.display = "none";
-          document.getElementById("filtrosExtras").style.display = "none";
-          console.error(err);
         });
     });
 
     function filtrarRanking() {
       const min = parseInt(document.getElementById("rankingMin").value) || 0;
-      const max = parseInt(document.getElementById("rankingMax").value) || 99999;
-
-      $.fn.dataTable.ext.search.push(function (settings, data) {
-        const rank = parseInt(data[0]); // coluna 0 = ranking
+      const max = parseInt(document.getElementById("rankingMax").value) || 9999;
+      $.fn.dataTable.ext.search.push((_, data) => {
+        const rank = parseInt(data[0]);
         return rank >= min && rank <= max;
       });
-
       tabela.draw();
-      $.fn.dataTable.ext.search.pop(); // limpa após uso
+      $.fn.dataTable.ext.search.pop();
+    }
+
+    function filtrarPorNome() {
+      const termo = document.getElementById("buscarCripto").value.trim().toLowerCase();
+      tabela.search(termo).draw();
     }
 
     $(document).ready(function () {
       tabela = $('#tabela').DataTable({
-        responsive: true,
         paging: false,
         language: {
           url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
