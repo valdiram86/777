@@ -4,34 +4,54 @@
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-image: url('https://i.imgur.com/U9kfhkU.jpg'); /* Troque pelo link direto da imagem */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       margin: 0;
       padding: 20px;
       color: #ffffff;
+      background: url('https://i.imgur.com/U9kfhkU.jpg') no-repeat center center fixed; /* imagem de fundo */
+      background-size: cover;
+      position: relative;
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85); /* overlay escuro */
+      z-index: -1;
+    }
+
     h1 {
       text-align: center;
+      color: #ffffff;
     }
+
     #introducao {
       max-width: 800px;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.8);
       padding: 20px;
       border-radius: 10px;
       margin: 0 auto 30px auto;
     }
+
     #introducao ul {
       text-align: left;
-      margin: 10px 0;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
-    a { color: #00ffff; }
+
+    #introducao a {
+      color: #00ffff;
+      text-decoration: none;
+    }
 
     #emailForm, #erro, #filtrosExtras {
       text-align: center;
@@ -45,7 +65,7 @@
       margin: 4px;
     }
 
-    #filtrosExtras button, #carregar {
+    #carregar, #filtrosExtras button {
       padding: 6px 12px;
       font-size: 14px;
       cursor: pointer;
@@ -58,9 +78,16 @@
       background: white;
       color: black;
     }
+
     td a {
       color: #0066cc;
       text-decoration: none;
+    }
+
+    .score-cell {
+      font-weight: bold;
+      text-align: center;
+      padding: 4px;
     }
   </style>
 </head>
@@ -69,7 +96,7 @@
 
   <div id="introducao">
     <h2>Sobre o Projeto On-Chain SetValues</h2>
-    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas e atribui uma pontuação de 1 a 700 com base em critérios objetivos.</p>
+    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
     <p>O sistema identifica ativos com potencial e alerta sobre riscos de colapso.</p>
     <ul>
       <li>Variação de preço (7, 30, 90 dias)</li>
@@ -132,7 +159,7 @@
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          if (typeof data !== "object" || data.length === undefined) {
+          if (!Array.isArray(data)) {
             document.getElementById("erro").innerText = data;
             document.getElementById("tabela").style.display = "none";
             document.getElementById("filtrosExtras").style.display = "none";
@@ -154,7 +181,7 @@
             else if (score >= 300) cor = "#ffff00";
             else if (score >= 180) cor = "#ff00ff";
 
-            const scoreStyled = `<span style="display:block; background-color:${cor}; padding:4px; text-align:center; font-weight:bold;">${score}</span>`;
+            const scoreStyled = `<td class="score-cell" style="background-color:${cor};">${score}</td>`;
 
             tabela.row.add([
               item.ranking,
@@ -178,7 +205,6 @@
           document.getElementById("erro").innerText = "Erro ao carregar dados.";
           document.getElementById("tabela").style.display = "none";
           document.getElementById("filtrosExtras").style.display = "none";
-          console.error(err);
         });
     });
 
