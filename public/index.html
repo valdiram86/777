@@ -143,7 +143,7 @@
 
     document.getElementById("carregar").addEventListener("click", function () {
       const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbx66qZ7IETeNuly-PDxLg9_6gAYINz620Gkc5semzguu0l1-HWav0NVYTq4-FdQbO9a/exec?email=" + encodeURIComponent(email);
+      const url = "https://script.google.com/macros/s/AKfycbylpfYg2U56-7fq4lnp6T599m4JL67KuFcE15vAgMrF-UXC9QLu2xj5M5zm5sS3zuQHLg/exec?email=" + encodeURIComponent(email);
 
       fetch(url)
         .then(res => res.json())
