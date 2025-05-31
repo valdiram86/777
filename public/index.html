@@ -3,54 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #111; color: #fff; }
-    table.dataTable tbody tr td { color: #000; }
-    .azul { background: #3399ff !important; }
-    .verde { background: #00cc00 !important; }
-    .amarelo { background: #ffff00 !important; }
-    .rosa { background: #ff00ff !important; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+    #introducao {
+      max-width: 800px;
+      margin: 0 auto 30px auto;
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 10px;
+      color: #333;
+    }
+    #introducao h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #introducao p {
+      line-height: 1.6;
+    }
+    #introducao ul {
+      margin: 10px 0 10px 20px;
+    }
+    #introducao strong {
+      color: #000;
+    }
+    #emailForm {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #email {
+      width: 300px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    #carregar {
+      padding: 8px 16px;
+      font-size: 16px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #erro {
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    #infoPainel {
+      display: none;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #333;
+    }
+    #infoPainel span {
+      display: inline-block;
+      margin-right: 30px;
+    }
+    table {
+      width: 100%;
+      font-size: 14px;
+    }
+    td a {
+      color: #0066cc;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
-  <h2>On-Chain SetValues – Destaques</h2>
-  <table id="tabela" class="display" width="100%"></table>
+  <h1>On-Chain SetValues</h1>
 
+  <div id="introducao">
+    <h2>Sobre o Projeto On-Chain SetValues</h2>
+    <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+    <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+    
+    <p><strong>Como funciona</strong></p>
+    <ul>
+      <li>Variação de preço (7, 30, 90 dias)</li>
+      <li>Aumento ou perda de holders</li>
+      <li>Engajamento social e visitas</li>
+      <li>Oscilação e tempo em tendência</li>
+      <li>Número de listagens, corretoras e pares</li>
+      <li>Presença em múltiplas blockchains</li>
+      <li>Auditoria, votos, estrelas e score de perfil</li>
+      <li>Fase de acumulação e hype</li>
+    </ul>
+
+    <p><strong>Objetivo</strong></p>
+    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
+    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
+  </div>
+
+  <div id="emailForm">
+    <input type="email" id="email" placeholder="Digite seu e-mail autorizado...">
+    <button id="carregar">Acessar</button>
+  </div>
+
+  <div id="erro"></div>
+
+  <div id="infoPainel">
+    <span id="quantidade"></span>
+    <span id="porcentagem"></span>
+    <span id="ultimaAtualizacao"></span>
+  </div>
+
+  <table id="tabela" class="display" style="display:none;">
+    <thead>
+      <tr>
+        <th>Ranking</th>
+        <th>Símbolo</th>
+        <th>Link</th>
+        <th>Score</th>
+        <th>1D</th>
+        <th>7D</th>
+        <th>30D</th>
+        <th>60D</th>
+        <th>90D</th>
+        <th>Anterior</th>
+        <th>Variação</th>
+        <th>Destaque</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script>
-    const email = "valdiram.lima.2013@gmail.com";
-    const url = "https://script.google.com/macros/s/AKfycbw-UhWuIv_MMxE1waokRODzZkyAJan5kbyE5n1am6iISmY41aZo_LMMchBIEUEexbiAbw/exec?email=" + email;
+    document.getElementById("carregar").addEventListener("click", function () {
+      const email = document.getElementById("email").value.trim();
+      const url = "https://script.google.com/macros/s/AKfycbyYmz_5dDEsQDvnoiaZM7mx0WFLNGsYDl17imFTBH1AI3Hiq6-vpXlKEGNhX-L2fTyDyw/exec?email=" + encodeURIComponent(email);
 
-    $.getJSON(url, function(data) {
-      $('#tabela').DataTable({
-        data: data,
-        columns: [
-          { title: "Ranking", data: "ranking" },
-          { title: "Símbolo", data: "simbolo" },
-          { title: "Link", data: "link", render: d => `<a href="${d}" target="_blank">🔗</a>` },
-          { title: "Score", data: "score", render: (d, _, row) => `<span class="${corScore(d)}">${d}</span>` },
-          { title: "1D", data: "score_1d" },
-          { title: "7D", data: "score_7d" },
-          { title: "30D", data: "score_30d" },
-          { title: "60D", data: "score_60d" },
-          { title: "90D", data: "score_90d" },
-          { title: "Score Ant.", data: "score_anterior" },
-          { title: "Variação", data: "variacao" },
-          { title: "Destaque", data: "destaque" }
-        ]
-      });
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (typeof data !== "object" || data.length === undefined) {
+            document.getElementById("erro").innerText = data;
+            document.getElementById("tabela").style.display = "none";
+            document.getElementById("infoPainel").style.display = "none";
+            return;
+          }
+
+          document.getElementById("erro").innerText = "";
+          document.getElementById("tabela").style.display = "table";
+          document.getElementById("infoPainel").style.display = "block";
+
+          const tabela = $('#tabela').DataTable();
+          tabela.clear();
+
+          let total = 0;
+          let destacados = 0;
+
+          data.forEach(item => {
+            total++;
+            if (parseFloat(item.score) >= 180) destacados++;
+
+            tabela.row.add([
+              item.ranking,
+              item.simbolo,
+              `<a href="${item.link}" target="_blank">🔗</a>`,
+              item.score,
+              item.score_1d,
+              item.score_7d,
+              item.score_30d,
+              item.score_60d,
+              item.score_90d,
+              item.score_anterior,
+              item.variacao,
+              item.destaque
+            ]);
+          });
+
+          tabela.draw();
+
+          // Indicadores
+          document.getElementById("quantidade").innerText = `Total: ${total} criptos`;
+          document.getElementById("porcentagem").innerText = `Destacadas (score ≥180): ${destacados} (${((destacados / total) * 100).toFixed(1)}%)`;
+
+          // Data e hora
+          const agora = new Date();
+          const dataHora = agora.toLocaleString("pt-BR");
+          document.getElementById("ultimaAtualizacao").innerText = `Atualizado em: ${dataHora}`;
+        })
+        .catch(err => {
+          document.getElementById("erro").innerText = "Erro ao carregar dados.";
+          document.getElementById("tabela").style.display = "none";
+          document.getElementById("infoPainel").style.display = "none";
+          console.error(err);
+        });
     });
 
-    function corScore(score) {
-      score = Number(score);
-      if (score >= 650) return "azul";
-      if (score >= 500) return "verde";
-      if (score >= 300) return "amarelo";
-      if (score >= 180) return "rosa";
-      return "";
-    }
+    $(document).ready(function () {
+      $('#tabela').DataTable({
+        responsive: true,
+        pageLength: 25,
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+        }
+      });
+    });
   </script>
 </body>
 </html>
