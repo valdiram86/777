@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
     body {
@@ -24,19 +23,13 @@
       padding: 20px;
       border-radius: 10px;
       color: #333;
-    }
-    #introducao h2 {
       text-align: center;
-      margin-bottom: 10px;
-    }
-    #introducao p {
-      line-height: 1.6;
     }
     #introducao ul {
-      margin: 10px 0 10px 20px;
-    }
-    #introducao strong {
-      color: #000;
+      text-align: left;
+      display: inline-block;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
     #emailForm {
       text-align: center;
@@ -64,14 +57,16 @@
       margin: 20px 0;
       font-size: 14px;
       color: #333;
+      text-align: center;
     }
     #infoPainel span {
       display: inline-block;
-      margin-right: 30px;
+      margin: 0 15px;
     }
     table {
       width: 100%;
       font-size: 14px;
+      border-collapse: collapse;
     }
     td a {
       color: #0066cc;
@@ -86,7 +81,6 @@
     <h2>Sobre o Projeto On-Chain SetValues</h2>
     <p><strong>O On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
     <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-    
     <p><strong>Como funciona</strong></p>
     <ul>
       <li>Variação de preço (7, 30, 90 dias)</li>
@@ -98,11 +92,12 @@
       <li>Auditoria, votos, estrelas e score de perfil</li>
       <li>Fase de acumulação e hype</li>
     </ul>
-
     <p><strong>Objetivo</strong></p>
     <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-
-    <p><strong>Contato:</strong> onchainsetvalues@gmail.com | WhatsApp: (21) 98225-2303</p>
+    <p><strong>Contato:</strong>
+      <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
+      <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+    </p>
   </div>
 
   <div id="emailForm">
@@ -167,13 +162,22 @@
 
           data.forEach(item => {
             total++;
-            if (parseFloat(item.score) >= 180) destacados++;
+            const score = parseFloat(item.score);
+            if (score >= 180) destacados++;
+
+            let cor = "white";
+            if (score >= 650) cor = "#3399ff";       // Azul
+            else if (score >= 500) cor = "#00cc00";  // Verde
+            else if (score >= 300) cor = "#ffff00";  // Amarelo
+            else if (score >= 180) cor = "#ff00ff";  // Rosa neon
+
+            const scoreStyled = `<span style="display:block; background-color:${cor}; padding:4px; text-align:center; font-weight:bold;">${score}</span>`;
 
             tabela.row.add([
               item.ranking,
               item.simbolo,
               `<a href="${item.link}" target="_blank">🔗</a>`,
-              item.score,
+              scoreStyled,
               item.score_1d,
               item.score_7d,
               item.score_30d,
@@ -187,11 +191,9 @@
 
           tabela.draw();
 
-          // Indicadores
           document.getElementById("quantidade").innerText = `Total: ${total} criptos`;
           document.getElementById("porcentagem").innerText = `Destacadas (score ≥180): ${destacados} (${((destacados / total) * 100).toFixed(1)}%)`;
 
-          // Data e hora
           const agora = new Date();
           const dataHora = agora.toLocaleString("pt-BR");
           document.getElementById("ultimaAtualizacao").innerText = `Atualizado em: ${dataHora}`;
@@ -207,7 +209,7 @@
     $(document).ready(function () {
       $('#tabela').DataTable({
         responsive: true,
-        pageLength: 25,
+        paging: false,
         language: {
           url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
         }
