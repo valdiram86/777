@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: Arial, sans-serif;
       background-color: #ffffff;
-      margin: 0;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 20px;
     }
     h1 {
@@ -18,12 +24,13 @@
     }
     #introducao {
       max-width: 800px;
-      margin: 0 auto 30px auto;
       background: #f0f0f0;
       padding: 20px;
       border-radius: 10px;
       color: #333;
       text-align: center;
+      margin-top: auto;
+      margin-bottom: 30px;
     }
     #introducao ul {
       text-align: left;
@@ -52,16 +59,14 @@
       font-weight: bold;
       margin-bottom: 20px;
     }
-    #infoPainel {
-      display: none;
-      margin: 20px 0;
-      font-size: 14px;
-      color: #333;
+    #filtrosExtras {
+      margin: 10px 0;
       text-align: center;
     }
-    #infoPainel span {
-      display: inline-block;
-      margin: 0 15px;
+    #filtroRanking {
+      width: 200px;
+      padding: 6px;
+      font-size: 14px;
     }
     table {
       width: 100%;
@@ -107,10 +112,8 @@
 
   <div id="erro"></div>
 
-  <div id="infoPainel">
-    <span id="quantidade"></span>
-    <span id="porcentagem"></span>
-    <span id="ultimaAtualizacao"></span>
+  <div id="filtrosExtras" style="display:none;">
+    <input type="number" id="filtroRanking" placeholder="Buscar por ranking...">
   </div>
 
   <table id="tabela" class="display" style="display:none;">
@@ -136,6 +139,8 @@
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script>
+    let tabela;
+
     document.getElementById("carregar").addEventListener("click", function () {
       const email = document.getElementById("email").value.trim();
       const url = "https://script.google.com/macros/s/AKfycbyYmz_5dDEsQDvnoiaZM7mx0WFLNGsYDl17imFTBH1AI3Hiq6-vpXlKEGNhX-L2fTyDyw/exec?email=" + encodeURIComponent(email);
@@ -146,30 +151,24 @@
           if (typeof data !== "object" || data.length === undefined) {
             document.getElementById("erro").innerText = data;
             document.getElementById("tabela").style.display = "none";
-            document.getElementById("infoPainel").style.display = "none";
+            document.getElementById("filtrosExtras").style.display = "none";
             return;
           }
 
           document.getElementById("erro").innerText = "";
           document.getElementById("tabela").style.display = "table";
-          document.getElementById("infoPainel").style.display = "block";
+          document.getElementById("filtrosExtras").style.display = "block";
 
-          const tabela = $('#tabela').DataTable();
+          tabela = $('#tabela').DataTable();
           tabela.clear();
 
-          let total = 0;
-          let destacados = 0;
-
           data.forEach(item => {
-            total++;
             const score = parseFloat(item.score);
-            if (score >= 180) destacados++;
-
             let cor = "white";
-            if (score >= 650) cor = "#3399ff";       // Azul
-            else if (score >= 500) cor = "#00cc00";  // Verde
-            else if (score >= 300) cor = "#ffff00";  // Amarelo
-            else if (score >= 180) cor = "#ff00ff";  // Rosa neon
+            if (score >= 650) cor = "#3399ff";
+            else if (score >= 500) cor = "#00cc00";
+            else if (score >= 300) cor = "#ffff00";
+            else if (score >= 180) cor = "#ff00ff";
 
             const scoreStyled = `<span style="display:block; background-color:${cor}; padding:4px; text-align:center; font-weight:bold;">${score}</span>`;
 
@@ -190,29 +189,27 @@
           });
 
           tabela.draw();
-
-          document.getElementById("quantidade").innerText = `Total: ${total} criptos`;
-          document.getElementById("porcentagem").innerText = `Destacadas (score ≥180): ${destacados} (${((destacados / total) * 100).toFixed(1)}%)`;
-
-          const agora = new Date();
-          const dataHora = agora.toLocaleString("pt-BR");
-          document.getElementById("ultimaAtualizacao").innerText = `Atualizado em: ${dataHora}`;
         })
         .catch(err => {
           document.getElementById("erro").innerText = "Erro ao carregar dados.";
           document.getElementById("tabela").style.display = "none";
-          document.getElementById("infoPainel").style.display = "none";
+          document.getElementById("filtrosExtras").style.display = "none";
           console.error(err);
         });
     });
 
     $(document).ready(function () {
-      $('#tabela').DataTable({
+      tabela = $('#tabela').DataTable({
         responsive: true,
         paging: false,
         language: {
           url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
         }
+      });
+
+      $('#filtroRanking').on('keyup change', function () {
+        const valor = this.value;
+        tabela.column(0).search(valor).draw();
       });
     });
   </script>
