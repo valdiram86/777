@@ -49,28 +49,23 @@
 <body>
   <h1>On-Chain SetValues</h1>
 
-  <!-- PARTE EXTERNA -->
+  <!-- EXTERNO (ANTES DO LOGIN) -->
   <div id="loginExterno">
     <div id="loginBox">
       <h2>On-Chain SetValues</h2>
       <h3>Sobre o Projeto On-Chain SetValues</h3>
-      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-      <h4>Como funciona</h4>
+      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+      <p>O objetivo é ajudar você a identificar gemas ocultas antes da explosão e evitar armadilhas técnicas, especialmente em tokens centralizados ou manipulados.</p>
+      <p>Alguns critérios considerados:</p>
       <ul>
         <li>Variação de preço (7, 30, 90 dias)</li>
         <li>Aumento ou perda de holders</li>
         <li>Engajamento social e visitas</li>
         <li>Oscilação e tempo em tendência</li>
-        <li>Número de listagens, corretoras e pares</li>
-        <li>Presença em múltiplas blockchains</li>
-        <li>Auditoria, votos, estrelas e score de perfil</li>
-        <li>Fase de acumulação e hype</li>
+        <li>Auditoria, listagens e supply</li>
       </ul>
-      <h4>Objetivo</h4>
-      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-      <p><strong>Contato:</strong> 
-        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
+      <p><strong>Contato:</strong>
+        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
         <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
       </p>
       <div style="text-align:center; margin-top:20px;">
@@ -81,7 +76,7 @@
     </div>
   </div>
 
-  <!-- PAINEL INTERNO -->
+  <!-- INTERNO (DEPOIS DO LOGIN) -->
   <div id="painelInterno" style="display:none;">
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
@@ -124,10 +119,14 @@
 
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
+
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
-      <button onclick="filtrarRanking()" class="btn-busca">Buscar por Rank</button>
+      <button onclick="filtrarRanking()">Buscar por Rank</button>
+      <br><br>
+      <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
+      <button onclick="filtrarSimbolo()">Buscar Criptomoeda</button>
     </div>
 
     <table id="tabela" class="display" style="display:none;">
@@ -175,14 +174,7 @@
           tabela = $('#tabela').DataTable();
           tabela.clear();
 
-          let contadores = {
-            azul: 0,
-            verde: 0,
-            amarelo: 0,
-            rosa: 0,
-            bronze: 0,
-            total: 0
-          };
+          let contadores = { azul: 0, verde: 0, amarelo: 0, rosa: 0, bronze: 0, total: 0 };
 
           data.forEach(item => {
             const score = parseFloat(item.score);
@@ -231,10 +223,20 @@
       $.fn.dataTable.ext.search.pop();
     }
 
+    function filtrarSimbolo() {
+      const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
+      $.fn.dataTable.ext.search.push((_, data) => {
+        const simboloTabela = data[1]?.toUpperCase() || '';
+        return simboloTabela.includes(simbolo);
+      });
+      tabela.draw();
+      $.fn.dataTable.ext.search.pop();
+    }
+
     $(document).ready(function () {
       tabela = $('#tabela').DataTable({
         paging: false,
-        dom: 't', // remove campo "Buscar registros"
+        dom: 't',
         language: {
           url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
         }
