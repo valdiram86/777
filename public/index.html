@@ -106,18 +106,50 @@
   <div id="painelInterno" style="display:none;">
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
+
       <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
+
       <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
+
+      <p>O sistema On-Chain SetValues utiliza uma codificação visual por cores de fundo no campo de score (pontuação balanceada) para destacar criptomoedas com maior relevância, consistência e potencial. A pontuação varia de 1 a 700 pontos, sendo que as cores ajudam a identificar, de forma rápida, os ativos mais fortes ou mais promissores com base nos critérios técnicos e on-chain.</p>
+
       <ul>
-        <li>🟦 Azul (650 a 700) – Potencial Máximo</li>
-        <li>🟩 Verde (500 a 649) – Forte Potencial</li>
-        <li>🟨 Amarelo (300 a 499) – Zona de atenção</li>
-        <li>🌸 Rosa Neon (180 a 299) – Risco técnico</li>
-        <li>🟫 Bronze (80 a 179) – Acumulação inicial</li>
-        <li>⚪ Abaixo de 80 – Sem prioridade</li>
+        <li><strong>🟦 Azul (650 a 700 pontos)</strong><br>
+        <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
+        Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</li>
+
+        <li><strong>🟩 Verde (500 a 649 pontos)</strong><br>
+        <em>Categoria: Forte Potencial de Valorização</em><br>
+        Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</li>
+
+        <li><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
+        <em>Categoria: Em observação / Zona de atenção</em><br>
+        Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</li>
+
+        <li><strong>🌸 Rosa Neon (180 a 299 pontos)</strong><br>
+        <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
+        Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</li>
+
+        <li><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
+        <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
+        Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</li>
+
+        <li><strong>⚪ Sem cor (abaixo de 80 pontos)</strong><br>
+        <em>Categoria: Baixo interesse técnico e on-chain</em><br>
+        Sem sinais claros de valorização. Geralmente projetos sem liquidez, presença fraca, perda de força ou com indicadores negativos. Sem prioridade analítica no momento.</li>
       </ul>
-      <p><strong>🧠 Importância:</strong> Esse sistema é atualizado todos os dias às 11h30 com base em dados reais.</p>
-      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” – 1 Coríntios 15:19</em></p>
+
+      <h3>🧠 Importância da Categorização</h3>
+      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
+      <ul>
+        <li>Priorize os ativos com mais consistência;</li>
+        <li>Monitore oportunidades emergentes;</li>
+        <li>Evite armadilhas e falsos sinais de força.</li>
+      </ul>
+
+      <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
+
+      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
     </div>
 
     <div id="filtrosExtras">
@@ -171,7 +203,14 @@
           document.getElementById("painelInterno").style.display = "block";
           document.getElementById("tabela").style.display = "table";
 
-          tabela = $('#tabela').DataTable();
+          tabela = $('#tabela').DataTable({
+            paging: false,
+            dom: 't',
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+            }
+          });
+
           tabela.clear();
 
           data.forEach(item => {
@@ -220,15 +259,6 @@
       const termo = document.getElementById("buscarCripto").value.trim().toLowerCase();
       tabela.search(termo).draw();
     }
-
-    $(document).ready(function () {
-      tabela = $('#tabela').DataTable({
-        paging: false,
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-        }
-      });
-    });
   </script>
 </body>
 </html>
