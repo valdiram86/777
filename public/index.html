@@ -106,7 +106,7 @@
       <em>Categoria: Em observação / Zona de atenção</em><br>
       Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
 
-      <p><strong>🌸 Rosa Neon (180 a 299 pontos)</strong><br>
+      <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
       <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
       Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
 
@@ -192,7 +192,7 @@
             if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
             else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
             else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-            else if (score >= 180) { cor = '#ff00ff'; contadores.rosa++; }
+            else if (score >= 180) { cor = '#x1F7EA;'; contadores.roxo++; }
             else if (score >= 80)  { cor = '#bf862a'; contadores.bronze++; }
 
             contadores.total++;
@@ -216,7 +216,7 @@
           });
 
           document.getElementById("contadoresCores").innerText =
-            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🌸 🟪 Rosa: ${contadores.rosa} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
+            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
 
           tabela.draw();
         });
