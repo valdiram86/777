@@ -235,20 +235,16 @@
     $.fn.dataTable.ext.search.pop();
   }
 
-  <document.getElementById("buscarSimbolo").addEventListener("input", function () {
-  const simbolo = this.value.trim().toUpperCase();
-
-  $.fn.dataTable.ext.search = []; // Limpa filtros anteriores
-
-  if (simbolo.length > 0) {
+  function filtrarSimbolo() {
+    const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
     $.fn.dataTable.ext.search.push((_, data) => {
       const simboloTabela = data[1]?.toUpperCase() || '';
       return simboloTabela.includes(simbolo);
     });
+    tabela.draw();
+    $.fn.dataTable.ext.search.pop();
   }
 
-  tabela.draw();
-});
   $(document).ready(function () {
     tabela = $('#tabela').DataTable({
       paging: false,
