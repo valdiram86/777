@@ -49,25 +49,34 @@
 <body>
   <h1>On-Chain SetValues</h1>
 
-  <!-- EXTERNO (ANTES DO LOGIN) -->
+  <!-- EXTERNO -->
   <div id="loginExterno">
     <div id="loginBox">
       <h2>On-Chain SetValues</h2>
       <h3>Sobre o Projeto On-Chain SetValues</h3>
-      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-      <p>O objetivo é ajudar você a identificar gemas ocultas antes da explosão e evitar armadilhas técnicas, especialmente em tokens centralizados ou manipulados.</p>
-      <p>Alguns critérios considerados:</p>
+      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+
+      <h4>Como funciona</h4>
       <ul>
         <li>Variação de preço (7, 30, 90 dias)</li>
         <li>Aumento ou perda de holders</li>
         <li>Engajamento social e visitas</li>
         <li>Oscilação e tempo em tendência</li>
-        <li>Auditoria, listagens e supply</li>
+        <li>Número de listagens, corretoras e pares</li>
+        <li>Presença em múltiplas blockchains</li>
+        <li>Auditoria, votos, estrelas e score de perfil</li>
+        <li>Fase de acumulação e hype</li>
       </ul>
-      <p><strong>Contato:</strong>
-        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
+
+      <h4>Objetivo</h4>
+      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
+      <p><strong>Contato:</strong> 
+        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
         <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
       </p>
+
       <div style="text-align:center; margin-top:20px;">
         <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
         <button id="carregar" style="padding:10px 16px;">Acessar</button>
@@ -76,7 +85,7 @@
     </div>
   </div>
 
-  <!-- INTERNO (DEPOIS DO LOGIN) -->
+  <!-- INTERNO -->
   <div id="painelInterno" style="display:none;">
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
@@ -120,6 +129,7 @@
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
 
+    <!-- Filtros e Tabela -->
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
@@ -150,11 +160,11 @@
     </table>
   </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script>
     let tabela;
-
     document.getElementById("carregar").addEventListener("click", function () {
       const email = document.getElementById("email").value.trim();
       const url = "https://script.google.com/macros/s/AKfycbylpfYg2U56-7fq4lnp6T599m4JL67KuFcE15vAgMrF-UXC9QLu2xj5M5zm5sS3zuQHLg/exec?email=" + encodeURIComponent(email);
