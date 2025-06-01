@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -234,20 +235,7 @@
     $.fn.dataTable.ext.search.pop();
   }
 
-  function filtrarSimboloAuto() {
-  const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
-
-  $.fn.dataTable.ext.search = []; // Limpa filtros antigos
-
-  if (simbolo.length > 0) {
-    $.fn.dataTable.ext.search.push((_, data) => {
-      const simboloTabela = data[1]?.toUpperCase() || '';
-      return simboloTabela.includes(simbolo);
-    });
-  }
-
-  tabela.draw();
-  }
+  <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda (digite e veja resultados...)" oninput="filtrarSimboloAuto()" style="width: 300px; padding: 6px;">
 
   $(document).ready(function () {
     tabela = $('#tabela').DataTable({
@@ -259,3 +247,4 @@
     });
   });
 </script>
+
