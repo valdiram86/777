@@ -234,14 +234,19 @@
     $.fn.dataTable.ext.search.pop();
   }
 
-  function filtrarSimbolo() {
-    const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
+  function filtrarSimboloAuto() {
+  const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
+
+  $.fn.dataTable.ext.search = []; // Limpa filtros antigos
+
+  if (simbolo.length > 0) {
     $.fn.dataTable.ext.search.push((_, data) => {
       const simboloTabela = data[1]?.toUpperCase() || '';
       return simboloTabela.includes(simbolo);
     });
-    tabela.draw();
-    $.fn.dataTable.ext.search.pop();
+  }
+
+  tabela.draw();
   }
 
   $(document).ready(function () {
