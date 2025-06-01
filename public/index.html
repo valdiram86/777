@@ -1,3 +1,41 @@
+<!-- PARTE EXTERNA -->
+<div id="loginExterno">
+  <div id="loginBox">
+    <h2>On-Chain SetValues</h2>
+    <h3>Sobre o Projeto On-Chain SetValues</h3>
+
+    <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora mais de 2.800 criptomoedas e atribui uma pontuação de 1 a 700 com base em critérios técnicos e on-chain.</p>
+
+    <p>O objetivo é destacar oportunidades de valorização com base em dados reais — não em especulação. O sistema escaneia o mercado, aplica filtros e entrega um radar visual direto no painel.</p>
+
+    <h4>Critérios utilizados:</h4>
+    <ul>
+      <li>Variação de preço (7, 30, 90 dias)</li>
+      <li>Tendência de alta e tempo de consistência</li>
+      <li>Oscilação e estabilidade</li>
+      <li>Número de holders (crescimento ou queda)</li>
+      <li>Engajamento social e visitas</li>
+      <li>Score técnico e presença em redes sociais</li>
+      <li>Auditoria, listagens e pares ativos</li>
+      <li>Fase de hype, acúmulo e ciclo de mercado</li>
+    </ul>
+
+    <h4>Nosso diferencial:</h4>
+    <p>Não destacamos apenas o que já valorizou — destacamos o que está prestes a. O sistema foi criado para identificar “gemas” antes que elas explodam. Pepe, Shiba, WIF, Bonk, Dogwifhat, Neiro e outras passaram por aqui antes do boom.</p>
+
+    <h4>Contato e acesso:</h4>
+    <p>
+      <strong>E-mail:</strong> <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+      <strong>WhatsApp:</strong> <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+    </p>
+
+    <div style="text-align:center; margin-top:20px;">
+      <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
+      <button id="carregar" style="padding:10px 16px;">Acessar</button>
+      <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
+    </div>
+  </div>
+</div>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -8,257 +46,160 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
+      background-color: #ffffff;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
+      color: #222;
     }
-    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
+    #introducao, #painelExplicativo {
       max-width: 900px;
-      margin: 0 auto;
-    }
-    #loginBox {
-      background: #f2f2f2;
-      padding: 30px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    #loginBox h2 {
-      text-align: center;
-      font-size: 24px;
-    }
-    #loginBox h3 {
-      text-align: center;
-      font-weight: bold;
-    }
-    #loginBox p, #loginBox li {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    #loginBox ul {
-      padding-left: 20px;
-    }
-    #painelExplicativo {
+      margin: 0 auto 20px auto;
       background: #f8f8f8;
-      border-left: 5px solid #222;
       padding: 20px;
-      margin-bottom: 30px;
+      border-radius: 10px;
+      color: #333;
     }
-    .btn-busca {
-      margin: 10px;
-      padding: 8px 16px;
-      font-size: 14px;
-      cursor: pointer;
+    #quantitativo {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
     }
-    table {
-      width: 100%;
-      font-size: 13px;
-      border-collapse: collapse;
-    }
-    td a {
-      color: #0066cc;
-      text-decoration: none;
+    table.dataTable thead th {
+      background-color: #eee;
     }
   </style>
 </head>
 <body>
-  <h1>On-Chain SetValues</h1>
 
-  <!-- PARTE EXTERNA -->
-  <div id="loginExterno">
-    <div id="loginBox">
-      <h2>On-Chain SetValues</h2>
-      <h3>Sobre o Projeto On-Chain SetValues</h3>
-      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 2.800 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+<h1>On-Chain SetValues</h1>
 
-      <h4>Como funciona</h4>
-      <ul>
-        <li>Variação de preço (7, 30, 90 dias)</li>
-        <li>Aumento ou perda de holders</li>
-        <li>Engajamento social e visitas</li>
-        <li>Oscilação e tempo em tendência</li>
-        <li>Número de listagens, corretoras e pares</li>
-        <li>Presença em múltiplas blockchains</li>
-        <li>Auditoria, votos, estrelas e score de perfil</li>
-        <li>Fase de acumulação e hype</li>
-      </ul>
+<div id="introducao">
+  <p>Bem-vindo ao painel <strong>On-Chain SetValues</strong>. Aqui você encontra uma análise diária de até 1.500 criptomoedas com base em mais de 20 critérios técnicos, sociais e on-chain. A pontuação balanceada varia de 1 a 700 e é atualizada todos os dias às 11h30.</p>
+</div>
 
-      <h4>Objetivo</h4>
-      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+<div id="painelExplicativo">
+  <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
 
-      <p><strong>Contato:</strong> 
-        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
-        <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-      </p>
+  <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
 
-      <div style="text-align:center; margin-top:20px;">
-        <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
-        <button id="carregar" style="padding:10px 16px;">Acessar</button>
-        <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
-      </div>
-    </div>
-  </div>
+  <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
 
-  <!-- PAINEL INTERNO -->
-  <div id="painelInterno" style="display:none;">
-    <div id="painelExplicativo">
-      <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por hype e manipulação de volume.</p>
+  <p>O sistema On-Chain SetValues utiliza uma codificação visual por cores de fundo no campo de score (pontuação balanceada) para destacar criptomoedas com maior relevância, consistência e potencial. A pontuação varia de 1 a 700 pontos, sendo que as cores ajudam a identificar, de forma rápida, os ativos mais fortes ou mais promissores com base nos critérios técnicos e on-chain.</p>
 
-      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
+  <p><strong>🟦 Azul (650 a 700 pontos)</strong></p>
+  <blockquote>
+    Categoria: Potencial Máximo e Desempenho Consistente<br>
+    Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.
+  </blockquote>
 
-      <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
+  <p><strong>🟩 Verde (500 a 649 pontos)</strong></p>
+  <blockquote>
+    Categoria: Forte Potencial de Valorização<br>
+    Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.
+  </blockquote>
 
-      <p>O sistema On-Chain SetValues utiliza uma codificação visual por cores de fundo no campo de score (pontuação balanceada) para destacar criptomoedas com maior relevância, consistência e potencial. A pontuação varia de 1 a 700 pontos, sendo que as cores ajudam a identificar, de forma rápida, os ativos mais fortes ou mais promissores com base nos critérios técnicos e on-chain.</p>
+  <p><strong>🟨 Amarelo (300 a 499 pontos)</strong></p>
+  <blockquote>
+    Categoria: Em observação / Zona de atenção<br>
+    Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.
+  </blockquote>
 
-      <ul>
-        <li><strong>🟦 Azul (650 a 700 pontos)</strong><br>
-        <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
-        Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</li>
+  <p><strong>🌸 Rosa Neon (180 a 299 pontos)</strong></p>
+  <blockquote>
+    Categoria: Risco técnico, mas com sinais de movimentação<br>
+    Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.
+  </blockquote>
 
-        <li><strong>🟩 Verde (500 a 649 pontos)</strong><br>
-        <em>Categoria: Forte Potencial de Valorização</em><br>
-        Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</li>
+  <p><strong>🟫 Bronze (80 a 179 pontos)</strong></p>
+  <blockquote>
+    Categoria: Sinais iniciais ou acumulação silenciosa<br>
+    Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.
+  </blockquote>
 
-        <li><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
-        <em>Categoria: Em observação / Zona de atenção</em><br>
-        Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</li>
+  <p><strong>⚪ Sem cor (abaixo de 80 pontos)</strong></p>
+  <blockquote>
+    Categoria: Baixo interesse técnico e on-chain<br>
+    Sem sinais claros de valorização. Geralmente projetos sem liquidez, presença fraca, perda de força ou com indicadores negativos. Sem prioridade analítica no momento.
+  </blockquote>
 
-        <li><strong>🌸 Rosa Neon (180 a 299 pontos)</strong><br>
-        <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
-        Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</li>
+  <h3>🧠 Importância da Categorização</h3>
+  <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
+  <ul>
+    <li>Priorize os ativos com mais consistência;</li>
+    <li>Monitore oportunidades emergentes;</li>
+    <li>Evite armadilhas e falsos sinais de força.</li>
+  </ul>
 
-        <li><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
-        <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
-        Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</li>
+  <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
 
-        <li><strong>⚪ Sem cor (abaixo de 80 pontos)</strong><br>
-        <em>Categoria: Baixo interesse técnico e on-chain</em><br>
-        Sem sinais claros de valorização. Geralmente projetos sem liquidez, presença fraca, perda de força ou com indicadores negativos. Sem prioridade analítica no momento.</li>
-      </ul>
+  <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
+</div>
 
-      <h3>🧠 Importância da Categorização</h3>
-      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
-      <ul>
-        <li>Priorize os ativos com mais consistência;</li>
-        <li>Monitore oportunidades emergentes;</li>
-        <li>Evite armadilhas e falsos sinais de força.</li>
-      </ul>
+<div id="quantitativo">
+  🟦 Azul: <span id="qtdAzul">0</span> |
+  🟩 Verde: <span id="qtdVerde">0</span> |
+  🟨 Amarelo: <span id="qtdAmarelo">0</span> |
+  🌸 Rosa Neon: <span id="qtdRosa">0</span> |
+  🟫 Bronze: <span id="qtdBronze">0</span> |
+  ✅ Total: <span id="qtdTotal">0</span>
+</div>
 
-      <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
+<table id="tabela" class="display" style="width:100%">
+  <thead>
+    <tr>
+      <th>Ranking</th>
+      <th>Símbolo</th>
+      <th>Link</th>
+      <th>Score</th>
+      <th>Var 1D</th>
+      <th>Var 7D</th>
+      <th>Var 30D</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
-    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+fetch('https://script.google.com/macros/s/AKfycbxvWUfo_Fzlm6b2ZP20-aK5AEeF4b1phehQmvUBsWoja9aALWuAq8aiK0LYOQEb93MF/exec')
+  .then(res => res.json())
+  .then(data => {
+    const tabela = $('#tabela').DataTable();
+    let azul = verde = amarelo = rosa = bronze = total = 0;
 
-    <div id="filtrosExtras">
-      <input type="number" id="rankingMin" placeholder="Ranking mínimo">
-      <input type="number" id="rankingMax" placeholder="Ranking máximo">
-      <button onclick="filtrarRanking()" class="btn-busca">Buscar por Rank</button>
+    data.forEach(row => {
+      tabela.row.add([
+        row.ranking,
+        row.símbolo,
+        `<a href="${row.link}" target="_blank">🔗</a>`,
+        row.score,
+        row.var1d,
+        row.var7d,
+        row.var30d
+      ]).draw(false);
 
-      <input type="text" id="buscarCripto" placeholder="Buscar Criptomoeda">
-      <button onclick="filtrarPorNome()" class="btn-busca">Buscar Criptomoeda</button>
-    </div>
+      const score = parseInt(row.score);
+      if (score >= 650) azul++;
+      else if (score >= 500) verde++;
+      else if (score >= 300) amarelo++;
+      else if (score >= 180) rosa++;
+      else if (score >= 80) bronze++;
 
-    <table id="tabela" class="display" style="display:none;">
-      <thead>
-        <tr>
-          <th>Ranking</th>
-          <th>Símbolo</th>
-          <th>Link</th>
-          <th>Score</th>
-          <th>1D</th>
-          <th>7D</th>
-          <th>30D</th>
-          <th>60D</th>
-          <th>90D</th>
-          <th>Anterior</th>
-          <th>Variação</th>
-          <th>Destaque</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script>
-    let tabela;
-
-    document.getElementById("carregar").addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbylpfYg2U56-7fq4lnp6T599m4JL67KuFcE15vAgMrF-UXC9QLu2xj5M5zm5sS3zuQHLg/exec?email=" + encodeURIComponent(email);
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (!Array.isArray(data)) {
-            document.getElementById("erro").innerText = data;
-            return;
-          }
-
-          document.getElementById("loginExterno").style.display = "none";
-          document.getElementById("painelInterno").style.display = "block";
-          document.getElementById("tabela").style.display = "table";
-
-          tabela = $('#tabela').DataTable({
-            paging: false,
-            dom: 't',
-            language: {
-              url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-            }
-          });
-
-          tabela.clear();
-
-          data.forEach(item => {
-            const score = parseFloat(item.score);
-            let cor = '';
-            if (score >= 650) cor = '#3399ff';
-            else if (score >= 500) cor = '#00cc00';
-            else if (score >= 300) cor = '#ffff00';
-            else if (score >= 180) cor = '#ff00ff';
-            else if (score >= 80)  cor = '#bf862a';
-
-            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
-
-            tabela.row.add([
-              item.ranking,
-              item.simbolo,
-              `<a href="${item.link}" target="_blank">🔗</a>`,
-              scoreStyled,
-              item.score_1d,
-              item.score_7d,
-              item.score_30d,
-              item.score_60d,
-              item.score_90d,
-              item.score_anterior,
-              item.variacao,
-              item.destaque
-            ]);
-          });
-
-          tabela.draw();
-        });
+      total++;
     });
 
-    function filtrarRanking() {
-      const min = parseInt(document.getElementById("rankingMin").value) || 0;
-      const max = parseInt(document.getElementById("rankingMax").value) || 9999;
-      $.fn.dataTable.ext.search.push((_, data) => {
-        const rank = parseInt(data[0]);
-        return rank >= min && rank <= max;
-      });
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    }
+    document.getElementById('qtdAzul').innerText = azul;
+    document.getElementById('qtdVerde').innerText = verde;
+    document.getElementById('qtdAmarelo').innerText = amarelo;
+    document.getElementById('qtdRosa').innerText = rosa;
+    document.getElementById('qtdBronze').innerText = bronze;
+    document.getElementById('qtdTotal').innerText = total;
+  });
+</script>
 
-    function filtrarPorNome() {
-      const termo = document.getElementById("buscarCripto").value.trim().toLowerCase();
-      tabela.search(termo).draw();
-    }
-  </script>
 </body>
 </html>
