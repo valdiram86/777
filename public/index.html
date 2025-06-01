@@ -129,14 +129,12 @@
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
 
-    <!-- Filtros e Tabela -->
+    <!-- Filtros automáticos -->
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
-      <button onclick="filtrarRanking()">Buscar por Rank</button>
       <br><br>
       <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
-      <!-- Botão removido, pois a busca será automática -->
     </div>
 
     <table id="tabela" class="display" style="display:none;">
@@ -222,18 +220,7 @@
       });
   });
 
-  function filtrarRanking() {
-    const min = parseInt(document.getElementById("rankingMin").value) || 0;
-    const max = parseInt(document.getElementById("rankingMax").value) || 9999;
-    $.fn.dataTable.ext.search.push((_, data) => {
-      const rank = parseInt(data[0]);
-      return rank >= min && rank <= max;
-    });
-    tabela.draw();
-    $.fn.dataTable.ext.search.pop();
-  }
-
-  // Busca automática ao digitar no campo de símbolo
+  // Busca automática por símbolo
   document.getElementById("buscarSimbolo").addEventListener("input", function () {
     const simbolo = this.value.trim().toUpperCase();
     $.fn.dataTable.ext.search.push((_, data) => {
@@ -244,6 +231,27 @@
     $.fn.dataTable.ext.search.pop();
   });
 
+  // Filtro automático por ranking mínimo e máximo
+  function configurarFiltroRankingAutomatico() {
+    const minInput = document.getElementById("rankingMin");
+    const maxInput = document.getElementById("rankingMax");
+
+    function aplicarFiltro() {
+      const min = parseInt(minInput.value) || 0;
+      const max = parseInt(maxInput.value) || 9999;
+
+      $.fn.dataTable.ext.search.push((_, data) => {
+        const rank = parseInt(data[0]);
+        return rank >= min && rank <= max;
+      });
+      tabela.draw();
+      $.fn.dataTable.ext.search.pop();
+    }
+
+    minInput.addEventListener("input", aplicarFiltro);
+    maxInput.addEventListener("input", aplicarFiltro);
+  }
+
   $(document).ready(function () {
     tabela = $('#tabela').DataTable({
       paging: false,
@@ -252,6 +260,7 @@
         url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
       }
     });
+
+    configurarFiltroRankingAutomatico();
   });
 </script>
-  
