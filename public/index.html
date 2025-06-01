@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -137,7 +136,7 @@
       <button onclick="filtrarRanking()">Buscar por Rank</button>
       <br><br>
       <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
-      <button onclick="filtrarSimbolo()">Buscar Criptomoeda</button>
+      <!-- Botão removido, pois a busca será automática -->
     </div>
 
     <table id="tabela" class="display" style="display:none;">
@@ -160,9 +159,8 @@
       <tbody></tbody>
     </table>
   </div>
-
   <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
   let tabela;
@@ -194,7 +192,7 @@
           if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
           else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
           else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-          else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; } // Roxo
+          else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
           else if (score >= 80)  { cor = '#bf862a'; contadores.bronze++; }
 
           contadores.total++;
@@ -235,15 +233,16 @@
     $.fn.dataTable.ext.search.pop();
   }
 
-  function filtrarSimbolo() {
-    const simbolo = document.getElementById("buscarSimbolo").value.trim().toUpperCase();
+  // Busca automática ao digitar no campo de símbolo
+  document.getElementById("buscarSimbolo").addEventListener("input", function () {
+    const simbolo = this.value.trim().toUpperCase();
     $.fn.dataTable.ext.search.push((_, data) => {
       const simboloTabela = data[1]?.toUpperCase() || '';
       return simboloTabela.includes(simbolo);
     });
     tabela.draw();
     $.fn.dataTable.ext.search.pop();
-  }
+  });
 
   $(document).ready(function () {
     tabela = $('#tabela').DataTable({
@@ -255,4 +254,4 @@
     });
   });
 </script>
-
+  
