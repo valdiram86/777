@@ -154,11 +154,7 @@
       <tbody></tbody>
     </table>
   </div>
-
-  <!-- Scripts -->
-  <!-- ... (cabeçalho e estrutura HTML mantidos como antes) -->
-
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
   let tabela;
@@ -207,7 +203,7 @@
             item.score_60d.replace(/[▲▼]/g, ''),
             item.score_90d.replace(/[▲▼]/g, ''),
             item.score_anterior,
-            item.variacao,
+            item.variacao.replace(/[▲▼]/g, ''),
             item.destaque
           ]);
         });
@@ -254,7 +250,16 @@
       paging: false,
       dom: 't',
       columnDefs: [
-        { targets: [4,5,6,7,8,10], type: 'num', className: 'dt-body-right' }
+        {
+          targets: [4,5,6,7,8,10], // Colunas de variação + "Variação"
+          className: 'dt-body-right',
+          render: function (data, type, row) {
+            if (type === 'sort' || type === 'type') {
+              return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
+            }
+            return data;
+          }
+        }
       ],
       language: {
         url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
@@ -264,3 +269,4 @@
     configurarFiltroRankingAutomatico();
   });
 </script>
+
