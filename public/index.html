@@ -187,108 +187,36 @@
           let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
 
           data.forEach(item => {
-            const score = parseFloat(item.score);
-            let cor = '';
-            if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
-            else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
-            else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-            else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 140)  { cor = '#bf862a'; contadores.bronze++; }
+  const score = parseFloat(item.score);
+  let cor = '';
+  if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
+  else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
+  else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
+  else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
+  else if (score >= 140) { cor = '#bf862a'; contadores.bronze++; }
 
-            contadores.total++;
+  contadores.total++;
 
-            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
+  const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
 
-            tabela.row.add([
-              item.ranking,
-              item.simbolo,
-              `<a href="${item.link}" target="_blank">🔗</a>`,
-              scoreStyled,
-              item.score_1d.replace(/[▲▼]/g, ''),
-              item.score_7d.replace(/[▲▼]/g, ''),
-              item.score_30d.replace(/[▲▼]/g, ''),
-              item.score_60d.replace(/[▲▼]/g, ''),
-              item.score_90d.replace(/[▲▼]/g, ''),
-              item.score_anterior,
-              item.variacao.replace(/[▲▼]/g, ''),
-              item.destaque
-            ]);
-          });
+  tabela.row.add([
+    item.data,
+    item.ranking,
+    item.simbolo,
+    `<a href="${item.link}" target="_blank">🔗</a>`,
+    scoreStyled,
+    item.score_1d.replace(/[▲▼]/g, ''),
+    item.score_7d.replace(/[▲▼]/g, ''),
+    item.score_30d.replace(/[▲▼]/g, ''),
+    item.score_60d.replace(/[▲▼]/g, ''),
+    item.score_90d.replace(/[▲▼]/g, ''),
+    item.score_anterior,
+    item.variacao.replace(/[▲▼]/g, ''),
+    item.destaque
+  ]);
+});
 
-          document.getElementById("contadoresCores").innerText =
-            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
+document.getElementById("contadoresCores").innerText =
+  `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
 
-          tabela.draw();
-        });
-    });
-
-    document.getElementById("buscarSimbolo").addEventListener("input", function () {
-      const simbolo = this.value.trim().toUpperCase();
-      $.fn.dataTable.ext.search.push((_, data) => {
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return simboloTabela.includes(simbolo);
-      });
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    });
-
-    function configurarFiltroRankingAutomatico() {
-      const minInput = document.getElementById("rankingMin");
-      const maxInput = document.getElementById("rankingMax");
-
-      function aplicarFiltro() {
-        const min = parseInt(minInput.value) || 0;
-        const max = parseInt(maxInput.value) || 9999;
-
-        $.fn.dataTable.ext.search.push((_, data) => {
-          const rank = parseInt(data[0]);
-          return rank >= min && rank <= max;
-        });
-        tabela.draw();
-        $.fn.dataTable.ext.search.pop();
-      }
-
-      minInput.addEventListener("input", aplicarFiltro);
-      maxInput.addEventListener("input", aplicarFiltro);
-    }
-
-    $(document).ready(function () {
-      tabela = $('#tabela').DataTable({
-        paging: false,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'csvHtml5',
-            text: '📊 Exportar CSV',
-            title: 'on-chain-setvalues'
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '📄 Exportar PDF',
-            title: 'on-chain-setvalues',
-            orientation: 'landscape',
-            pageSize: 'A4'
-          }
-        ],
-        columnDefs: [
-          {
-            targets: [4,5,6,7,8,10],
-            className: 'dt-body-right',
-            render: function (data, type) {
-              if (type === 'sort' || type === 'type') {
-                return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
-              }
-              return data;
-            }
-          }
-        ],
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-        }
-      });
-
-      configurarFiltroRankingAutomatico();
-    });
-  </script>
-</body>
-</html>
+tabela.draw();
