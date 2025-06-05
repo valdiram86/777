@@ -5,6 +5,7 @@
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -44,6 +45,11 @@
       color: #0066cc;
       text-decoration: none;
     }
+    #filtrosSelecionados input {
+      width: 110px;
+      margin: 3px;
+      padding: 5px;
+    }
   </style>
 </head>
 <body>
@@ -52,11 +58,21 @@
   <div id="loginExterno">
     <div id="loginBox">
       <h2>On-Chain SetValues</h2>
-      <h3>Sobre o Projeto On-Chain SetValues</h3>
+      <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
+      <button id="carregar" style="padding:10px 16px;">Acessar</button>
+      <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
+    </div>
+  </div>
+
+  <div id="painelInterno" style="display:none;">
+
+    <!-- ✅ Mensagem explicativa completa -->
+    <div id="painelExplicativo">
+      <h3>📊 Sobre o Projeto On-Chain SetValues</h3>
       <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
       <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
 
-      <h4>Como funciona</h4>
+      <h4>🔧 Como funciona</h4>
       <ul>
         <li>Variação de preço (7, 30, 60, 90 dias)</li>
         <li>Aumento ou perda de holders</li>
@@ -68,27 +84,13 @@
         <li>Fase de acumulação e hype</li>
       </ul>
 
-      <h4>Objetivo</h4>
+      <h4>🎯 Objetivo</h4>
       <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
 
-      <p><strong>Contato:</strong> 
-        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
+      <p><strong>Contato:</strong><br>
+        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
         <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
       </p>
-
-      <div style="text-align:center; margin-top:20px;">
-        <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
-        <button id="carregar" style="padding:10px 16px;">Acessar</button>
-        <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="painelInterno" style="display:none;">
-    <div id="painelExplicativo">
-      <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por manipulação de volume.</p>
-
-      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
 
       <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
 
@@ -106,9 +108,9 @@
 
       <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
       <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
-      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
+      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gemas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
 
-      <p><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
+      <p><strong>🟫 Bronze (140 a 179 pontos)</strong><br>
       <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
       Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
 
@@ -117,16 +119,39 @@
       <ul>
         <li>Priorize os ativos com mais consistência;</li>
         <li>Monitore oportunidades emergentes;</li>
-        <li>Evite armadilhas e falsos sinais de força.</li>
+        <li>Evite armadilhas e falsos sinais de força;</li>
       </ul>
 
-      <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
-
-      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
+      <p><em>On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</em></p>
 
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
 
+    <!-- Filtros manuais -->
+    <div id="filtrosSelecionados">
+      <h4>Selecionar até 15 criptomoedas específicas</h4>
+      <div style="display:flex; flex-wrap:wrap;">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #1">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #2">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #3">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #4">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #5">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #6">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #7">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #8">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #9">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #10">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #11">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #12">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #13">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #14">
+        <input type="text" class="filtroSimbolo" placeholder="Símbolo #15">
+      </div>
+      <br>
+      <button id="aplicarFiltroManual">🔍 Filtrar Selecionados</button>
+    </div>
+
+    <!-- Filtros extras -->
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
@@ -134,6 +159,7 @@
       <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
     </div>
 
+    <!-- Tabela -->
     <table id="tabela" class="display" style="display:none;">
       <thead>
         <tr>
@@ -155,8 +181,14 @@
     </table>
   </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
   <script>
     let tabela;
 
@@ -226,6 +258,20 @@
       $.fn.dataTable.ext.search.pop();
     });
 
+    document.getElementById("aplicarFiltroManual").addEventListener("click", function () {
+      const filtros = Array.from(document.getElementsByClassName("filtroSimbolo"))
+        .map(el => el.value.trim().toUpperCase())
+        .filter(v => v !== "");
+
+      $.fn.dataTable.ext.search.push((_, data) => {
+        const simboloTabela = data[1]?.toUpperCase() || '';
+        return filtros.includes(simboloTabela);
+      });
+
+      tabela.draw();
+      $.fn.dataTable.ext.search.pop();
+    });
+
     function configurarFiltroRankingAutomatico() {
       const minInput = document.getElementById("rankingMin");
       const maxInput = document.getElementById("rankingMax");
@@ -249,16 +295,36 @@
     $(document).ready(function () {
       tabela = $('#tabela').DataTable({
         paging: false,
-        dom: 't',
-        columnDefs: [
+        dom: 'Bfrtip',
+        buttons: [
           {
-            targets: [4, 5, 6, 7, 8, 10],
-            className: 'dt-body-right',
-            render: function (data, type, row) {
-              if (type === 'sort' || type === 'type') {
-                return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
-              }
-              return data;
+            extend: 'csvHtml5',
+            text: '📊 Exportar CSV',
+            title: 'on-chain-setvalues',
+            filename: function () {
+              const hoje = new Date();
+              const yyyy = hoje.getFullYear();
+              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+              const dd = String(hoje.getDate()).padStart(2, '0');
+              return `onchain-${yyyy}-${mm}-${dd}`;
+            }
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '📄 Exportar PDF',
+            title: 'On-Chain SetValues - Relatório',
+            filename: function () {
+              const hoje = new Date();
+              const yyyy = hoje.getFullYear();
+              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+              const dd = String(hoje.getDate()).padStart(2, '0');
+              return `onchain-relatorio-${yyyy}-${mm}-${dd}`;
+            },
+            orientation: 'landscape',
+            pageSize: 'A4',
+            customize: function (doc) {
+              doc.styles.tableHeader.alignment = 'left';
+              doc.defaultStyle.fontSize = 8;
             }
           }
         ],
