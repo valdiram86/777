@@ -30,7 +30,8 @@
       background: #f8f8f8;
       border-left: 5px solid #222;
       padding: 20px;
-      margin-bottom: 30px;
+      margin: 20px auto;
+      max-width: 900px;
     }
     .contador-cores {
       font-weight: bold;
@@ -53,85 +54,85 @@
   </style>
 </head>
 <body>
+
   <h1>On-Chain SetValues</h1>
 
+  <!-- ✅ Mensagens visíveis antes do login -->
+  <div id="painelExplicativo">
+    <h3>📊 Sobre o Projeto On-Chain SetValues</h3>
+    <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+    <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+
+    <h4>🔧 Como funciona</h4>
+    <ul>
+      <li>Variação de preço (7, 30, 60, 90 dias)</li>
+      <li>Aumento ou perda de holders</li>
+      <li>Engajamento social e visitas</li>
+      <li>Oscilação e tempo em tendência</li>
+      <li>Número de listagens, corretoras e pares</li>
+      <li>Presença em múltiplas blockchains</li>
+      <li>Auditoria, votos, estrelas e score de perfil</li>
+      <li>Fase de acumulação e hype</li>
+    </ul>
+
+    <h4>🎯 Objetivo</h4>
+    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
+    <p><strong>Contato:</strong><br>
+      <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
+      <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+    </p>
+
+    <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
+
+    <p><strong>🟦 Azul (650 a 700 pontos)</strong><br>
+    <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
+    Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</p>
+
+    <p><strong>🟩 Verde (500 a 649 pontos)</strong><br>
+    <em>Categoria: Forte Potencial de Valorização</em><br>
+    Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</p>
+
+    <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
+    <em>Categoria: Em observação / Zona de atenção</em><br>
+    Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
+
+    <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
+    <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
+    Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gemas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
+
+    <p><strong>🟫 Bronze (140 a 179 pontos)</strong><br>
+    <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
+    Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
+
+    <h3>🧠 Importância da Categorização</h3>
+    <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
+    <ul>
+      <li>Priorize os ativos com mais consistência;</li>
+      <li>Monitore oportunidades emergentes;</li>
+      <li>Evite armadilhas e falsos sinais de força;</li>
+    </ul>
+
+    <p><em>On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</em></p>
+
+    <div class="contador-cores" id="contadoresCores"></div>
+  </div>
+
+  <!-- 🔐 LOGIN -->
   <div id="loginExterno">
     <div id="loginBox">
-      <h2>On-Chain SetValues</h2>
       <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
       <button id="carregar" style="padding:10px 16px;">Acessar</button>
       <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
     </div>
-  </div>
-
+  </div><!-- 🔓 PAINEL INTERNO (visível após login) -->
   <div id="painelInterno" style="display:none;">
 
-    <!-- ✅ Mensagem explicativa completa -->
-    <div id="painelExplicativo">
-      <h3>📊 Sobre o Projeto On-Chain SetValues</h3>
-      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-
-      <h4>🔧 Como funciona</h4>
-      <ul>
-        <li>Variação de preço (7, 30, 60, 90 dias)</li>
-        <li>Aumento ou perda de holders</li>
-        <li>Engajamento social e visitas</li>
-        <li>Oscilação e tempo em tendência</li>
-        <li>Número de listagens, corretoras e pares</li>
-        <li>Presença em múltiplas blockchains</li>
-        <li>Auditoria, votos, estrelas e score de perfil</li>
-        <li>Fase de acumulação e hype</li>
-      </ul>
-
-      <h4>🎯 Objetivo</h4>
-      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-
-      <p><strong>Contato:</strong><br>
-        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
-        <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-      </p>
-
-      <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
-
-      <p><strong>🟦 Azul (650 a 700 pontos)</strong><br>
-      <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
-      Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</p>
-
-      <p><strong>🟩 Verde (500 a 649 pontos)</strong><br>
-      <em>Categoria: Forte Potencial de Valorização</em><br>
-      Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</p>
-
-      <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
-      <em>Categoria: Em observação / Zona de atenção</em><br>
-      Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
-
-      <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
-      <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
-      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gemas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
-
-      <p><strong>🟫 Bronze (140 a 179 pontos)</strong><br>
-      <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
-      Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
-
-      <h3>🧠 Importância da Categorização</h3>
-      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
-      <ul>
-        <li>Priorize os ativos com mais consistência;</li>
-        <li>Monitore oportunidades emergentes;</li>
-        <li>Evite armadilhas e falsos sinais de força;</li>
-      </ul>
-
-      <p><em>On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</em></p>
-
-      <div class="contador-cores" id="contadoresCores"></div>
-    </div>
-
-    <!-- ⏭ CONTINUAÇÃO: Filtros, tabela e scripts -->
-    <!-- Filtros manuais -->
+    <!-- Filtro manual por até 15 criptos -->
     <div id="filtrosSelecionados">
       <h4>Selecionar até 15 criptomoedas específicas</h4>
       <div style="display:flex; flex-wrap:wrap;">
+        <!-- 15 campos -->
         <input type="text" class="filtroSimbolo" placeholder="Símbolo #1">
         <input type="text" class="filtroSimbolo" placeholder="Símbolo #2">
         <input type="text" class="filtroSimbolo" placeholder="Símbolo #3">
@@ -152,7 +153,7 @@
       <button id="aplicarFiltroManual">🔍 Filtrar Selecionados</button>
     </div>
 
-    <!-- Filtros extras -->
+    <!-- Filtros por ranking e busca -->
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
@@ -220,7 +221,7 @@
             else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
             else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
             else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
+            else if (score >= 80)  { cor = '#bf862a'; contadores.bronze++; }
 
             contadores.total++;
 
