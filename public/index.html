@@ -4,156 +4,82 @@
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-    }
-    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    #loginBox {
-      background: #f2f2f2;
-      padding: 30px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    #painelExplicativo {
-      background: #f8f8f8;
-      border-left: 5px solid #222;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 900px;
-    }
-    .contador-cores {
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    table {
-      width: 100%;
-      font-size: 13px;
-      border-collapse: collapse;
-    }
-    td a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-    #filtrosSelecionados input {
-      width: 110px;
-      margin: 3px;
-      padding: 5px;
-    }
+    body { font-family: Arial, sans-serif; background: #fff; margin: 0; padding: 20px; }
+    h1 { text-align: center; }
+    #loginExterno, #painelInterno, #tabela, #filtrosExtras { max-width: 900px; margin: 0 auto; }
+    #loginBox { background: #f2f2f2; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
+    #painelExplicativo { background: #f8f8f8; border-left: 5px solid #222; padding: 20px; margin-bottom: 30px; }
+    .contador-cores { font-weight: bold; margin: 10px 0; }
+    table { width: 100%; font-size: 13px; border-collapse: collapse; }
+    td a { color: #0066cc; text-decoration: none; }
   </style>
 </head>
 <body>
-
   <h1>On-Chain SetValues</h1>
 
-  <!-- ✅ Mensagens visíveis antes do login -->
-  <div id="painelExplicativo">
-    <h3>📊 Sobre o Projeto On-Chain SetValues</h3>
-    <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
-    <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
-
-    <h4>🔧 Como funciona</h4>
-    <ul>
-      <li>Variação de preço (7, 30, 60, 90 dias)</li>
-      <li>Aumento ou perda de holders</li>
-      <li>Engajamento social e visitas</li>
-      <li>Oscilação e tempo em tendência</li>
-      <li>Número de listagens, corretoras e pares</li>
-      <li>Presença em múltiplas blockchains</li>
-      <li>Auditoria, votos, estrelas e score de perfil</li>
-      <li>Fase de acumulação e hype</li>
-    </ul>
-
-    <h4>🎯 Objetivo</h4>
-    <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
-
-    <p><strong>Contato:</strong><br>
-      <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> |
-      <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
-    </p>
-
-    <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
-
-    <p><strong>🟦 Azul (650 a 700 pontos)</strong><br>
-    <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
-    Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</p>
-
-    <p><strong>🟩 Verde (500 a 649 pontos)</strong><br>
-    <em>Categoria: Forte Potencial de Valorização</em><br>
-    Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</p>
-
-    <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
-    <em>Categoria: Em observação / Zona de atenção</em><br>
-    Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
-
-    <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
-    <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
-    Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gemas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
-
-    <p><strong>🟫 Bronze (140 a 179 pontos)</strong><br>
-    <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
-    Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
-
-    <h3>🧠 Importância da Categorização</h3>
-    <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
-    <ul>
-      <li>Priorize os ativos com mais consistência;</li>
-      <li>Monitore oportunidades emergentes;</li>
-      <li>Evite armadilhas e falsos sinais de força;</li>
-    </ul>
-
-    <p><em>On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</em></p>
-
-    <div class="contador-cores" id="contadoresCores"></div>
-  </div>
-
-  <!-- 🔐 LOGIN -->
+  <!-- PARTE EXTERNA -->
   <div id="loginExterno">
     <div id="loginBox">
-      <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
-      <button id="carregar" style="padding:10px 16px;">Acessar</button>
-      <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
-    </div>
-  </div><!-- 🔓 PAINEL INTERNO (visível após login) -->
-  <div id="painelInterno" style="display:none;">
-
-    <!-- Filtro manual por até 15 criptos -->
-    <div id="filtrosSelecionados">
-      <h4>Selecionar até 15 criptomoedas específicas</h4>
-      <div style="display:flex; flex-wrap:wrap;">
-        <!-- 15 campos -->
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #1">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #2">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #3">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #4">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #5">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #6">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #7">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #8">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #9">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #10">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #11">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #12">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #13">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #14">
-        <input type="text" class="filtroSimbolo" placeholder="Símbolo #15">
+      <h2>On-Chain SetValues</h2>
+      <h3>Sobre o Projeto On-Chain SetValues</h3>
+      <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
+      <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+      <h4>Como funciona</h4>
+      <ul>
+        <li>Variação de preço (7, 30, 60, 90 dias)</li>
+        <li>Aumento ou perda de holders</li>
+        <li>Engajamento social e visitas</li>
+        <li>Oscilação e tempo em tendência</li>
+        <li>Número de listagens, corretoras e pares</li>
+        <li>Presença em múltiplas blockchains</li>
+        <li>Auditoria, votos, estrelas e score de perfil</li>
+        <li>Fase de acumulação e hype</li>
+      </ul>
+      <h4>Objetivo</h4>
+      <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+      <p><strong>Contato:</strong> 
+        <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
+        <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
+      </p>
+      <div style="text-align:center; margin-top:20px;">
+        <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
+        <button id="carregar" style="padding:10px 16px;">Acessar</button>
+        <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
       </div>
-      <br>
-      <button id="aplicarFiltroManual">🔍 Filtrar Selecionados</button>
+    </div>
+  </div>
+
+  <!-- PARTE INTERNA -->
+  <div id="painelInterno" style="display:none;">
+    <div id="painelExplicativo">
+      <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por manipulação de volume.</p>
+      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas...</p>
+      <h3>🎨 CATEGORIAS DE CORES</h3>
+      <p><strong>🟦 Azul (650–700):</strong> Potencial máximo e desempenho consistente.</p>
+      <p><strong>🟩 Verde (500–649):</strong> Forte potencial de valorização.</p>
+      <p><strong>🟨 Amarelo (300–499):</strong> Zona de observação.</p>
+      <p><strong>🟪 Roxo (180–299):</strong> Risco técnico com sinais especulativos.</p>
+      <p><strong>🟫 Bronze (80–179):</strong> Fase inicial ou acumulação silenciosa.</p>
+      <h3>🧠 Importância da Categorização</h3>
+      <ul>
+        <li>Priorize os ativos com mais consistência</li>
+        <li>Monitore oportunidades emergentes</li>
+        <li>Evite armadilhas e falsos sinais de força</li>
+      </ul>
+      <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
+      <div class="contador-cores" id="contadoresCores"></div>
     </div>
 
-    <!-- Filtros por ranking e busca -->
+    <!-- CAMPO PARA SELECIONAR CRIPTOS -->
+    <h3>🔍 Selecione até 15 criptos para exportar</h3>
+    <div id="selecionarCriptos" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;"></div>
+    <button onclick="exportarSelecionadas()">📤 Exportar Selecionadas</button>
+
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
@@ -161,7 +87,6 @@
       <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
     </div>
 
-    <!-- Tabela -->
     <table id="tabela" class="display" style="display:none;">
       <thead>
         <tr>
@@ -183,11 +108,12 @@
     </table>
   </div>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
@@ -221,7 +147,7 @@
             else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
             else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
             else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 80)  { cor = '#bf862a'; contadores.bronze++; }
+            else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
 
             contadores.total++;
 
@@ -260,19 +186,28 @@
       $.fn.dataTable.ext.search.pop();
     });
 
-    document.getElementById("aplicarFiltroManual").addEventListener("click", function () {
-      const filtros = Array.from(document.getElementsByClassName("filtroSimbolo"))
-        .map(el => el.value.trim().toUpperCase())
-        .filter(v => v !== "");
+    function exportarSelecionadas() {
+      const inputs = document.getElementById("selecionarCriptos").querySelectorAll("input");
+      const simbolos = Array.from(inputs).map(i => i.value.trim().toUpperCase()).filter(v => v);
+      if (simbolos.length === 0) return alert("Preencha ao menos uma cripto.");
 
-      $.fn.dataTable.ext.search.push((_, data) => {
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return filtros.includes(simboloTabela);
+      const dadosFiltrados = tabela.rows().data().toArray().filter(row => simbolos.includes(row[1]?.toUpperCase()));
+
+      if (dadosFiltrados.length === 0) return alert("Nenhuma cripto encontrada.");
+
+      let csv = "Ranking,Símbolo,Link,Score\n";
+      dadosFiltrados.forEach(r => {
+        csv += `${r[0]},${r[1]},${r[2]},${r[3].replace(/<[^>]+>/g, '')}\n`;
       });
 
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    });
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const hoje = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = `selecionadas_${hoje}.csv`;
+      a.click();
+    }
 
     function configurarFiltroRankingAutomatico() {
       const minInput = document.getElementById("rankingMin");
@@ -300,34 +235,16 @@
         dom: 'Bfrtip',
         buttons: [
           {
-            extend: 'csvHtml5',
-            text: '📊 Exportar CSV',
-            title: 'on-chain-setvalues',
-            filename: function () {
-              const hoje = new Date();
-              const yyyy = hoje.getFullYear();
-              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-              const dd = String(hoje.getDate()).padStart(2, '0');
-              return `onchain-${yyyy}-${mm}-${dd}`;
-            }
+            extend: 'csv',
+            text: '📥 Exportar CSV',
+            filename: () => 'onchain_' + new Date().toISOString().split('T')[0]
           },
           {
-            extend: 'pdfHtml5',
+            extend: 'pdf',
             text: '📄 Exportar PDF',
-            title: 'On-Chain SetValues - Relatório',
-            filename: function () {
-              const hoje = new Date();
-              const yyyy = hoje.getFullYear();
-              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-              const dd = String(hoje.getDate()).padStart(2, '0');
-              return `onchain-relatorio-${yyyy}-${mm}-${dd}`;
-            },
+            filename: () => 'onchain_' + new Date().toISOString().split('T')[0],
             orientation: 'landscape',
-            pageSize: 'A4',
-            customize: function (doc) {
-              doc.styles.tableHeader.alignment = 'left';
-              doc.defaultStyle.fontSize = 8;
-            }
+            pageSize: 'A4'
           }
         ],
         language: {
@@ -336,6 +253,15 @@
       });
 
       configurarFiltroRankingAutomatico();
+
+      const container = document.getElementById("selecionarCriptos");
+      for (let i = 1; i <= 15; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = `Cripto ${i}`;
+        input.style = "width:100px;";
+        container.appendChild(input);
+      }
     });
   </script>
 </body>
