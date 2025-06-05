@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,7 +6,6 @@
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -89,7 +89,7 @@
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por manipulação de volume.</p>
 
-      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, Wif, turbo entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
+      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
 
       <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
 
@@ -107,9 +107,9 @@
 
       <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
       <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
-      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gemas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
+      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
 
-      <p><strong>🟫 Bronze (140 a 179 pontos)</strong><br>
+      <p><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
       <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
       Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
 
@@ -127,6 +127,7 @@
 
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
+
     <div id="filtrosExtras">
       <input type="number" id="rankingMin" placeholder="Ranking mínimo">
       <input type="number" id="rankingMax" placeholder="Ranking máximo">
@@ -154,141 +155,120 @@
       <tbody></tbody>
     </table>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  let tabela;
 
-  <script>
-    let tabela;
+  document.getElementById("carregar").addEventListener("click", function () {
+    const email = document.getElementById("email").value.trim();
+    const url = "https://script.google.com/macros/s/AKfycbylpfYg2U56-7fq4lnp6T599m4JL67KuFcE15vAgMrF-UXC9QLu2xj5M5zm5sS3zuQHLg/exec?email=" + encodeURIComponent(email);
 
-    document.getElementById("carregar").addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbxTA4BSu4dZ3oFiDqfM0A9OYYaPtb360ANpffui7tHiswxXz6-GXoXXTcpLrdvDk0U4/exec?email=" + encodeURIComponent(email);
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data)) {
+          document.getElementById("erro").innerText = data;
+          return;
+        }
 
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (!Array.isArray(data)) {
-            document.getElementById("erro").innerText = data;
-            return;
-          }
+        document.getElementById("loginExterno").style.display = "none";
+        document.getElementById("painelInterno").style.display = "block";
+        document.getElementById("tabela").style.display = "table";
 
-          document.getElementById("loginExterno").style.display = "none";
-          document.getElementById("painelInterno").style.display = "block";
-          document.getElementById("tabela").style.display = "table";
+        tabela.clear();
 
-          tabela.clear();
+        let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
 
-          let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
+        data.forEach(item => {
+          const score = parseFloat(item.score);
+          let cor = '';
+          if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
+          else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
+          else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
+          else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
+          else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
 
-          data.forEach(item => {
-            const score = parseFloat(item.score);
-            let cor = '';
-            if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
-            else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
-            else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-            else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 140)  { cor = '#bf862a'; contadores.bronze++; }
+          contadores.total++;
 
-            contadores.total++;
+          const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
 
-            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
-
-            tabela.row.add([
-              item.ranking,
-              item.simbolo,
-              `<a href="${item.link}" target="_blank">🔗</a>`,
-              scoreStyled,
-              item.score_1d.replace(/[▲▼]/g, ''),
-              item.score_7d.replace(/[▲▼]/g, ''),
-              item.score_30d.replace(/[▲▼]/g, ''),
-              item.score_60d.replace(/[▲▼]/g, ''),
-              item.score_90d.replace(/[▲▼]/g, ''),
-              item.score_anterior,
-              item.variacao.replace(/[▲▼]/g, ''),
-              item.destaque
-            ]);
-          });
-
-          document.getElementById("contadoresCores").innerText =
-            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
-
-          tabela.draw();
+          tabela.row.add([
+            item.ranking,
+            item.simbolo,
+            `<a href="${item.link}" target="_blank">🔗</a>`,
+            scoreStyled,
+            item.score_1d.replace(/[▲▼]/g, ''),
+            item.score_7d.replace(/[▲▼]/g, ''),
+            item.score_30d.replace(/[▲▼]/g, ''),
+            item.score_60d.replace(/[▲▼]/g, ''),
+            item.score_90d.replace(/[▲▼]/g, ''),
+            item.score_anterior,
+            item.variacao.replace(/[▲▼]/g, ''),
+            item.destaque
+          ]);
         });
-    });
 
-    document.getElementById("buscarSimbolo").addEventListener("input", function () {
-      const simbolo = this.value.trim().toUpperCase();
+        document.getElementById("contadoresCores").innerText =
+          `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
+
+        tabela.draw();
+      });
+  });
+
+  document.getElementById("buscarSimbolo").addEventListener("input", function () {
+    const simbolo = this.value.trim().toUpperCase();
+    $.fn.dataTable.ext.search.push((_, data) => {
+      const simboloTabela = data[1]?.toUpperCase() || '';
+      return simboloTabela.includes(simbolo);
+    });
+    tabela.draw();
+    $.fn.dataTable.ext.search.pop();
+  });
+
+  function configurarFiltroRankingAutomatico() {
+    const minInput = document.getElementById("rankingMin");
+    const maxInput = document.getElementById("rankingMax");
+
+    function aplicarFiltro() {
+      const min = parseInt(minInput.value) || 0;
+      const max = parseInt(maxInput.value) || 9999;
+
       $.fn.dataTable.ext.search.push((_, data) => {
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return simboloTabela.includes(simbolo);
+        const rank = parseInt(data[0]);
+        return rank >= min && rank <= max;
       });
       tabela.draw();
       $.fn.dataTable.ext.search.pop();
-    });
-
-    function configurarFiltroRankingAutomatico() {
-      const minInput = document.getElementById("rankingMin");
-      const maxInput = document.getElementById("rankingMax");
-
-      function aplicarFiltro() {
-        const min = parseInt(minInput.value) || 0;
-        const max = parseInt(maxInput.value) || 9999;
-
-        $.fn.dataTable.ext.search.push((_, data) => {
-          const rank = parseInt(data[0]);
-          return rank >= min && rank <= max;
-        });
-        tabela.draw();
-        $.fn.dataTable.ext.search.pop();
-      }
-
-      minInput.addEventListener("input", aplicarFiltro);
-      maxInput.addEventListener("input", aplicarFiltro);
     }
 
-    $(document).ready(function () {
-      tabela = $('#tabela').DataTable({
-        paging: false,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'csvHtml5',
-            text: '📊 Exportar CSV',
-            title: 'on-chain-setvalues'
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '📄 Exportar PDF',
-            title: 'on-chain-setvalues',
-            orientation: 'landscape',
-            pageSize: 'A4'
-          }
-        ],
-        columnDefs: [
-          {
-            targets: [4,5,6,7,8,10],
-            className: 'dt-body-right',
-            render: function (data, type) {
-              if (type === 'sort' || type === 'type') {
-                return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
-              }
-              return data;
-            }
-          }
-        ],
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-        }
-      });
+    minInput.addEventListener("input", aplicarFiltro);
+    maxInput.addEventListener("input", aplicarFiltro);
+  }
 
-      configurarFiltroRankingAutomatico();
+  $(document).ready(function () {
+    tabela = $('#tabela').DataTable({
+      paging: false,
+      dom: 't',
+      columnDefs: [
+        {
+          targets: [4,5,6,7,8,10], // Colunas de variação + "Variação"
+          className: 'dt-body-right',
+          render: function (data, type, row) {
+            if (type === 'sort' || type === 'type') {
+              return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
+            }
+            return data;
+          }
+        }
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+      }
     });
-  </script>
-</body>
-</html>
+
+    configurarFiltroRankingAutomatico();
+  });
+</script>
+
+
