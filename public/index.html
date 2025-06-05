@@ -6,42 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      margin: 0;
-      padding: 20px;
-    }
+    body { font-family: Arial, sans-serif; background: #fff; margin: 0; padding: 20px; }
     h1 { text-align: center; }
-    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    #loginBox {
-      background: #f2f2f2;
-      padding: 30px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-    #painelExplicativo {
-      background: #f8f8f8;
-      border-left: 5px solid #222;
-      padding: 20px;
-      margin-bottom: 30px;
-    }
-    .contador-cores {
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    table {
-      width: 100%;
-      font-size: 13px;
-      border-collapse: collapse;
-    }
-    td a {
-      color: #0066cc;
-      text-decoration: none;
-    }
+    #loginExterno, #painelInterno, #tabela, #filtrosExtras { max-width: 900px; margin: 0 auto; }
+    #loginBox { background: #f2f2f2; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
+    #painelExplicativo { background: #f8f8f8; border-left: 5px solid #222; padding: 20px; margin-bottom: 30px; }
+    .contador-cores { font-weight: bold; margin: 10px 0; }
+    table { width: 100%; font-size: 13px; border-collapse: collapse; }
+    td a { color: #0066cc; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -80,23 +52,44 @@
         <div id="erro" style="margin-top:10px; color:red; font-weight:bold;"></div>
       </div>
     </div>
-  </div>
-
-  <div id="painelInterno" style="display:none;">
+  </div><div id="painelInterno" style="display:none;">
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por manipulação de volume.</p>
+
       <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
 
       <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
-      <p><strong>🟦 Azul (650 a 700 pontos)</strong><br><em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente.</p>
-      <p><strong>🟩 Verde (500 a 649 pontos)</strong><br><em>Categoria: Forte Potencial de Valorização</em><br>Projetos com desempenho muito positivo, porém ainda em fase de confirmação.</p>
-      <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br><em>Categoria: Em observação / Zona de atenção</em></p>
-      <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br><em>Categoria: Risco técnico, mas com sinais de movimentação</em></p>
-      <p><strong>🟫 Bronze (80 a 179 pontos)</strong><br><em>Categoria: Sinais iniciais ou acumulação silenciosa</em></p>
+
+      <p><strong>🟦 Azul (650 a 700 pontos)</strong><br>
+      <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
+      Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</p>
+
+      <p><strong>🟩 Verde (500 a 649 pontos)</strong><br>
+      <em>Categoria: Forte Potencial de Valorização</em><br>
+      Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</p>
+
+      <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
+      <em>Categoria: Em observação / Zona de atenção</em><br>
+      Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
+
+      <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
+      <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
+      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
+
+      <p><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
+      <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
+      Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
 
       <h3>🧠 Importância da Categorização</h3>
-      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios.</p>
+      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
+      <ul>
+        <li>Priorize os ativos com mais consistência;</li>
+        <li>Monitore oportunidades emergentes;</li>
+        <li>Evite armadilhas e falsos sinais de força.</li>
+      </ul>
+
       <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
+
       <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
       <div class="contador-cores" id="contadoresCores"></div>
     </div>
@@ -110,12 +103,24 @@
 
       <h3>🔢 Selecione até 15 criptos para exportar</h3>
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
-        ${[...Array(15)].map((_, i) => `<input type="text" id="cripto${i+1}" placeholder="Cripto ${i+1}" style="width:110px;">`).join('')}
+        <input type="text" id="cripto1" placeholder="Cripto 1" style="width:110px;">
+        <input type="text" id="cripto2" placeholder="Cripto 2" style="width:110px;">
+        <input type="text" id="cripto3" placeholder="Cripto 3" style="width:110px;">
+        <input type="text" id="cripto4" placeholder="Cripto 4" style="width:110px;">
+        <input type="text" id="cripto5" placeholder="Cripto 5" style="width:110px;">
+        <input type="text" id="cripto6" placeholder="Cripto 6" style="width:110px;">
+        <input type="text" id="cripto7" placeholder="Cripto 7" style="width:110px;">
+        <input type="text" id="cripto8" placeholder="Cripto 8" style="width:110px;">
+        <input type="text" id="cripto9" placeholder="Cripto 9" style="width:110px;">
+        <input type="text" id="cripto10" placeholder="Cripto 10" style="width:110px;">
+        <input type="text" id="cripto11" placeholder="Cripto 11" style="width:110px;">
+        <input type="text" id="cripto12" placeholder="Cripto 12" style="width:110px;">
+        <input type="text" id="cripto13" placeholder="Cripto 13" style="width:110px;">
+        <input type="text" id="cripto14" placeholder="Cripto 14" style="width:110px;">
+        <input type="text" id="cripto15" placeholder="Cripto 15" style="width:110px;">
       </div>
-
-      <button onclick="exportarSelecionadas()" style="padding:8px 16px;">📤 Exportar Selecionadas</button>
-      <button onclick="buscarSelecionadas()" style="padding:8px 16px;">🔍 Buscar Moedas Selecionadas</button>
-      <button onclick="limparCampos()" style="padding:8px 16px;">🧹 Limpar Campos</button>
+      <button onclick="exportarSelecionadas()" style="padding:8px 16px;">📤 Exportar CSV</button>
+      <button onclick="exportarPDF()" style="padding:8px 16px;">🧾 Exportar PDF</button>
     </div>
 
     <table id="tabela" class="display" style="display:none;">
@@ -137,182 +142,201 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
+  </div><script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  let tabela;
 
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script>
-    let tabela;
+  document.getElementById("carregar").addEventListener("click", function () {
+    const email = document.getElementById("email").value.trim();
+    const url = "https://script.google.com/macros/s/AKfycbz39XgMRZ4CrHT76FRXOt8APMFQsMLTRMGZd6Gh4DO6uLm0mIm1n6XrpGr7UInp0-erow/exec?email=" + encodeURIComponent(email);
 
-    document.getElementById("carregar").addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbz39XgMRZ4CrHT76FRXOt8APMFQsMLTRMGZd6Gh4DO6uLm0mIm1n6XrpGr7UInp0-erow/exec?email=" + encodeURIComponent(email);
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (!Array.isArray(data)) {
-            document.getElementById("erro").innerText = data;
-            return;
-          }
-
-          document.getElementById("loginExterno").style.display = "none";
-          document.getElementById("painelInterno").style.display = "block";
-          document.getElementById("tabela").style.display = "table";
-          tabela.clear();
-
-          let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
-
-          data.forEach(item => {
-            const score = parseFloat(item.score);
-            let cor = '';
-            if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
-            else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
-            else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-            else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
-
-            contadores.total++;
-
-            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
-
-            tabela.row.add([
-              item.ranking,
-              item.simbolo,
-              `<a href="${item.link}" target="_blank">🔗</a>`,
-              scoreStyled,
-              item.score_1d.replace(/[▲▼]/g, ''),
-              item.score_7d.replace(/[▲▼]/g, ''),
-              item.score_30d.replace(/[▲▼]/g, ''),
-              item.score_60d.replace(/[▲▼]/g, ''),
-              item.score_90d.replace(/[▲▼]/g, ''),
-              item.score_anterior,
-              item.variacao.replace(/[▲▼]/g, ''),
-              item.destaque
-            ]);
-          });
-
-          document.getElementById("contadoresCores").innerText =
-            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
-
-          tabela.draw();
-        });
-    });
-
-    document.getElementById("buscarSimbolo").addEventListener("input", function () {
-      const simbolo = this.value.trim().toUpperCase();
-      $.fn.dataTable.ext.search.push((_, data) => {
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return simboloTabela.includes(simbolo);
-      });
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    });
-
-    function configurarFiltroRankingAutomatico() {
-      const minInput = document.getElementById("rankingMin");
-      const maxInput = document.getElementById("rankingMax");
-
-      function aplicarFiltro() {
-        const min = parseInt(minInput.value) || 0;
-        const max = parseInt(maxInput.value) || 9999;
-
-        $.fn.dataTable.ext.search.push((_, data) => {
-          const rank = parseInt(data[0]);
-          return rank >= min && rank <= max;
-        });
-        tabela.draw();
-        $.fn.dataTable.ext.search.pop();
-      }
-
-      minInput.addEventListener("input", aplicarFiltro);
-      maxInput.addEventListener("input", aplicarFiltro);
-    }
-
-    function exportarSelecionadas() {
-      const simbolos = [];
-      for (let i = 1; i <= 15; i++) {
-        const valor = document.getElementById(`cripto${i}`).value.trim().toUpperCase();
-        if (valor) simbolos.push(valor);
-      }
-
-      if (simbolos.length === 0) {
-        alert("Digite pelo menos uma criptomoeda.");
-        return;
-      }
-
-      const linhasSelecionadas = tabela.rows().data().filter(row => simbolos.includes(row[1].toUpperCase()));
-
-      if (linhasSelecionadas.length === 0) {
-        alert("Nenhuma criptomoeda encontrada.");
-        return;
-      }
-
-      let csv = "Ranking,Símbolo,Link,Score,1D,7D,30D,60D,90D,Anterior,Variação,Destaque\n";
-      linhasSelecionadas.each(row => {
-        csv += row.slice(0, 12).map(col => {
-          const temp = col.replace(/<\/?[^>]+(>|$)/g, "");
-          return `"${temp}"`;
-        }).join(",") + "\n";
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "selecionadas.csv";
-      link.click();
-    }
-
-    function buscarSelecionadas() {
-      const simbolos = [];
-      for (let i = 1; i <= 15; i++) {
-        const valor = document.getElementById(`cripto${i}`).value.trim().toUpperCase();
-        if (valor) simbolos.push(valor);
-      }
-
-      $.fn.dataTable.ext.search.push((_, data) => {
-        if (simbolos.length === 0) return true;
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return simbolos.includes(simboloTabela);
-      });
-
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    }
-
-    function limparCampos() {
-      for (let i = 1; i <= 15; i++) {
-        document.getElementById(`cripto${i}`).value = "";
-      }
-
-      $.fn.dataTable.ext.search.push(() => true);
-      tabela.draw();
-      $.fn.dataTable.ext.search.pop();
-    }
-
-    $(document).ready(function () {
-      tabela = $('#tabela').DataTable({
-        paging: false,
-        dom: 't',
-        columnDefs: [
-          {
-            targets: [4,5,6,7,8,10],
-            className: 'dt-body-right',
-            render: function (data, type) {
-              if (type === 'sort' || type === 'type') {
-                return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
-              }
-              return data;
-            }
-          }
-        ],
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data)) {
+          document.getElementById("erro").innerText = data;
+          return;
         }
-      });
 
-      configurarFiltroRankingAutomatico();
+        document.getElementById("loginExterno").style.display = "none";
+        document.getElementById("painelInterno").style.display = "block";
+        document.getElementById("tabela").style.display = "table";
+        tabela.clear();
+
+        let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
+
+        data.forEach(item => {
+          const score = parseFloat(item.score);
+          let cor = '';
+          if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
+          else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
+          else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
+          else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
+          else if (score >= 80)  { cor = '#bf862a'; contadores.bronze++; }
+
+          contadores.total++;
+
+          const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
+
+          tabela.row.add([
+            item.ranking,
+            item.simbolo,
+            `<a href="${item.link}" target="_blank">🔗</a>`,
+            scoreStyled,
+            item.score_1d.replace(/[▲▼]/g, ''),
+            item.score_7d.replace(/[▲▼]/g, ''),
+            item.score_30d.replace(/[▲▼]/g, ''),
+            item.score_60d.replace(/[▲▼]/g, ''),
+            item.score_90d.replace(/[▲▼]/g, ''),
+            item.score_anterior,
+            item.variacao.replace(/[▲▼]/g, ''),
+            item.destaque
+          ]);
+        });
+
+        document.getElementById("contadoresCores").innerText =
+          `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
+
+        tabela.draw();
+      });
+  });
+
+  document.getElementById("buscarSimbolo").addEventListener("input", function () {
+    const valor = this.value.trim();
+    tabela.column(1).search(valor, true, false).draw();
+  });
+
+  function configurarFiltroRankingAutomatico() {
+    const minInput = document.getElementById("rankingMin");
+    const maxInput = document.getElementById("rankingMax");
+
+    function aplicarFiltro() {
+      const min = parseInt(minInput.value) || 0;
+      const max = parseInt(maxInput.value) || 9999;
+
+      $.fn.dataTable.ext.search.push((_, data) => {
+        const rank = parseInt(data[0]);
+        return rank >= min && rank <= max;
+      });
+      tabela.draw();
+      $.fn.dataTable.ext.search.pop();
+    }
+
+    minInput.addEventListener("input", aplicarFiltro);
+    maxInput.addEventListener("input", aplicarFiltro);
+  }
+
+  function exportarSelecionadas() {
+    const simbolos = [];
+    for (let i = 1; i <= 15; i++) {
+      const valor = document.getElementById(`cripto${i}`).value.trim().toUpperCase();
+      if (valor) simbolos.push(valor);
+    }
+
+    if (simbolos.length === 0) {
+      alert("Digite pelo menos uma criptomoeda.");
+      return;
+    }
+
+    const linhasSelecionadas = tabela.rows().data().filter(row => simbolos.includes(row[1].toUpperCase()));
+
+    if (linhasSelecionadas.length === 0) {
+      alert("Nenhuma criptomoeda encontrada.");
+      return;
+    }
+
+    let csv = "Ranking,Símbolo,Link,Score,1D,7D,30D,60D,90D,Anterior,Variação,Destaque\n";
+    linhasSelecionadas.each(row => {
+      csv += row.slice(0, 12).map(col => {
+        const temp = col.replace(/<\/?[^>]+(>|$)/g, "");
+        return `"${temp}"`;
+      }).join(",") + "\n";
     });
-  </script>
+
+    const hoje = new Date();
+    const yyyy = hoje.getFullYear();
+    const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoje.getDate()).padStart(2, '0');
+    const nomeArquivo = `selecionadas_${yyyy}-${mm}-${dd}.csv`;
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = nomeArquivo;
+    link.click();
+  }
+
+  async function exportarPDF() {
+    const simbolos = [];
+    for (let i = 1; i <= 15; i++) {
+      const valor = document.getElementById(`cripto${i}`).value.trim().toUpperCase();
+      if (valor) simbolos.push(valor);
+    }
+
+    if (simbolos.length === 0) {
+      alert("Digite pelo menos uma criptomoeda.");
+      return;
+    }
+
+    const linhasSelecionadas = tabela.rows().data().filter(row => simbolos.includes(row[1].toUpperCase()));
+
+    if (linhasSelecionadas.length === 0) {
+      alert("Nenhuma criptomoeda encontrada.");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 20;
+
+    doc.setFontSize(12);
+    doc.text("Criptomoedas Selecionadas - On-Chain SetValues", 14, 10);
+    doc.setFontSize(10);
+
+    linhasSelecionadas.each(row => {
+      const linha = `Ranking: ${row[0]} | Símbolo: ${row[1]} | Score: ${row[3].replace(/<\/?[^>]+(>|$)/g, '')} | Variação: ${row[10].replace(/[▲▼]/g, '')}`;
+      doc.text(linha, 14, y);
+      y += 7;
+      if (y > 270) {
+        doc.addPage();
+        y = 20;
+      }
+    });
+
+    const hoje = new Date();
+    const yyyy = hoje.getFullYear();
+    const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoje.getDate()).padStart(2, '0');
+    const nomeArquivo = `selecionadas_${yyyy}-${mm}-${dd}.pdf`;
+
+    doc.save(nomeArquivo);
+  }
+
+  $(document).ready(function () {
+    tabela = $('#tabela').DataTable({
+      paging: false,
+      dom: 't',
+      columnDefs: [
+        {
+          targets: [4,5,6,7,8,10],
+          className: 'dt-body-right',
+          render: function (data, type) {
+            if (type === 'sort' || type === 'type') {
+              return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
+            }
+            return data;
+          }
+        }
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+      }
+    });
+
+    configurarFiltroRankingAutomatico();
+  });
+</script>
 </body>
 </html>
