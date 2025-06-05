@@ -4,31 +4,56 @@
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-
   <style>
-    body { font-family: Arial, sans-serif; background: #fff; margin: 0; padding: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 20px;
+    }
     h1 { text-align: center; }
-    #loginExterno, #painelInterno, #tabela, #filtrosExtras { max-width: 900px; margin: 0 auto; }
-    #loginBox { background: #f2f2f2; padding: 30px; border-radius: 10px; margin-bottom: 30px; }
-    #painelExplicativo { background: #f8f8f8; border-left: 5px solid #222; padding: 20px; margin-bottom: 30px; }
-    .contador-cores { font-weight: bold; margin: 10px 0; }
-    table { width: 100%; font-size: 13px; border-collapse: collapse; }
-    td a { color: #0066cc; text-decoration: none; }
+    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    #loginBox {
+      background: #f2f2f2;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    #painelExplicativo {
+      background: #f8f8f8;
+      border-left: 5px solid #222;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .contador-cores {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+    }
+    td a {
+      color: #0066cc;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <h1>On-Chain SetValues</h1>
 
-  <!-- PARTE EXTERNA -->
   <div id="loginExterno">
     <div id="loginBox">
       <h2>On-Chain SetValues</h2>
       <h3>Sobre o Projeto On-Chain SetValues</h3>
       <p><strong>On-Chain SetValues</strong> é uma plataforma de análise automatizada que monitora 3.500 criptomoedas em tempo real e atribui uma pontuação de 1 a 700 com base em dezenas de critérios objetivos.</p>
       <p>O sistema foi desenvolvido para identificar ativos com alto potencial de valorização e alertar sobre riscos de colapso, especialmente em projetos centralizados ou manipulados.</p>
+
       <h4>Como funciona</h4>
       <ul>
         <li>Variação de preço (7, 30, 60, 90 dias)</li>
@@ -40,12 +65,15 @@
         <li>Auditoria, votos, estrelas e score de perfil</li>
         <li>Fase de acumulação e hype</li>
       </ul>
+
       <h4>Objetivo</h4>
       <p>Fornecer aos usuários um radar confiável, transparente e visual para tomada de decisões estratégicas no mercado cripto, destacando as "gemas escondidas" e protegendo contra projetos com sinais de risco.</p>
+
       <p><strong>Contato:</strong> 
         <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> | 
         <a href="https://wa.me/5521982252303" target="_blank">(21) 98225-2303</a>
       </p>
+
       <div style="text-align:center; margin-top:20px;">
         <input type="email" id="email" placeholder="Digite seu e-mail autorizado..." style="padding:10px; width:280px;">
         <button id="carregar" style="padding:10px 16px;">Acessar</button>
@@ -54,39 +82,77 @@
     </div>
   </div>
 
-  <!-- PARTE INTERNA -->
   <div id="painelInterno" style="display:none;">
     <div id="painelExplicativo">
       <p><strong>Atenção:</strong> Nem todo destaque principalmente na cor azul significa uma oportunidade segura. Cerca de 20 a 30 tokens entre os destaques diários são projetos sem fundamentos sólidos, muitas vezes impulsionados por manipulação de volume.</p>
-      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas...</p>
-      <h3>🎨 CATEGORIAS DE CORES</h3>
-      <p><strong>🟦 Azul (650–700):</strong> Potencial máximo e desempenho consistente.</p>
-      <p><strong>🟩 Verde (500–649):</strong> Forte potencial de valorização.</p>
-      <p><strong>🟨 Amarelo (300–499):</strong> Zona de observação.</p>
-      <p><strong>🟪 Roxo (180–299):</strong> Risco técnico com sinais especulativos.</p>
-      <p><strong>🟫 Bronze (80–179):</strong> Fase inicial ou acumulação silenciosa.</p>
+
+      <p>Ainda assim, eles precisam ser verificados — porque é nesse grupo que surgem as verdadeiras gemas. Foi assim com Pepe, Shiba Inu, Baby Dogecoin, Neiro, Official Trump, Bonk, WIF, entre outras que, em questão de dias, entregaram valorizações surpreendentes.</p>
+
+      <h3>🎨 CATEGORIAS DE CORES — On-Chain SetValues</h3>
+
+      <p><strong>🟦 Azul (650 a 700 pontos)</strong><br>
+      <em>Categoria: Potencial Máximo e Desempenho Consistente</em><br>
+      Ativos extremamente fortes. Geralmente possuem histórico sólido, volume sustentável, alta presença on-chain, forte engajamento, listagens relevantes e comportamento técnico coerente. São considerados líderes em valorização futura.</p>
+
+      <p><strong>🟩 Verde (500 a 649 pontos)</strong><br>
+      <em>Categoria: Forte Potencial de Valorização</em><br>
+      Projetos com desempenho muito positivo, porém ainda em fase de confirmação. Estão em expansão, têm sinais técnicos fortes e boas métricas sociais e on-chain. Representam o núcleo de oportunidades de curto a médio prazo.</p>
+
+      <p><strong>🟨 Amarelo (300 a 499 pontos)</strong><br>
+      <em>Categoria: Em observação / Zona de atenção</em><br>
+      Moedas que apresentam sinais mistos. Podem estar ganhando força, se recuperando ou começando uma tendência. Exigem atenção, pois podem subir ou perder força. Acompanhar evolução semanal.</p>
+
+      <p><strong>🟪 Roxo (180 a 299 pontos)</strong><br>
+      <em>Categoria: Risco técnico, mas com sinais de movimentação</em><br>
+      Projetos com movimento irregular, volatilidade ou hype passageiro. Nem sempre indicam força sustentável, mas podem ser “gêmeas especulativas” em início de movimentação. Necessário filtrar com cautela.</p>
+
+      <p><strong>🟫 Bronze (80 a 179 pontos)</strong><br>
+      <em>Categoria: Sinais iniciais ou acumulação silenciosa</em><br>
+      Moedas com pontuação ainda baixa, mas que ultrapassaram a zona de irrelevância. Estão sendo monitoradas por início de tendência ou movimentação on-chain sutil. Ideal para identificar gemas em fase inicial de ciclo.</p>
+
       <h3>🧠 Importância da Categorização</h3>
+      <p>Esse sistema de cores é atualizado automaticamente todos os dias às 11h30, com base em análise cruzada de dados de mais de 20 critérios. Ele permite que você:</p>
       <ul>
-        <li>Priorize os ativos com mais consistência</li>
-        <li>Monitore oportunidades emergentes</li>
-        <li>Evite armadilhas e falsos sinais de força</li>
+        <li>Priorize os ativos com mais consistência;</li>
+        <li>Monitore oportunidades emergentes;</li>
+        <li>Evite armadilhas e falsos sinais de força.</li>
       </ul>
+
+      <p>O On-Chain SetValues não ignora o que está subindo. Pelo contrário: detecta, destaca e permite filtrar com inteligência, para que você tome decisões com base em dados reais — não em especulação cega.</p>
+
       <p><em>“Se a nossa esperança em Cristo se limita apenas a esta vida, somos os mais infelizes de todos os homens.” — 1 Coríntios 15:19</em></p>
       <div class="contador-cores" id="contadoresCores"></div>
+    </div><!-- Filtros e campos de exportação -->
+    <div id="filtrosExtras" style="margin-bottom: 30px;">
+      <div style="margin-bottom: 15px;">
+        <input type="number" id="rankingMin" placeholder="Ranking mínimo">
+        <input type="number" id="rankingMax" placeholder="Ranking máximo">
+        <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
+      </div>
+
+      <h3>🔢 Selecione até 15 criptos para exportar</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+        <input type="text" id="cripto1" placeholder="Cripto 1" style="width:110px;">
+        <input type="text" id="cripto2" placeholder="Cripto 2" style="width:110px;">
+        <input type="text" id="cripto3" placeholder="Cripto 3" style="width:110px;">
+        <input type="text" id="cripto4" placeholder="Cripto 4" style="width:110px;">
+        <input type="text" id="cripto5" placeholder="Cripto 5" style="width:110px;">
+        <input type="text" id="cripto6" placeholder="Cripto 6" style="width:110px;">
+        <input type="text" id="cripto7" placeholder="Cripto 7" style="width:110px;">
+        <input type="text" id="cripto8" placeholder="Cripto 8" style="width:110px;">
+        <input type="text" id="cripto9" placeholder="Cripto 9" style="width:110px;">
+        <input type="text" id="cripto10" placeholder="Cripto 10" style="width:110px;">
+        <input type="text" id="cripto11" placeholder="Cripto 11" style="width:110px;">
+        <input type="text" id="cripto12" placeholder="Cripto 12" style="width:110px;">
+        <input type="text" id="cripto13" placeholder="Cripto 13" style="width:110px;">
+        <input type="text" id="cripto14" placeholder="Cripto 14" style="width:110px;">
+        <input type="text" id="cripto15" placeholder="Cripto 15" style="width:110px;">
+      </div>
+
+      <button onclick="exportarSelecionadas()" style="padding:8px 16px;">📤 Exportar Selecionadas</button>
     </div>
 
-    <!-- CAMPO PARA SELECIONAR CRIPTOS -->
-    <h3>🔍 Selecione até 15 criptos para exportar</h3>
-    <div id="selecionarCriptos" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;"></div>
-    <button onclick="exportarSelecionadas()">📤 Exportar Selecionadas</button>
-
-    <div id="filtrosExtras">
-      <input type="number" id="rankingMin" placeholder="Ranking mínimo">
-      <input type="number" id="rankingMax" placeholder="Ranking máximo">
-      <br><br>
-      <input type="text" id="buscarSimbolo" placeholder="Buscar Criptomoeda">
-    </div>
-
+    <!-- Tabela principal -->
     <table id="tabela" class="display" style="display:none;">
       <thead>
         <tr>
@@ -106,163 +172,152 @@
       </thead>
       <tbody></tbody>
     </table>
-  </div>
+  </div> <!-- fecha painelInterno --><script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  let tabela;
 
-  <!-- SCRIPTS -->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  document.getElementById("carregar").addEventListener("click", function () {
+    const email = document.getElementById("email").value.trim();
+    const url = "https://script.google.com/macros/s/AKfycbz39XgMRZ4CrHT76FRXOt8APMFQsMLTRMGZd6Gh4DO6uLm0mIm1n6XrpGr7UInp0-erow/exec?email=" + encodeURIComponent(email);
 
-  <script>
-    let tabela;
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data)) {
+          document.getElementById("erro").innerText = data;
+          return;
+        }
 
-    document.getElementById("carregar").addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbz39XgMRZ4CrHT76FRXOt8APMFQsMLTRMGZd6Gh4DO6uLm0mIm1n6XrpGr7UInp0-erow/exec?email=" + encodeURIComponent(email);
+        document.getElementById("loginExterno").style.display = "none";
+        document.getElementById("painelInterno").style.display = "block";
+        document.getElementById("tabela").style.display = "table";
 
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (!Array.isArray(data)) {
-            document.getElementById("erro").innerText = data;
-            return;
-          }
+        tabela.clear();
 
-          document.getElementById("loginExterno").style.display = "none";
-          document.getElementById("painelInterno").style.display = "block";
-          document.getElementById("tabela").style.display = "table";
+        let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
 
-          tabela.clear();
+        data.forEach(item => {
+          const score = parseFloat(item.score);
+          let cor = '';
+          if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
+          else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
+          else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
+          else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
+          else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
 
-          let contadores = { azul: 0, verde: 0, amarelo: 0, roxo: 0, bronze: 0, total: 0 };
+          contadores.total++;
 
-          data.forEach(item => {
-            const score = parseFloat(item.score);
-            let cor = '';
-            if (score >= 650) { cor = '#3399ff'; contadores.azul++; }
-            else if (score >= 500) { cor = '#00cc00'; contadores.verde++; }
-            else if (score >= 300) { cor = '#ffff00'; contadores.amarelo++; }
-            else if (score >= 180) { cor = '#c084fc'; contadores.roxo++; }
-            else if (score >= 80) { cor = '#bf862a'; contadores.bronze++; }
+          const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
 
-            contadores.total++;
-
-            const scoreStyled = `<span style="background:${cor}; padding:4px; display:block; text-align:center;">${score}</span>`;
-
-            tabela.row.add([
-              item.ranking,
-              item.simbolo,
-              `<a href="${item.link}" target="_blank">🔗</a>`,
-              scoreStyled,
-              item.score_1d.replace(/[▲▼]/g, ''),
-              item.score_7d.replace(/[▲▼]/g, ''),
-              item.score_30d.replace(/[▲▼]/g, ''),
-              item.score_60d.replace(/[▲▼]/g, ''),
-              item.score_90d.replace(/[▲▼]/g, ''),
-              item.score_anterior,
-              item.variacao.replace(/[▲▼]/g, ''),
-              item.destaque
-            ]);
-          });
-
-          document.getElementById("contadoresCores").innerText =
-            `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
-
-          tabela.draw();
+          tabela.row.add([
+            item.ranking,
+            item.simbolo,
+            `<a href="${item.link}" target="_blank">🔗</a>`,
+            scoreStyled,
+            item.score_1d.replace(/[▲▼]/g, ''),
+            item.score_7d.replace(/[▲▼]/g, ''),
+            item.score_30d.replace(/[▲▼]/g, ''),
+            item.score_60d.replace(/[▲▼]/g, ''),
+            item.score_90d.replace(/[▲▼]/g, ''),
+            item.score_anterior,
+            item.variacao.replace(/[▲▼]/g, ''),
+            item.destaque
+          ]);
         });
-    });
 
-    document.getElementById("buscarSimbolo").addEventListener("input", function () {
-      const simbolo = this.value.trim().toUpperCase();
+        document.getElementById("contadoresCores").innerText =
+          `🟦 Azul: ${contadores.azul} | 🟩 Verde: ${contadores.verde} | 🟨 Amarelo: ${contadores.amarelo} | 🟪 Roxo: ${contadores.roxo} | 🟫 Bronze: ${contadores.bronze} | Total: ${contadores.total}`;
+
+        tabela.draw();
+      });
+  });
+
+  document.getElementById("buscarSimbolo").addEventListener("input", function () {
+    const simbolo = this.value.trim().toUpperCase();
+    $.fn.dataTable.ext.search.push((_, data) => {
+      const simboloTabela = data[1]?.toUpperCase() || '';
+      return simboloTabela.includes(simbolo);
+    });
+    tabela.draw();
+    $.fn.dataTable.ext.search.pop();
+  });
+
+  function configurarFiltroRankingAutomatico() {
+    const minInput = document.getElementById("rankingMin");
+    const maxInput = document.getElementById("rankingMax");
+
+    function aplicarFiltro() {
+      const min = parseInt(minInput.value) || 0;
+      const max = parseInt(maxInput.value) || 9999;
+
       $.fn.dataTable.ext.search.push((_, data) => {
-        const simboloTabela = data[1]?.toUpperCase() || '';
-        return simboloTabela.includes(simbolo);
+        const rank = parseInt(data[0]);
+        return rank >= min && rank <= max;
       });
       tabela.draw();
       $.fn.dataTable.ext.search.pop();
+    }
+
+    minInput.addEventListener("input", aplicarFiltro);
+    maxInput.addEventListener("input", aplicarFiltro);
+  }
+
+  function exportarSelecionadas() {
+    const simbolos = [];
+    for (let i = 1; i <= 15; i++) {
+      const valor = document.getElementById(`cripto${i}`).value.trim().toUpperCase();
+      if (valor) simbolos.push(valor);
+    }
+
+    if (simbolos.length === 0) {
+      alert("Digite pelo menos uma criptomoeda.");
+      return;
+    }
+
+    const linhasSelecionadas = tabela.rows().data().filter(row => simbolos.includes(row[1].toUpperCase()));
+
+    if (linhasSelecionadas.length === 0) {
+      alert("Nenhuma criptomoeda encontrada.");
+      return;
+    }
+
+    let csv = "Ranking,Símbolo,Link,Score,1D,7D,30D,60D,90D,Anterior,Variação,Destaque\n";
+    linhasSelecionadas.each(row => {
+      csv += row.slice(0, 12).map(col => {
+        const temp = col.replace(/<\/?[^>]+(>|$)/g, "");
+        return `"${temp}"`;
+      }).join(",") + "\n";
     });
 
-    function exportarSelecionadas() {
-      const inputs = document.getElementById("selecionarCriptos").querySelectorAll("input");
-      const simbolos = Array.from(inputs).map(i => i.value.trim().toUpperCase()).filter(v => v);
-      if (simbolos.length === 0) return alert("Preencha ao menos uma cripto.");
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "selecionadas.csv";
+    link.click();
+  }
 
-      const dadosFiltrados = tabela.rows().data().toArray().filter(row => simbolos.includes(row[1]?.toUpperCase()));
-
-      if (dadosFiltrados.length === 0) return alert("Nenhuma cripto encontrada.");
-
-      let csv = "Ranking,Símbolo,Link,Score\n";
-      dadosFiltrados.forEach(r => {
-        csv += `${r[0]},${r[1]},${r[2]},${r[3].replace(/<[^>]+>/g, '')}\n`;
-      });
-
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const hoje = new Date().toISOString().split('T')[0];
-      a.href = url;
-      a.download = `selecionadas_${hoje}.csv`;
-      a.click();
-    }
-
-    function configurarFiltroRankingAutomatico() {
-      const minInput = document.getElementById("rankingMin");
-      const maxInput = document.getElementById("rankingMax");
-
-      function aplicarFiltro() {
-        const min = parseInt(minInput.value) || 0;
-        const max = parseInt(maxInput.value) || 9999;
-
-        $.fn.dataTable.ext.search.push((_, data) => {
-          const rank = parseInt(data[0]);
-          return rank >= min && rank <= max;
-        });
-        tabela.draw();
-        $.fn.dataTable.ext.search.pop();
-      }
-
-      minInput.addEventListener("input", aplicarFiltro);
-      maxInput.addEventListener("input", aplicarFiltro);
-    }
-
-    $(document).ready(function () {
-      tabela = $('#tabela').DataTable({
-        paging: false,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'csv',
-            text: '📥 Exportar CSV',
-            filename: () => 'onchain_' + new Date().toISOString().split('T')[0]
-          },
-          {
-            extend: 'pdf',
-            text: '📄 Exportar PDF',
-            filename: () => 'onchain_' + new Date().toISOString().split('T')[0],
-            orientation: 'landscape',
-            pageSize: 'A4'
+  $(document).ready(function () {
+    tabela = $('#tabela').DataTable({
+      paging: false,
+      dom: 't',
+      columnDefs: [
+        {
+          targets: [4,5,6,7,8,10],
+          className: 'dt-body-right',
+          render: function (data, type) {
+            if (type === 'sort' || type === 'type') {
+              return parseFloat(data.replace(/[^\d.-]/g, '')) || 0;
+            }
+            return data;
           }
-        ],
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
         }
-      });
-
-      configurarFiltroRankingAutomatico();
-
-      const container = document.getElementById("selecionarCriptos");
-      for (let i = 1; i <= 15; i++) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.placeholder = `Cripto ${i}`;
-        input.style = "width:100px;";
-        container.appendChild(input);
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
       }
     });
-  </script>
-</body>
-</html>
+
+    configurarFiltroRankingAutomatico();
+  });
+</script>
