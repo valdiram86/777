@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Painel Onda de Alta</title>
+  <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
@@ -14,12 +14,24 @@
     }
     h1 {
       text-align: center;
+      margin-bottom: 10px;
+    }
+    #loginBox {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+    }
+    #painelInterno {
+      display: none;
     }
     #botoesAbas {
       text-align: center;
       margin-bottom: 20px;
     }
-    #botoesAbas button {
+    #botoesAbas button, #exportarPDF {
       margin: 5px;
       padding: 8px 15px;
       font-weight: bold;
@@ -46,30 +58,61 @@
     #tabelaWrapper {
       overflow-x: auto;
     }
+    #explicacoes {
+      max-width: 900px;
+      margin: 20px auto;
+      background: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #222;
+    }
   </style>
 </head>
 <body>
-  <h1>Painel Onda de Alta</h1>
+  <h1>On-Chain SetValues</h1>
 
-  <div id="botoesAbas">
-    <button onclick="mostrarTabela('tabela5')">🔥 Onda 5%</button>
-    <button onclick="mostrarTabela('tabela75')">🚀 Onda 7.5%</button>
-    <button onclick="mostrarTabela('tabela10')">💥 Onda 10%</button>
+  <div id="loginBox">
+    <h3>Acesso Restrito</h3>
+    <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado" />
+    <br><br>
+    <button onclick="verificarLogin()">Entrar</button>
+    <p id="mensagemErro" style="color:red;"></p>
   </div>
 
-  <div id="filtrosExtras">
-    <input type="text" id="buscarGeral" placeholder="🔍 Buscar geral" onkeyup="filtrarGeral()">
-    <input type="text" id="cripto1" placeholder="Cripto 1" onkeyup="filtrarEspecificos()">
-    <input type="text" id="cripto2" placeholder="Cripto 2" onkeyup="filtrarEspecificos()">
-    <input type="text" id="cripto3" placeholder="Cripto 3" onkeyup="filtrarEspecificos()">
-    <input type="text" id="cripto4" placeholder="Cripto 4" onkeyup="filtrarEspecificos()">
-    <input type="text" id="cripto5" placeholder="Cripto 5" onkeyup="filtrarEspecificos()">
-  </div>
+  <div id="painelInterno">
+    <div id="botoesAbas">
+      <button onclick="mostrarTabela('tabela5')">🔥 Onda 5%</button>
+      <button onclick="mostrarTabela('tabela75')">🚀 Onda 7.5%</button>
+      <button onclick="mostrarTabela('tabela10')">💥 Onda 10%</button>
+      <button id="exportarPDF">📄 Exportar PDF</button>
+    </div>
 
-  <div id="tabelaWrapper">
-    <table id="tabela5" class="display tabelaOnda" style="width:100%"></table>
-    <table id="tabela75" class="display tabelaOnda" style="width:100%"></table>
-    <table id="tabela10" class="display tabelaOnda" style="width:100%"></table>
+    <div id="filtrosExtras">
+      <input type="text" id="buscarGeral" placeholder="🔍 Buscar geral" onkeyup="filtrarGeral()">
+      <input type="text" id="cripto1" placeholder="Cripto 1" onkeyup="filtrarEspecificos()">
+      <input type="text" id="cripto2" placeholder="Cripto 2" onkeyup="filtrarEspecificos()">
+      <input type="text" id="cripto3" placeholder="Cripto 3" onkeyup="filtrarEspecificos()">
+      <input type="text" id="cripto4" placeholder="Cripto 4" onkeyup="filtrarEspecificos()">
+      <input type="text" id="cripto5" placeholder="Cripto 5" onkeyup="filtrarEspecificos()">
+    </div>
+
+    <div id="explicacoes">
+      <strong>Explicações das colunas:</strong>
+      <ul>
+        <li><b>Ranking</b>: posição da criptomoeda no CoinMarketCap</li>
+        <li><b>Símbolo</b>: abreviação da moeda (ex: BTC, ETH, SHIB)</li>
+        <li><b>Link</b>: acesso direto à página oficial da moeda</li>
+        <li><b>RSI (1D)</b>: índice de força relativa (técnico) em 1 dia</li>
+        <li><b>Variação 1D</b>: percentual de valorização ou queda em 24h</li>
+        <li><b>Volume (24h)</b>: volume negociado nas últimas 24 horas</li>
+        <li><b>Market Cap</b>: capitalização total da moeda</li>
+      </ul>
+    </div>
+
+    <div id="tabelaWrapper">
+      <table id="tabela5" class="display tabelaOnda" style="width:100%"></table>
+      <table id="tabela75" class="display tabelaOnda" style="width:100%"></table>
+      <table id="tabela10" class="display tabelaOnda" style="width:100%"></table>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -80,8 +123,76 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
   <script>
+    const baseURL = "https://script.google.com/macros/s/AKfycbzVm8b1e-Pk6u45NYj2NM6P_gsJbmIpZ1qA_SdzDUk4lt1BWvXX2jIyOB2kRKp5n1vUAg/exec";
     let tabelas = {};
     let atual = 'tabela5';
+
+    function verificarLogin() {
+      const email = document.getElementById("emailInput").value.trim();
+      if (!email) {
+        document.getElementById("mensagemErro").innerText = "Digite seu e-mail.";
+        return;
+      }
+
+      fetch(`${baseURL}?email=${encodeURIComponent(email)}`)
+        .then(r => r.text())
+        .then(html => {
+          if (html.includes("❌")) {
+            document.getElementById("mensagemErro").innerText = "Acesso negado.";
+          } else {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("painelInterno").style.display = "block";
+            carregarTudo();
+          }
+        })
+        .catch(() => {
+          document.getElementById("mensagemErro").innerText = "Erro de conexão.";
+        });
+    }
+
+    function carregarTudo() {
+      carregarDados("OndaDeAlta_5", data => carregarTabela("tabela5", data));
+      carregarDados("OndaDeAlta_7_5", data => carregarTabela("tabela75", data));
+      carregarDados("OndaDeAlta_10", data => carregarTabela("tabela10", data));
+      setTimeout(() => mostrarTabela("tabela5"), 1000);
+    }
+
+    function carregarDados(aba, callback) {
+      fetch(`${baseURL}?aba=${encodeURIComponent(aba)}`)
+        .then(res => res.json())
+        .then(data => callback(data))
+        .catch(err => console.error("Erro ao buscar dados:", err));
+    }
+
+    function carregarTabela(id, dados) {
+      tabelas[id] = $(`#${id}`).DataTable({
+        data: dados,
+        columns: [
+          { title: "Ranking" },
+          { title: "Símbolo" },
+          { title: "Link", render: d => `<a href="${d}" target="_blank">🔗 Abrir</a>` },
+          { title: "RSI (1D)" },
+          { title: "Variação 1D (%)" },
+          { title: "Volume (24h)" },
+          { title: "Market Cap" }
+        ],
+        createdRow: function(row, data) {
+          const rsi = parseFloat(data[3]);
+          const variacao = parseFloat(data[4]);
+          if (!isNaN(rsi)) {
+            if (rsi >= 72) row.style.background = "#00FF00";
+            else if (rsi >= 60) row.style.background = "#C3F7C3";
+          }
+          if (!isNaN(variacao)) {
+            if (variacao >= 20) row.style.fontWeight = "bold";
+            if (variacao >= 30) row.style.borderLeft = "5px solid #006400";
+          }
+        },
+        paging: false,
+        dom: 'Bfrtip',
+        buttons: []
+      });
+    }
 
     function mostrarTabela(id) {
       document.querySelectorAll(".tabelaOnda").forEach(t => t.style.display = "none");
@@ -103,50 +214,17 @@
         document.getElementById("cripto4").value,
         document.getElementById("cripto5").value
       ].filter(Boolean).join("|");
-
       tabelas[atual].search(termos, true, false).draw();
     }
 
-    function carregarTabela(id, dados) {
-      tabelas[id] = $(`#${id}`).DataTable({
-        data: dados,
-        columns: [
-          { title: "Ranking" },
-          { title: "Símbolo" },
-          { title: "Link", render: d => `<a href="${d}" target="_blank">Abrir</a>` },
-          { title: "RSI (1D)" },
-          { title: "Variação 1D (%)" },
-          { title: "Volume (24h)" },
-          { title: "Market Cap" }
-        ],
-        paging: false,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'pdfHtml5',
-            text: '📄 Exportar PDF',
-            title: 'Relatorio_' + new Date().toLocaleDateString(),
-            orientation: 'landscape',
-            pageSize: 'A4'
-          }
-        ]
-      });
-    }
-
-    const baseURL = "https://script.google.com/macros/s/AKfycbzVm8b1e-Pk6u45NYj2NM6P_gsJbmIpZ1qA_SdzDUk4lt1BWvXX2jIyOB2kRKp5n1vUAg/exec";
-
-    function carregarDados(aba, callback) {
-      fetch(`${baseURL}?aba=${encodeURIComponent(aba)}`)
-        .then(res => res.json())
-        .then(data => callback(data))
-        .catch(err => console.error("Erro ao buscar dados:", err));
-    }
-
-    carregarDados("OndaDeAlta_5", data => carregarTabela("tabela5", data));
-    carregarDados("OndaDeAlta_7_5", data => carregarTabela("tabela75", data));
-    carregarDados("OndaDeAlta_10", data => carregarTabela("tabela10", data));
-
-    window.onload = () => mostrarTabela("tabela5");
+    document.getElementById("exportarPDF").addEventListener("click", () => {
+      tabelas[atual].button().add(0, {
+        extend: 'pdfHtml5',
+        title: `Relatório - ${new Date().toLocaleDateString()}`,
+        orientation: 'landscape',
+        pageSize: 'A4'
+      }).trigger();
+    });
   </script>
 </body>
 </html>
