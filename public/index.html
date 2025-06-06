@@ -9,20 +9,22 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
+      background-color: #f2f2f2;
+      color: #000;
       padding: 20px;
     }
-    h1 {
+    h1, h2 {
       text-align: center;
+      color: #111;
     }
     #loginBox {
       max-width: 400px;
       margin: 100px auto;
       padding: 30px;
-      background: #222;
+      background: #fff;
       border-radius: 10px;
       text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     #painelInterno {
       display: none;
@@ -36,6 +38,7 @@
     button {
       padding: 10px 20px;
       font-size: 16px;
+      cursor: pointer;
     }
     .filtro {
       margin-bottom: 20px;
@@ -95,6 +98,8 @@
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
   <script>
     const endpoint = "https://script.google.com/macros/s/AKfycbzPo3N4_WfzcJIwR4VCxVLOJMua52F1j7SFTZbNyxZE_oEZ-G0Ov0eE0m8Y4uJonSvN/exec";
     let tabela;
@@ -144,9 +149,10 @@
           {
             extend: 'pdfHtml5',
             text: '📥 Exportar PDF',
-            title: () => {
+            title: function () {
               const hoje = new Date();
-              return "ForcaDiaria_" + hoje.toLocaleDateString("pt-BR");
+              const data = hoje.toLocaleDateString("pt-BR").replace(/\//g, "-");
+              return "ForcaDiaria_" + data;
             },
             orientation: 'landscape',
             pageSize: 'A4'
@@ -154,7 +160,11 @@
           {
             extend: 'csv',
             text: '📊 Exportar CSV',
-            title: "ForcaDiaria"
+            title: function () {
+              const hoje = new Date();
+              const data = hoje.toLocaleDateString("pt-BR").replace(/\//g, "-");
+              return "ForcaDiaria_" + data;
+            }
           }
         ],
         createdRow: function(row, data) {
