@@ -2,158 +2,152 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>On-Chain SetValues – Onda de Alta</title>
+  <title>Painel Onda de Alta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
   <style>
     body {
-      background: #f2f2f2;
       font-family: Arial, sans-serif;
-      margin: 0;
+      background: #fff;
       padding: 20px;
     }
-    h1 { text-align: center; }
-    #loginExterno, #painelInterno, #mensagemInterna, #tabela, #filtrosExtras {
-      max-width: 900px;
-      margin: 0 auto;
+    h1 {
+      text-align: center;
     }
-    #loginBox {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 10px;
-      margin-bottom: 30px;
+    #botoesAbas {
+      text-align: center;
+      margin-bottom: 20px;
     }
-    #painelExplicativo {
-      background: #e6e6e6;
-      padding: 20px;
-      border-left: 5px solid #444;
-      margin-bottom: 30px;
-    }
-    .botaoAba {
-      padding: 10px 20px;
+    #botoesAbas button {
       margin: 5px;
+      padding: 8px 15px;
+      font-weight: bold;
       cursor: pointer;
-      background: #444;
-      color: white;
-      border: none;
-      border-radius: 5px;
     }
-    .botaoAba:hover {
-      background: #666;
+    #filtrosExtras {
+      max-width: 900px;
+      margin: 20px auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    #filtrosExtras input {
+      padding: 6px;
+      min-width: 80px;
+      max-width: 130px;
+    }
+    .tabelaOnda {
+      display: none;
+      overflow-x: auto;
+      width: 100%;
+    }
+    #tabelaWrapper {
+      overflow-x: auto;
     }
   </style>
 </head>
 <body>
-  <div id="loginExterno">
-    <h1>On-Chain SetValues</h1>
-    <div id="painelExplicativo">
-      <p><strong>Bem-vindo ao radar de moedas em onda de alta.</strong></p>
-      <p>Este painel apresenta criptomoedas que estão demonstrando força no curto prazo (1 dia), com base em variações de preço, volume e RSI.</p>
-      <p>Entre com seu e-mail autorizado para acessar o painel completo.</p>
-      <p><strong>Contato:</strong> <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> — <a href="https://wa.me/5521982252303" target="_blank">WhatsApp (21) 98225-2303</a></p>
-    </div>
-    <div id="loginBox">
-      <label for="email">Digite seu e-mail:</label>
-      <input type="email" id="email" placeholder="email@email.com" />
-      <button onclick="verificarEmail()">Entrar</button>
-    </div>
+  <h1>Painel Onda de Alta</h1>
+
+  <div id="botoesAbas">
+    <button onclick="mostrarTabela('tabela5')">🔥 Onda 5%</button>
+    <button onclick="mostrarTabela('tabela75')">🚀 Onda 7.5%</button>
+    <button onclick="mostrarTabela('tabela10')">💥 Onda 10%</button>
   </div>
 
-  <div id="painelInterno" style="display:none;">
-    <h1>Criptomoedas em Onda de Alta</h1>
+  <div id="filtrosExtras">
+    <input type="text" id="buscarGeral" placeholder="🔍 Buscar geral" onkeyup="filtrarGeral()">
+    <input type="text" id="cripto1" placeholder="Cripto 1" onkeyup="filtrarEspecificos()">
+    <input type="text" id="cripto2" placeholder="Cripto 2" onkeyup="filtrarEspecificos()">
+    <input type="text" id="cripto3" placeholder="Cripto 3" onkeyup="filtrarEspecificos()">
+    <input type="text" id="cripto4" placeholder="Cripto 4" onkeyup="filtrarEspecificos()">
+    <input type="text" id="cripto5" placeholder="Cripto 5" onkeyup="filtrarEspecificos()">
+  </div>
 
-    <div id="mensagemInterna">
-      <p><strong>Explicação das cores:</strong></p>
-      <ul>
-        <li><span style="color: #006400;"><strong>Verde escuro</strong></span>: moedas com variação diária acima de 20%</li>
-        <li><span style="color: #32CD32;"><strong>Verde médio</strong></span>: variação entre 10% e 20%</li>
-        <li><span style="color: #90EE90;"><strong>Verde claro</strong></span>: variação entre 5% e 10%</li>
-      </ul>
-    </div>
-
-    <div id="filtrosExtras">
-      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_5')">Variação 5%</button>
-      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_7_5')">Variação 7.5%</button>
-      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_10')">Variação 10%</button>
-    </div>
-
-    <table id="tabela" class="display nowrap" style="width:100%;">
-      <thead>
-        <tr>
-          <th>Ranking</th>
-          <th>Símbolo</th>
-          <th>Link</th>
-          <th>RSI (1D)</th>
-          <th>Variação 1D (%)</th>
-          <th>Volume (24h)</th>
-          <th>Holders</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <div id="tabelaWrapper">
+    <table id="tabela5" class="display tabelaOnda" style="width:100%"></table>
+    <table id="tabela75" class="display tabelaOnda" style="width:100%"></table>
+    <table id="tabela10" class="display tabelaOnda" style="width:100%"></table>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
   <script>
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzC2ddkGRxrrCYT5ePg0yq2yAHeGkg70cjXWwfio7ZBH1wuQdbrALYq9o4-QNotHj-eiQ/exec";
-    let emailAutorizado = "";
+    let tabelas = {};
+    let atual = 'tabela5';
 
-    function verificarEmail() {
-      const email = document.getElementById("email").value.trim();
-      if (!email) return alert("Digite um e-mail válido.");
-      fetch(`${ENDPOINT}?email=${email}`)
-        .then(res => res.json())
-        .then(dados => {
-          if (dados.autorizado) {
-            emailAutorizado = email;
-            document.getElementById("loginExterno").style.display = "none";
-            document.getElementById("painelInterno").style.display = "block";
-            carregarAba('OndaDeAlta_10'); // padrão inicial
-          } else {
-            alert("Acesso não autorizado.");
-          }
-        });
+    function mostrarTabela(id) {
+      document.querySelectorAll(".tabelaOnda").forEach(t => t.style.display = "none");
+      document.getElementById(id).style.display = "table";
+      atual = id;
+      tabelas[atual].draw();
     }
 
-    function carregarAba(aba) {
-      fetch(`${ENDPOINT}?email=${emailAutorizado}&aba=${aba}`)
-        .then(res => res.json())
-        .then(dados => {
-          const tabela = $('#tabela').DataTable();
-          tabela.clear();
-          tabela.rows.add(dados.dados).draw();
-        });
+    function filtrarGeral() {
+      const valor = document.getElementById("buscarGeral").value;
+      tabelas[atual].search(valor).draw();
     }
 
-    $(document).ready(function () {
-      $('#tabela').DataTable({
+    function filtrarEspecificos() {
+      const termos = [
+        document.getElementById("cripto1").value,
+        document.getElementById("cripto2").value,
+        document.getElementById("cripto3").value,
+        document.getElementById("cripto4").value,
+        document.getElementById("cripto5").value
+      ].filter(Boolean).join("|");
+
+      tabelas[atual].search(termos, true, false).draw();
+    }
+
+    function carregarTabela(id, dados) {
+      tabelas[id] = $(`#${id}`).DataTable({
+        data: dados,
+        columns: [
+          { title: "Ranking" },
+          { title: "Símbolo" },
+          { title: "Link", render: d => `<a href="${d}" target="_blank">Abrir</a>` },
+          { title: "RSI (1D)" },
+          { title: "Variação 1D (%)" },
+          { title: "Volume (24h)" },
+          { title: "Market Cap" }
+        ],
         paging: false,
-        scrollX: true,
         dom: 'Bfrtip',
         buttons: [
           {
-            extend: 'csv',
-            text: '📊 Exportar CSV',
-            filename: () => 'onda-de-alta-' + new Date().toISOString().slice(0,10)
-          },
-          {
-            extend: 'pdf',
+            extend: 'pdfHtml5',
             text: '📄 Exportar PDF',
-            filename: () => 'onda-de-alta-' + new Date().toISOString().slice(0,10),
+            title: 'Relatorio_' + new Date().toLocaleDateString(),
             orientation: 'landscape',
             pageSize: 'A4'
           }
         ]
       });
-    });
+    }
+
+    // Substitui google.script.run quando usado fora do ambiente do Apps Script
+    const baseURL = "https://script.google.com/macros/s/AKfycbzC2ddkGRxrrCYT5ePg0yq2yAHeGkg70cjXWwfio7ZBH1wuQdbrALYq9o4-QNotHj-eiQ/exec";
+
+    function carregarDados(aba, callback) {
+      fetch(`${baseURL}?aba=${encodeURIComponent(aba)}`)
+        .then(res => res.json())
+        .then(data => callback(data))
+        .catch(err => console.error("Erro ao buscar dados:", err));
+    }
+
+    carregarDados("OndaDeAlta_5", data => carregarTabela("tabela5", data));
+    carregarDados("OndaDeAlta_7_5", data => carregarTabela("tabela75", data));
+    carregarDados("OndaDeAlta_10", data => carregarTabela("tabela10", data));
+
+    window.onload = () => mostrarTabela("tabela5");
   </script>
 </body>
 </html>
