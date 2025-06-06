@@ -2,88 +2,95 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Painel de Força</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <title>On-Chain SetValues</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      padding: 20px;
       margin: 0;
+      padding: 10px;
+      background: #f4f4f4;
     }
+
     h1 {
       text-align: center;
-      color: #333;
+      font-size: 1.6em;
+      margin-bottom: 15px;
     }
-    #loginBox, #painelInterno, #filtrosExtras {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
+
+    .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
-    #mensagem {
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      white-space: nowrap;
       text-align: center;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    th {
+      background: #ddd;
       font-weight: bold;
-      margin-bottom: 20px;
-      color: green;
     }
-    #filtrosExtras {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    #filtrosExtras input, #filtrosExtras select {
-      padding: 6px;
-      margin: 5px;
-      flex: 1 1 45%;
-    }
-    table.dataTable tbody td {
-      vertical-align: middle;
+
+    @media (max-width: 600px) {
+      th, td {
+        font-size: 12px;
+        padding: 6px;
+      }
+
+      h1 {
+        font-size: 1.3em;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Painel de Força - On-Chain SetValues</h1>
+  <h1>On-Chain SetValues</h1>
 
-  <div id="loginBox">
-    <label for="email">Digite seu e-mail autorizado:</label><br>
-    <input type="email" id="email" placeholder="seu@email.com" style="width: 100%; padding: 10px; margin-top: 10px;">
-    <button id="carregar" style="margin-top: 10px; padding: 10px 20px;">Entrar</button>
-    <div id="mensagem"></div>
-  </div>
-
-  <div id="painelInterno" style="display:none;">
-    <div id="filtrosExtras">
-      <input type="text" id="buscaGeral" placeholder="🔍 Buscar criptomoeda...">
-      <select id="filtroTipo">
-        <option value="">🧪 Filtrar por Tipo</option>
-        <option value="AltaHoje">🔵 Alta Hoje</option>
-        <option value="NeutroHoje">🟠 Neutro</option>
-        <option value="ResistentesHoje">🔴 Resistência</option>
-      </select>
-    </div>
-    <table id="tabela" class="display nowrap" style="width:100%">
+  <div class="table-container">
+    <table id="tabela" class="display nowrap">
       <thead>
         <tr>
           <th>Ranking</th>
+          <th>Nome</th>
           <th>Símbolo</th>
+          <th>Pontuação</th>
+          <th>Variação</th>
           <th>Link</th>
-          <th>RSI (1D)</th>
-          <th>Variação 1D (%)</th>
-          <th>Volume (24h)</th>
-          <th>Holders</th>
-          <th>Tipo</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Bitcoin</td>
+          <td>BTC</td>
+          <td>700</td>
+          <td>+5</td>
+          <td><a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank">🔗</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Ethereum</td>
+          <td>ETH</td>
+          <td>680</td>
+          <td>+3</td>
+          <td><a href="https://coinmarketcap.com/currencies/ethereum/" target="_blank">🔗</a></td>
+        </tr>
+        <!-- Outras criptos -->
+      </tbody>
     </table>
   </div>
 
@@ -91,107 +98,48 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
   <script>
-    let tabela;
-
-    document.getElementById("carregar").addEventListener("click", function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbwkBYvFnRrBUnj7iPImgWkGDfJwdJmlHadDHsLU7-KmXI7hsEW68kZ_4QsUhJqjH6O-/exec?email=" + encodeURIComponent(email);
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (data.erro) {
-            document.getElementById("mensagem").innerText = data.erro;
-            return;
-          }
-
-          document.getElementById("loginBox").style.display = "none";
-          document.getElementById("painelInterno").style.display = "block";
-          document.getElementById("mensagem").innerText = "";
-
-          const todas = [];
-          for (const tipo in data) {
-            data[tipo].forEach(row => {
-              row.push(tipo);
-              todas.push(row);
-            });
-          }
-
-          tabela = $('#tabela').DataTable({
-            data: todas,
-            columns: [
-              { title: "Ranking" },
-              { title: "Símbolo" },
-              {
-                title: "Link", render: function (data) {
-                  return `<a href="${data}" target="_blank">🔗 Acessar</a>`;
-                }
-              },
-              { title: "RSI (1D)" },
-              { title: "Variação 1D (%)" },
-              { title: "Volume (24h)" },
-              { title: "Holders" },
-              { title: "Tipo" }
-            ],
-            paging: false,
-            scrollY: '70vh',
-            scrollCollapse: true,
-            dom: 'Bfrtip',
-            buttons: [
-              {
-                extend: 'csv',
-                text: '📊 Exportar CSV',
-                title: 'dados-painel',
-                filename: function () {
-                  const d = new Date();
-                  return `Painel_Export_${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-                }
-              },
-              {
-                extend: 'pdf',
-                text: '📄 Exportar PDF',
-                title: 'Painel de Força',
-                filename: function () {
-                  const d = new Date();
-                  return `Painel_Forca_${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-                },
-                orientation: 'landscape',
-                pageSize: 'A4'
-              }
-            ],
-            createdRow: function (row, data) {
-              const rsi = parseFloat(data[3]);
-              const variacao = parseFloat(data[4]);
-
-              if (!isNaN(rsi)) {
-                if (rsi >= 70) $('td', row).eq(3).css('background-color', '#00FF00');
-                else if (rsi <= 40) $('td', row).eq(3).css('background-color', '#FFCCCC');
-              }
-
-              if (!isNaN(variacao)) {
-                if (variacao >= 20) $('td', row).eq(4).css('background-color', '#00FF00');
-                else if (variacao >= 10) $('td', row).eq(4).css('background-color', '#90EE90');
-                else if (variacao > 0) $('td', row).eq(4).css('background-color', '#D0FFD0');
-                else if (variacao < 0) $('td', row).eq(4).css('background-color', '#FFB6B6');
-              }
+    $(document).ready(function () {
+      $('#tabela').DataTable({
+        paging: false,
+        searching: false,
+        info: false,
+        scrollX: true,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'csv',
+            text: '📊 Exportar CSV',
+            title: 'on-chain-setvalues',
+            filename: function () {
+              const hoje = new Date();
+              const yyyy = hoje.getFullYear();
+              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+              const dd = String(hoje.getDate()).padStart(2, '0');
+              return `on-chain-setvalues_${yyyy}-${mm}-${dd}`;
             }
-          });
-
-          // Campo sensível de busca
-          $('#buscaGeral').on('keyup', function () {
-            tabela.search(this.value).draw();
-          });
-
-          // Filtro por tipo (AltaHoje, NeutroHoje, etc.)
-          $('#filtroTipo').on('change', function () {
-            const valor = this.value;
-            tabela.column(7).search(valor).draw();
-          });
-        });
+          },
+          {
+            extend: 'pdf',
+            text: '📄 Exportar PDF',
+            title: 'On-Chain SetValues',
+            filename: function () {
+              const hoje = new Date();
+              const yyyy = hoje.getFullYear();
+              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+              const dd = String(hoje.getDate()).padStart(2, '0');
+              return `on-chain-setvalues_${yyyy}-${mm}-${dd}`;
+            },
+            orientation: 'landscape',
+            pageSize: 'A4'
+          }
+        ]
+      });
     });
   </script>
 </body>
