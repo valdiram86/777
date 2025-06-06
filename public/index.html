@@ -2,143 +2,130 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>On-Chain SetValues – Painel</title>
+  <title>On-Chain SetValues</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f0f0;
+      background: #f5f5f5;
       margin: 0;
       padding: 20px;
     }
-
+    h1 {
+      text-align: center;
+    }
     #loginExterno, #painelInterno, #tabela, #filtrosExtras {
       max-width: 900px;
       margin: 0 auto;
     }
-
     #loginBox {
-      background: white;
+      background: #f2f2f2;
       padding: 30px;
       border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       margin-bottom: 30px;
     }
-
-    input {
-      padding: 10px;
-      width: 100%;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 10px;
-      width: 100%;
-      background: #28a745;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
     .infoBox {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      font-size: 15px;
-      line-height: 1.6;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      background: #e9e9e9;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 5px solid #888;
     }
-
-    table.dataTable thead {
-      background: #28a745;
-      color: white;
+    table {
+      width: 100%;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    code {
+      background: #e0e0e0;
+      padding: 2px 4px;
+      font-size: 90%;
     }
   </style>
 </head>
 <body>
-
-  <div id="loginExterno" class="infoBox">
-    <p>
-      <strong>On-Chain SetValues – Identifique as Criptomoedas com Potencial Real de Alta</strong><br><br>
-      Este painel é parte do projeto <strong>On-Chain SetValues</strong>, que analisa milhares de criptomoedas com base em critérios técnicos, fundamentos on-chain e sinais de alta de curto prazo.<br><br>
-      📧 <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-      💬 <a href="https://wa.me/5521982252303" target="_blank">WhatsApp: (21) 98225-2303</a>
-    </p>
-  </div>
-
-  <div id="loginBox">
-    <h2>🔐 Acesso ao Painel</h2>
-    <input type="email" id="email" placeholder="Digite seu e-mail autorizado" />
-    <button onclick="acessar()">Entrar</button>
+  <div id="loginExterno">
+    <div id="loginBox">
+      <h2>Bem-vindo ao On-Chain SetValues</h2>
+      <p>
+        Plataforma de análise avançada de criptomoedas. Filtramos automaticamente as moedas que apresentam força técnica,
+        alta consistente e engajamento real na blockchain. O objetivo é identificar oportunidades com potencial de valorização
+        entre 3% e 10% em movimentos técnicos diários.
+      </p>
+      <p><strong>Contato:</strong><br>
+        📧 <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
+        💬 <a href="https://wa.me/5521982252303" target="_blank">WhatsApp: (21) 98225-2303</a>
+      </p>
+      <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado" />
+      <button onclick="verificarEmail()">Acessar</button>
+    </div>
   </div>
 
   <div id="painelInterno" style="display:none;">
     <div class="infoBox">
-      <strong>🟢 Legenda de Cores:</strong>
+      <h3>🟢 Legenda de Cores</h3>
       <ul>
-        <li><strong style="color: #006400;">Verde escuro</strong>: variação ≥ 20%</li>
-        <li><strong style="color: #228B22;">Verde médio</strong>: variação entre 10% e 19.99%</li>
-        <li><strong style="color: #90EE90;">Verde claro</strong>: variação entre 5% e 9.99%</li>
-        <li><strong style="color: #00FF00;">RSI forte</strong> | <strong style="color: #90EE90;">RSI médio</strong> | Branco: ND</li>
+        <li><strong style="color: #006400;">Verde escuro</strong>: variação ≥ 20%. Forte rompimento técnico ou explosão.</li>
+        <li><strong style="color: #228B22;">Verde médio</strong>: variação entre 10% e 19.99%. Tendência consolidada.</li>
+        <li><strong style="color: #90EE90;">Verde claro</strong>: variação entre 5% e 9.99%. Início de alta.</li>
+        <li><strong style="color: #00FF00;">RSI forte</strong>: RSI no topo. Indica alta pressão compradora.</li>
+        <li><strong style="color: #FFCCCC;">RSI fraco</strong>: RSI abaixo de 40. Sinal de exaustão.</li>
+        <li><strong>Branco</strong>: RSI não disponível (ND).</li>
       </ul>
     </div>
 
-    <div id="tabela">
-      <table id="painel" class="display" style="width:100%">
-        <thead>
-          <tr>
-            <?!= data[0].map(header => `<th>${header}</th>`).join('') ?>
-          </tr>
-        </thead>
-        <tbody>
-          <? for (let i = 1; i < data.length; i++) { ?>
-            <tr>
-              <? for (let j = 0; j < data[i].length; j++) { ?>
-                <td>
-                  <? if (j === 2) { ?> <!-- coluna link -->
-                    <a href="<?= data[i][j] ?>" target="_blank">🔗</a>
-                  <? } else { ?>
-                    <?= data[i][j] ?>
-                  <? } ?>
-                </td>
-              <? } ?>
-            </tr>
-          <? } ?>
-        </tbody>
-      </table>
+    <div class="infoBox">
+      <h3>📐 Responsividade Técnica</h3>
+      <ul>
+        <li><code>&lt;meta name="viewport"&gt;</code>: define zoom automático para adaptar-se a celulares. ✅</li>
+        <li><code>max-width: 900px + margin: auto</code>: centraliza todo o conteúdo na tela. ✅</li>
+        <li><code>flex-wrap</code> nos filtros: permite quebra de linha em telas pequenas. ✅</li>
+        <li><code>width: 100%</code> na tabela: preenche a tela, mas sem <code>overflow-x</code> ativado. ⚠️</li>
+        <li>⚠️ Não há uso de <code>@media queries</code> — não se adapta por faixa de tela.</li>
+        <li>⚠️ Fontes e margens não são dinâmicas. Layout é fixo.</li>
+      </ul>
+      <p><strong>Conclusão:</strong> Responsividade básica garantida, mas sem ajustes avançados para telas extremamente pequenas.</p>
     </div>
+
+    <table id="tabela" class="display">
+      <thead><tr></tr></thead>
+      <tbody></tbody>
+    </table>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script>
-    function acessar() {
-      const email = document.getElementById('email').value.trim();
-      if (email) {
-        window.location.href = `?email=${encodeURIComponent(email)}`;
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzC2ddkGRxrrCYT5ePg0yq2yAHeGkg70cjXWwfio7ZBH1wuQdbrALYq9o4-QNotHj-eiQ/exec";
+    const emailsAutorizados = ["onchainsetvalues@gmail.com"];
+
+    function verificarEmail() {
+      const email = document.getElementById("emailInput").value.trim();
+      if (emailsAutorizados.includes(email)) {
+        document.getElementById("loginExterno").style.display = "none";
+        document.getElementById("painelInterno").style.display = "block";
+        carregarTabela();
       } else {
-        alert("Por favor, insira um e-mail válido.");
+        alert("E-mail não autorizado.");
       }
     }
 
-    window.addEventListener("load", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get("email")) {
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("loginExterno").style.display = "none";
-        document.getElementById("painelInterno").style.display = "block";
-        $(document).ready(() => {
-          $('#painel').DataTable({ pageLength: 25 });
+    function carregarTabela() {
+      fetch(ENDPOINT)
+        .then(res => res.json())
+        .then(dados => {
+          const colunas = Object.keys(dados[0]).map(chave => ({ title: chave, data: chave }));
+          $('#tabela').DataTable({
+            data: dados,
+            columns: colunas,
+            destroy: true,
+            paging: false
+          });
         });
-      }
-    });
+    }
   </script>
-
 </body>
 </html>
