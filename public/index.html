@@ -3,144 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <title>On-Chain SetValues</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Estilos e DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
-      padding: 10px;
-      background: #f4f4f4;
+      padding: 0;
+      height: 100%;
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 1.6em;
-      margin-bottom: 15px;
+    #painelInterno {
+      padding: 20px;
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .table-container {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      max-width: 100%;
-    }
-
-    table {
+    #filtrosExtras {
+      margin-bottom: 20px;
       width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #tabela {
+      width: 100%;
+      max-width: 1200px;
+      overflow-x: auto;
+      background: #fff;
       border-collapse: collapse;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     }
 
-    th, td {
+    table.dataTable {
+      width: 100% !important;
+    }
+
+    td, th {
       white-space: nowrap;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
       text-align: center;
-      padding: 8px;
-      border-bottom: 1px solid #ccc;
-      font-size: 14px;
     }
 
-    th {
-      background: #ddd;
+    #contadoresCores {
+      margin: 20px 0;
       font-weight: bold;
     }
 
-    @media (max-width: 600px) {
-      th, td {
-        font-size: 12px;
-        padding: 6px;
-      }
+    #loginExterno {
+      padding: 40px;
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      text-align: center;
+    }
 
-      h1 {
-        font-size: 1.3em;
-      }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+    a {
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-  <h1>On-Chain SetValues</h1>
+  <div id="loginExterno">
+    <h2>On-Chain SetValues</h2>
+    <p>Digite seu e-mail autorizado para acessar o painel:</p>
+    <input type="email" id="email" placeholder="email@exemplo.com">
+    <br>
+    <button id="carregar">Acessar</button>
+    <p id="erro" style="color: red; margin-top: 10px;"></p>
+  </div>
 
-  <div class="table-container">
-    <table id="tabela" class="display nowrap">
+  <div id="painelInterno" style="display: none;">
+    <div id="filtrosExtras">
+      <input type="text" id="buscarSimbolo" placeholder="Buscar símbolo...">
+      <input type="number" id="rankingMin" placeholder="Ranking Mínimo">
+      <input type="number" id="rankingMax" placeholder="Ranking Máximo">
+      <button onclick="exportarSelecionadas()">Exportar CSV</button>
+      <button onclick="exportarPDF()">Exportar PDF</button>
+    </div>
+
+    <div id="contadoresCores">Carregando...</div>
+
+    <table id="tabela" class="display">
       <thead>
         <tr>
           <th>Ranking</th>
-          <th>Nome</th>
           <th>Símbolo</th>
-          <th>Pontuação</th>
-          <th>Variação</th>
           <th>Link</th>
+          <th>Score</th>
+          <th>1D</th>
+          <th>7D</th>
+          <th>30D</th>
+          <th>60D</th>
+          <th>90D</th>
+          <th>Anterior</th>
+          <th>Variação</th>
+          <th>Destaque</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Bitcoin</td>
-          <td>BTC</td>
-          <td>700</td>
-          <td>+5</td>
-          <td><a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank">🔗</a></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Ethereum</td>
-          <td>ETH</td>
-          <td>680</td>
-          <td>+3</td>
-          <td><a href="https://coinmarketcap.com/currencies/ethereum/" target="_blank">🔗</a></td>
-        </tr>
-        <!-- Outras criptos -->
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 
+  <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <script>
-    $(document).ready(function () {
-      $('#tabela').DataTable({
-        paging: false,
-        searching: false,
-        info: false,
-        scrollX: true,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'csv',
-            text: '📊 Exportar CSV',
-            title: 'on-chain-setvalues',
-            filename: function () {
-              const hoje = new Date();
-              const yyyy = hoje.getFullYear();
-              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-              const dd = String(hoje.getDate()).padStart(2, '0');
-              return `on-chain-setvalues_${yyyy}-${mm}-${dd}`;
-            }
-          },
-          {
-            extend: 'pdf',
-            text: '📄 Exportar PDF',
-            title: 'On-Chain SetValues',
-            filename: function () {
-              const hoje = new Date();
-              const yyyy = hoje.getFullYear();
-              const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-              const dd = String(hoje.getDate()).padStart(2, '0');
-              return `on-chain-setvalues_${yyyy}-${mm}-${dd}`;
-            },
-            orientation: 'landscape',
-            pageSize: 'A4'
-          }
-        ]
-      });
-    });
-  </script>
+  <!-- Insira aqui o seu script personalizado JavaScript -->
+  <!-- (Inclua o bloco <script> com o código que você já enviou anteriormente, incluindo a lógica do botão, fetch e DataTables) -->
+
 </body>
 </html>
