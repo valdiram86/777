@@ -1,180 +1,185 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Painel de Força Técnica</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
+  <meta charset="UTF-8">
+  <title>Painel de Força Cripto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
   <style>
     body {
-      background: #f5f5f5;
       font-family: Arial, sans-serif;
+      background: #f3f3f3;
       margin: 0;
       padding: 20px;
     }
-    h1 {
+    #loginBox {
+      background: #fff;
+      padding: 30px;
+      max-width: 400px;
+      margin: 40px auto;
+      border-radius: 8px;
       text-align: center;
+    }
+    #loginBox input {
+      width: 80%;
+      padding: 10px;
     }
     #painelInterno {
       display: none;
       max-width: 1200px;
       margin: auto;
     }
-    #loginBox {
-      background: #eee;
-      padding: 30px;
-      max-width: 400px;
-      margin: 50px auto;
-      border-radius: 10px;
-      text-align: center;
+    select {
+      margin: 10px 10px 10px 0;
+      padding: 6px;
     }
-    #loginBox input {
-      padding: 10px;
-      width: 80%;
-      margin-bottom: 10px;
-    }
-    select, input[type="text"] {
-      margin: 10px 5px;
-      padding: 8px;
-    }
-    .green { background-color: #00FF00 !important; }
-    .lightgreen { background-color: #90EE90 !important; }
-    .softgreen { background-color: #D0FFD0 !important; }
-    .red { background-color: #FFB6B6 !important; }
   </style>
 </head>
 <body>
-  <div id="loginBox">
-    <h2>🔒 Acesso ao Painel</h2>
-    <input type="email" id="email" placeholder="Digite seu e-mail autorizado" />
-    <br />
-    <button id="carregar">Entrar</button>
-  </div>
 
-  <div id="painelInterno">
-    <h1>Painel de Força Técnica</h1>
-    <label for="tipo">Tipo:</label>
-    <select id="tipo">
-      <option value="">Todos</option>
-      <option value="AltaHoje">AltaHoje</option>
-      <option value="NeutroHoje">NeutroHoje</option>
-      <option value="ResistentesHoje">ResistentesHoje</option>
-    </select>
+<div id="loginBox">
+  <h2>🔐 Acesso ao Painel</h2>
+  <input type="email" id="email" placeholder="Digite seu e-mail autorizado" />
+  <br /><br />
+  <button id="carregar">Entrar</button>
+  <p id="erro" style="color: red;"></p>
+</div>
 
-    <label for="filtroRSI">RSI (1D):</label>
-    <select id="filtroRSI">
-      <option value="">Todos</option>
-      <option value="70+">RSI ≥ 70</option>
-      <option value="60-69">RSI 60–69</option>
-      <option value="40-59">RSI 40–59</option>
-      <option value="sub40">RSI ≤ 40</option>
-    </select>
+<div id="painelInterno">
+  <h1>Painel de Força Diária</h1>
 
-    <input type="text" id="pesquisa" placeholder="🔍 Buscar..." />
+  <label for="tipo">Tipo:</label>
+  <select id="tipo">
+    <option value="">Todos</option>
+    <option value="AltaHoje">AltaHoje</option>
+    <option value="NeutroHoje">NeutroHoje</option>
+    <option value="ResistentesHoje">ResistentesHoje</option>
+  </select>
 
-    <table id="tabela" class="display nowrap" width="100%">
-      <thead>
-        <tr>
-          <th>Ranking</th>
-          <th>Símbolo</th>
-          <th>Link</th>
-          <th>RSI (1D)</th>
-          <th>Variação 1D (%)</th>
-          <th>Volume (24h)</th>
-          <th>Holders</th>
-          <th>Tipo</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <label for="filtroRSI">RSI (1D):</label>
+  <select id="filtroRSI">
+    <option value="">Todos</option>
+    <option value="70+">RSI ≥ 70</option>
+    <option value="60-69">RSI 60–69</option>
+    <option value="40-59">RSI 40–59</option>
+    <option value="sub40">RSI ≤ 40</option>
+  </select>
 
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <input type="text" id="pesquisa" placeholder="🔍 Buscar..." />
+  <br><br>
 
-  <script>
-    let tabela;
+  <table id="tabela" class="display nowrap" style="width:100%">
+    <thead>
+      <tr>
+        <th>Ranking</th>
+        <th>Símbolo</th>
+        <th>Link</th>
+        <th>RSI (1D)</th>
+        <th>Variação 1D (%)</th>
+        <th>Volume (24h)</th>
+        <th>Holders</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div><script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.min.js"></script>
 
-    document.getElementById("carregar").addEventListener("click", async function () {
-      const email = document.getElementById("email").value.trim();
-      const url = "https://script.google.com/macros/s/AKfycbxDRmGVs_VRuPifYVDn83jdgYgrDlK-xvXK4E-6tjLPFIHFl3ms0Ia3zoPrR6p_CB4/exec?email=" + encodeURIComponent(email);
+<script>
+  let tabela;
 
-      const res = await fetch(url);
-      const dados = await res.json();
-      if (dados.erro) return alert(dados.erro);
+  document.getElementById("carregar").addEventListener("click", () => {
+    const email = document.getElementById("email").value.trim();
+    if (!email) return alert("Informe seu e-mail.");
 
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("painelInterno").style.display = "block";
+    const url = "https://script.google.com/macros/s/AKfycbwkBYvFnRrBUnj7iPImgWkGDfJwdJmlHadDHsLU7-KmXI7hsEW68kZ_4QsUhJqjH6O-/exec?email=" + encodeURIComponent(email);
 
-      const combinado = [];
-      for (const tipo in dados) {
-        dados[tipo].forEach(row => combinado.push([...row, tipo]));
-      }
-
-      tabela = $('#tabela').DataTable({
-        data: combinado,
-        columns: [
-          null,
-          null,
-          { render: d => `<a href="${d}" target="_blank">🔗</a>` },
-          null,
-          null,
-          null,
-          null,
-          null
-        ],
-        paging: false,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-            extend: 'csv',
-            text: '📊 Exportar CSV',
-            filename: 'painel-tecnico-' + new Date().toISOString().slice(0,10)
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '🧾 Exportar PDF',
-            filename: 'painel-tecnico-' + new Date().toISOString().slice(0,10),
-            orientation: 'landscape',
-            pageSize: 'A4'
-          }
-        ],
-        createdRow: function (row, data) {
-          const valor = parseFloat(data[4]);
-          if (valor >= 20) $(row).find('td:eq(4)').addClass('green');
-          else if (valor >= 10) $(row).find('td:eq(4)').addClass('lightgreen');
-          else if (valor > 0) $(row).find('td:eq(4)').addClass('softgreen');
-          else if (valor < 0) $(row).find('td:eq(4)').addClass('red');
+    fetch(url)
+      .then(res => res.json())
+      .then(dados => {
+        if (dados.erro) {
+          document.getElementById("erro").textContent = dados.erro;
+          return;
         }
-      });
 
-      $("#pesquisa").on("keyup", function () {
-        tabela.search(this.value).draw();
-      });
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("painelInterno").style.display = "block";
 
-      $("#tipo").on("change", function () {
-        tabela.column(7).search(this.value).draw();
-      });
+        const todas = [];
+        for (const tipo in dados) {
+          dados[tipo].forEach(row => todas.push([...row, tipo]));
+        }
 
-      $("#filtroRSI").on("change", function () {
-        const faixa = this.value;
-        tabela.rows().every(function () {
-          const rsi = parseFloat(this.data()[3]);
-          let mostrar = true;
-          if (faixa === "70+") mostrar = rsi >= 70;
-          else if (faixa === "60-69") mostrar = rsi >= 60 && rsi < 70;
-          else if (faixa === "40-59") mostrar = rsi >= 40 && rsi < 60;
-          else if (faixa === "sub40") mostrar = rsi < 40;
-          else mostrar = true;
-          this.visible(mostrar);
+        tabela = $('#tabela').DataTable({
+          data: todas,
+          columns: [
+            null,
+            null,
+            {
+              render: d => `<a href="${d}" target="_blank">🔗</a>`
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              extend: 'csv',
+              text: '📊 Exportar CSV',
+              filename: 'Painel_Forca_' + new Date().toISOString().slice(0, 10)
+            },
+            {
+              extend: 'pdfHtml5',
+              text: '🖨️ Exportar PDF',
+              filename: 'Painel_Forca_' + new Date().toISOString().slice(0, 10),
+              orientation: 'landscape',
+              pageSize: 'A4'
+            }
+          ],
+          createdRow: function (row, data) {
+            const valor = parseFloat(data[4]);
+            if (valor >= 20) $(row).find('td:eq(4)').css('background', '#00FF00');
+            else if (valor >= 10) $(row).find('td:eq(4)').css('background', '#90EE90');
+            else if (valor > 0) $(row).find('td:eq(4)').css('background', '#D0FFD0');
+            else if (valor < 0) $(row).find('td:eq(4)').css('background', '#FFB6B6');
+          }
+        });
+
+        // Filtro tipo
+        $("#tipo").on("change", function () {
+          tabela.column(7).search(this.value).draw();
+        });
+
+        // Filtro texto
+        $("#pesquisa").on("keyup", function () {
+          tabela.search(this.value).draw();
+        });
+
+        // Filtro RSI
+        $("#filtroRSI").on("change", function () {
+          const faixa = this.value;
+          tabela.rows().every(function () {
+            const rsi = parseFloat(this.data()[3]);
+            let mostrar = true;
+            if (faixa === "70+") mostrar = rsi >= 70;
+            else if (faixa === "60-69") mostrar = rsi >= 60 && rsi < 70;
+            else if (faixa === "40-59") mostrar = rsi >= 40 && rsi < 60;
+            else if (faixa === "sub40") mostrar = rsi < 40;
+            this.visible(faixa === "" ? true : mostrar);
+          });
         });
       });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
