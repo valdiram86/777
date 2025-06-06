@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css" />
   <style>
     body {
       background: #f5f5f5;
@@ -109,7 +108,7 @@
 
     <input type="text" id="pesquisa" placeholder="🔍 Buscar..." />
 
-    <table id="tabela" class="display nowrap responsive" width="100%">
+    <table id="tabela" class="display nowrap" width="100%">
       <thead>
         <tr>
           <th>Ranking</th>
@@ -130,7 +129,6 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
@@ -171,9 +169,8 @@
           null,
           null
         ],
-        responsive: true,
-        paging: false,
         scrollX: true,
+        paging: false,
         dom: 'Bfrtip',
         buttons: [
           {
@@ -224,4 +221,4 @@
     });
   </script>
 </body>
-  </html>
+      </html>
