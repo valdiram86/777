@@ -133,8 +133,7 @@
       });
     }
 
-    // Substitui google.script.run quando usado fora do ambiente do Apps Script
-    const baseURL = "https://script.google.com/macros/s/AKfycbzC2ddkGRxrrCYT5ePg0yq2yAHeGkg70cjXWwfio7ZBH1wuQdbrALYq9o4-QNotHj-eiQ/exec";
+    const baseURL = "https://script.google.com/macros/s/AKfycbzVm8b1e-Pk6u45NYj2NM6P_gsJbmIpZ1qA_SdzDUk4lt1BWvXX2jIyOB2kRKp5n1vUAg/exec";
 
     function carregarDados(aba, callback) {
       fetch(`${baseURL}?aba=${encodeURIComponent(aba)}`)
