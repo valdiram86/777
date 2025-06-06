@@ -2,130 +2,158 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>On-Chain SetValues</title>
+  <title>On-Chain SetValues – Onda de Alta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" />
   <style>
     body {
+      background: #f2f2f2;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
       margin: 0;
       padding: 20px;
     }
-    h1 {
-      text-align: center;
-    }
-    #loginExterno, #painelInterno, #tabela, #filtrosExtras {
+    h1 { text-align: center; }
+    #loginExterno, #painelInterno, #mensagemInterna, #tabela, #filtrosExtras {
       max-width: 900px;
       margin: 0 auto;
     }
     #loginBox {
-      background: #f2f2f2;
+      background: #ffffff;
       padding: 30px;
       border-radius: 10px;
       margin-bottom: 30px;
     }
-    .infoBox {
-      background: #e9e9e9;
+    #painelExplicativo {
+      background: #e6e6e6;
       padding: 20px;
-      margin-bottom: 20px;
-      border-left: 5px solid #888;
+      border-left: 5px solid #444;
+      margin-bottom: 30px;
     }
-    table {
-      width: 100%;
+    .botaoAba {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
     }
-    ul {
-      padding-left: 20px;
-    }
-    code {
-      background: #e0e0e0;
-      padding: 2px 4px;
-      font-size: 90%;
+    .botaoAba:hover {
+      background: #666;
     }
   </style>
 </head>
 <body>
   <div id="loginExterno">
+    <h1>On-Chain SetValues</h1>
+    <div id="painelExplicativo">
+      <p><strong>Bem-vindo ao radar de moedas em onda de alta.</strong></p>
+      <p>Este painel apresenta criptomoedas que estão demonstrando força no curto prazo (1 dia), com base em variações de preço, volume e RSI.</p>
+      <p>Entre com seu e-mail autorizado para acessar o painel completo.</p>
+      <p><strong>Contato:</strong> <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a> — <a href="https://wa.me/5521982252303" target="_blank">WhatsApp (21) 98225-2303</a></p>
+    </div>
     <div id="loginBox">
-      <h2>Bem-vindo ao On-Chain SetValues</h2>
-      <p>
-        Plataforma de análise avançada de criptomoedas. Filtramos automaticamente as moedas que apresentam força técnica,
-        alta consistente e engajamento real na blockchain. O objetivo é identificar oportunidades com potencial de valorização
-        entre 3% e 10% em movimentos técnicos diários.
-      </p>
-      <p><strong>Contato:</strong><br>
-        📧 <a href="mailto:onchainsetvalues@gmail.com">onchainsetvalues@gmail.com</a><br>
-        💬 <a href="https://wa.me/5521982252303" target="_blank">WhatsApp: (21) 98225-2303</a>
-      </p>
-      <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado" />
-      <button onclick="verificarEmail()">Acessar</button>
+      <label for="email">Digite seu e-mail:</label>
+      <input type="email" id="email" placeholder="email@email.com" />
+      <button onclick="verificarEmail()">Entrar</button>
     </div>
   </div>
 
   <div id="painelInterno" style="display:none;">
-    <div class="infoBox">
-      <h3>🟢 Legenda de Cores</h3>
+    <h1>Criptomoedas em Onda de Alta</h1>
+
+    <div id="mensagemInterna">
+      <p><strong>Explicação das cores:</strong></p>
       <ul>
-        <li><strong style="color: #006400;">Verde escuro</strong>: variação ≥ 20%. Forte rompimento técnico ou explosão.</li>
-        <li><strong style="color: #228B22;">Verde médio</strong>: variação entre 10% e 19.99%. Tendência consolidada.</li>
-        <li><strong style="color: #90EE90;">Verde claro</strong>: variação entre 5% e 9.99%. Início de alta.</li>
-        <li><strong style="color: #00FF00;">RSI forte</strong>: RSI no topo. Indica alta pressão compradora.</li>
-        <li><strong style="color: #FFCCCC;">RSI fraco</strong>: RSI abaixo de 40. Sinal de exaustão.</li>
-        <li><strong>Branco</strong>: RSI não disponível (ND).</li>
+        <li><span style="color: #006400;"><strong>Verde escuro</strong></span>: moedas com variação diária acima de 20%</li>
+        <li><span style="color: #32CD32;"><strong>Verde médio</strong></span>: variação entre 10% e 20%</li>
+        <li><span style="color: #90EE90;"><strong>Verde claro</strong></span>: variação entre 5% e 10%</li>
       </ul>
     </div>
 
-    <div class="infoBox">
-      <h3>📐 Responsividade Técnica</h3>
-      <ul>
-        <li><code>&lt;meta name="viewport"&gt;</code>: define zoom automático para adaptar-se a celulares. ✅</li>
-        <li><code>max-width: 900px + margin: auto</code>: centraliza todo o conteúdo na tela. ✅</li>
-        <li><code>flex-wrap</code> nos filtros: permite quebra de linha em telas pequenas. ✅</li>
-        <li><code>width: 100%</code> na tabela: preenche a tela, mas sem <code>overflow-x</code> ativado. ⚠️</li>
-        <li>⚠️ Não há uso de <code>@media queries</code> — não se adapta por faixa de tela.</li>
-        <li>⚠️ Fontes e margens não são dinâmicas. Layout é fixo.</li>
-      </ul>
-      <p><strong>Conclusão:</strong> Responsividade básica garantida, mas sem ajustes avançados para telas extremamente pequenas.</p>
+    <div id="filtrosExtras">
+      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_5')">Variação 5%</button>
+      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_7_5')">Variação 7.5%</button>
+      <button class="botaoAba" onclick="carregarAba('OndaDeAlta_10')">Variação 10%</button>
     </div>
 
-    <table id="tabela" class="display">
-      <thead><tr></tr></thead>
+    <table id="tabela" class="display nowrap" style="width:100%;">
+      <thead>
+        <tr>
+          <th>Ranking</th>
+          <th>Símbolo</th>
+          <th>Link</th>
+          <th>RSI (1D)</th>
+          <th>Variação 1D (%)</th>
+          <th>Volume (24h)</th>
+          <th>Holders</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
   <script>
     const ENDPOINT = "https://script.google.com/macros/s/AKfycbzC2ddkGRxrrCYT5ePg0yq2yAHeGkg70cjXWwfio7ZBH1wuQdbrALYq9o4-QNotHj-eiQ/exec";
-    const emailsAutorizados = ["onchainsetvalues@gmail.com"];
+    let emailAutorizado = "";
 
     function verificarEmail() {
-      const email = document.getElementById("emailInput").value.trim();
-      if (emailsAutorizados.includes(email)) {
-        document.getElementById("loginExterno").style.display = "none";
-        document.getElementById("painelInterno").style.display = "block";
-        carregarTabela();
-      } else {
-        alert("E-mail não autorizado.");
-      }
-    }
-
-    function carregarTabela() {
-      fetch(ENDPOINT)
+      const email = document.getElementById("email").value.trim();
+      if (!email) return alert("Digite um e-mail válido.");
+      fetch(`${ENDPOINT}?email=${email}`)
         .then(res => res.json())
         .then(dados => {
-          const colunas = Object.keys(dados[0]).map(chave => ({ title: chave, data: chave }));
-          $('#tabela').DataTable({
-            data: dados,
-            columns: colunas,
-            destroy: true,
-            paging: false
-          });
+          if (dados.autorizado) {
+            emailAutorizado = email;
+            document.getElementById("loginExterno").style.display = "none";
+            document.getElementById("painelInterno").style.display = "block";
+            carregarAba('OndaDeAlta_10'); // padrão inicial
+          } else {
+            alert("Acesso não autorizado.");
+          }
         });
     }
+
+    function carregarAba(aba) {
+      fetch(`${ENDPOINT}?email=${emailAutorizado}&aba=${aba}`)
+        .then(res => res.json())
+        .then(dados => {
+          const tabela = $('#tabela').DataTable();
+          tabela.clear();
+          tabela.rows.add(dados.dados).draw();
+        });
+    }
+
+    $(document).ready(function () {
+      $('#tabela').DataTable({
+        paging: false,
+        scrollX: true,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'csv',
+            text: '📊 Exportar CSV',
+            filename: () => 'onda-de-alta-' + new Date().toISOString().slice(0,10)
+          },
+          {
+            extend: 'pdf',
+            text: '📄 Exportar PDF',
+            filename: () => 'onda-de-alta-' + new Date().toISOString().slice(0,10),
+            orientation: 'landscape',
+            pageSize: 'A4'
+          }
+        ]
+      });
+    });
   </script>
 </body>
 </html>
