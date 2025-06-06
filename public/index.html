@@ -16,18 +16,35 @@
     h1 {
       text-align: center;
     }
+    #loginBox {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 30px;
+      background: #222;
+      border-radius: 10px;
+      text-align: center;
+    }
+    #painelInterno {
+      display: none;
+    }
+    input[type="email"] {
+      padding: 10px;
+      width: 90%;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
     .filtro {
       margin-bottom: 20px;
       text-align: center;
     }
-    .filtro select {
+    .filtro select, .filtro input {
       font-size: 16px;
       padding: 5px;
-    }
-    .filtro input {
-      font-size: 16px;
-      padding: 5px;
-      width: 300px;
+      margin: 0 5px;
     }
     .green { background-color: #00ff00 !important; }
     .lightgreen { background-color: #90ee90 !important; }
@@ -36,32 +53,42 @@
   </style>
 </head>
 <body>
-  <h1>Painel de Força Diária</h1>
-  <div class="filtro">
-    <label for="tipo">Tipo:</label>
-    <select id="tipo">
-      <option value="">Todos</option>
-      <option value="AltaHoje">Alta</option>
-      <option value="NeutroHoje">Neutro</option>
-      <option value="ResistentesHoje">Resistência</option>
-    </select>
-    <input type="text" id="pesquisa" placeholder="🔍 Buscar por símbolo..." />
+  <div id="loginBox">
+    <h2>🔒 Acesso ao Painel</h2>
+    <input type="email" id="email" placeholder="Digite seu e-mail autorizado" />
+    <br />
+    <button onclick="acessarPainel()">Entrar</button>
+    <p id="erroLogin" style="color: red;"></p>
   </div>
-  <table id="tabela" class="display nowrap" width="100%">
-    <thead>
-      <tr>
-        <th>Ranking</th>
-        <th>Símbolo</th>
-        <th>Link</th>
-        <th>RSI (1D)</th>
-        <th>Variação 1D (%)</th>
-        <th>Volume (24h)</th>
-        <th>Holders</th>
-        <th>Tipo</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+
+  <div id="painelInterno">
+    <h1>Painel de Força Diária</h1>
+    <div class="filtro">
+      <label for="tipo">Tipo:</label>
+      <select id="tipo">
+        <option value="">Todos</option>
+        <option value="AltaHoje">Alta</option>
+        <option value="NeutroHoje">Neutro</option>
+        <option value="ResistentesHoje">Resistência</option>
+      </select>
+      <input type="text" id="pesquisa" placeholder="🔍 Buscar por símbolo..." />
+    </div>
+    <table id="tabela" class="display nowrap" width="100%">
+      <thead>
+        <tr>
+          <th>Ranking</th>
+          <th>Símbolo</th>
+          <th>Link</th>
+          <th>RSI (1D)</th>
+          <th>Variação 1D (%)</th>
+          <th>Volume (24h)</th>
+          <th>Holders</th>
+          <th>Tipo</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -69,12 +96,28 @@
   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
-    const url = "https://script.google.com/macros/s/AKfycbxDRmGVs_VRuPifYVDn83jdgYgrDlK-xvXK4E-6tjLPFIHFl3ms0Ia3zoPrR6p_CB4/exec";
+    const endpoint = "https://script.google.com/macros/s/AKfycbxDRmGVs_VRuPifYVDn83jdgYgrDlK-xvXK4E-6tjLPFIHFl3ms0Ia3zoPrR6p_CB4/exec";
     let tabela;
 
-    async function carregarDados() {
+    async function acessarPainel() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) return;
+
+      const url = `${endpoint}?email=${encodeURIComponent(email)}`;
       const resposta = await fetch(url);
       const dados = await resposta.json();
+
+      if (dados.erro) {
+        document.getElementById("erroLogin").innerText = dados.erro;
+        return;
+      }
+
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("painelInterno").style.display = "block";
+      carregarTabela(dados);
+    }
+
+    function carregarTabela(dados) {
       const combinado = [];
 
       ["AltaHoje", "NeutroHoje", "ResistentesHoje"].forEach(tipo => {
@@ -132,8 +175,6 @@
         tabela.column(7).search(tipo).draw();
       });
     }
-
-    carregarDados();
   </script>
 </body>
 </html>
