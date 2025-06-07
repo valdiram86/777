@@ -1,107 +1,138 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
+  <title>Painel RSI – On-Chain SetValues</title>
   <meta charset="UTF-8">
-  <title>On-Chain SetValues</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #222;
-      color: white;
-      text-align: center;
+      background-color: #111;
+      color: #fff;
       padding: 20px;
     }
-    .login-container {
-      max-width: 400px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input[type="email"] {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+    input, button {
+      padding: 10px;
+      font-size: 16px;
     }
     button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background: #007BFF;
+      margin: 5px;
+      background-color: #00b894;
       color: white;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
     }
-    button:hover {
-      background: #0056b3;
+    #painel { display: none; margin-top: 20px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
-    #painelInterno {
-      display: none;
-      max-width: 95%;
-      margin: 30px auto;
+    th, td {
+      padding: 8px;
+      border: 1px solid #333;
+      text-align: center;
     }
-    @media screen and (max-width: 600px) {
-      .login-container {
-        margin: 20px;
-        padding: 20px;
-      }
-    }
+    th { background-color: #222; }
+    a { color: #00f7ff; text-decoration: none; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>On-Chain SetValues</h1>
-  </header>
+  <h2>Painel RSI – Criptomoedas em Alta</h2>
 
-  <div class="login-container" id="loginBox">
-    <h2>Acesso ao Painel</h2>
-    <input type="email" id="emailInput" placeholder="Digite seu e-mail autorizado">
-    <button onclick="entrarPainel()">Entrar</button>
+  <div id="login">
+    <p>Digite seu e-mail autorizado:</p>
+    <input type="email" id="email" placeholder="exemplo@email.com">
+    <button onclick="verificarEmail()">Entrar</button>
+    <p id="mensagem"></p>
   </div>
 
-  <div id="painelInterno">
-    <table id="tabela" class="display nowrap" style="width:100%">
-      <thead></thead>
-      <tbody></tbody>
+  <div id="painel">
+    <div>
+      <button onclick="carregarTabela('TopMoedas1D')">TopMoedas1D</button>
+      <button onclick="carregarTabela('OndaDeAlta_5')">OndaDeAlta_5</button>
+      <button onclick="carregarTabela('OndaDeAlta_7_5')">OndaDeAlta_7_5</button>
+      <button onclick="carregarTabela('OndaDeAlta_10')">OndaDeAlta_10</button>
+      <button onclick="exportarCSV()">Exportar CSV</button>
+    </div>
+
+    <h3 id="tituloAba">Tabela</h3>
+    <table>
+      <thead id="cabecalho"></thead>
+      <tbody id="dados"></tbody>
     </table>
   </div>
 
-  <!-- jQuery e DataTables -->
-  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-
   <script>
-    function entrarPainel() {
-      const email = document.getElementById("emailInput").value.trim();
-      if (!email) {
-        alert("Digite seu e-mail.");
-        return;
-      }
-      const url = "https://script.google.com/macros/s/AKfycbxk8ZtWIGpWzCm8u1Kp7kT5uRXdCTg_oQtfW71XbzgZjc5VTB8IDLI4Y6BRJZtooyD6JQ/exec?email=" + encodeURIComponent(email);
-      window.location.href = url;
+    const URL_BASE = "https://script.google.com/macros/s/AKfycbxk8ZtWIGpWzCm8u1Kp7kT5uRXdCTg_oQtfW71XbzgZjc5VTB8IDLI4Y6BRJZtooyD6JQ/exec";
+    let dadosAtuais = [], abaAtual = "";
+
+    function verificarEmail() {
+      const email = document.getElementById("email").value.trim();
+      if (!email) return alert("Informe um e-mail.");
+
+      fetch(`${URL_BASE}?email=${email}`)
+        .then(res => res.text())
+        .then(msg => {
+          if (msg.includes("✅")) {
+            document.getElementById("mensagem").innerText = "✅ Acesso autorizado.";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("painel").style.display = "block";
+            carregarTabela("TopMoedas1D");
+          } else {
+            document.getElementById("mensagem").innerText = msg;
+          }
+        });
+    }
+
+    function carregarTabela(aba) {
+      abaAtual = aba;
+      document.getElementById("tituloAba").innerText = `Tabela: ${aba}`;
+      fetch(`${URL_BASE}?aba=${aba}`)
+        .then(res => res.json())
+        .then(dados => {
+          dadosAtuais = dados;
+          const headers = ["Ranking", "Nome", "Símbolo", "Slug", "RSI (1D)", "Variação 1D (%)", "Volume (24h)", "Market Cap", "Transações"];
+          const cab = document.getElementById("cabecalho");
+          const corpo = document.getElementById("dados");
+          cab.innerHTML = "<tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr>";
+          corpo.innerHTML = "";
+
+          dados.forEach(row => {
+            const tr = document.createElement("tr");
+            row.forEach((col, i) => {
+              const td = document.createElement("td");
+              td.innerHTML = (i === 3)
+                ? `<a href="https://coinmarketcap.com/currencies/${col}/" target="_blank">${col}</a>`
+                : col;
+
+              // Coloração RSI
+              if (aba.includes("OndaDeAlta") && i === 4 && !isNaN(col)) {
+                if (col >= 72) td.style.background = "#00FF00";
+                else if (col >= 58) td.style.background = "#C3F7C3";
+              }
+
+              // Coloração Variação
+              if (i === 5 && !isNaN(col)) {
+                if (col >= 30) td.style.background = "#006400";
+                else if (col >= 20) td.style.background = "#228B22";
+                else if (col >= 10) td.style.background = "#90EE90";
+              }
+
+              tr.appendChild(td);
+            });
+            corpo.appendChild(tr);
+          });
+        });
+    }
+
+    function exportarCSV() {
+      if (dadosAtuais.length === 0) return alert("Nenhum dado para exportar.");
+      let csv = dadosAtuais.map(row => row.join(",")).join("\n");
+      let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${abaAtual}.csv`;
+      link.click();
     }
   </script>
 </body>
