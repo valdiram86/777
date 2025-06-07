@@ -133,13 +133,11 @@
             ? `<a href="https://coinmarketcap.com/currencies/${col}/" target="_blank">${col}</a>`
             : col;
 
-          // RSI
           if (abaAtual.includes("OndaDeAlta") && i === 4 && !isNaN(col)) {
             if (col >= 72) td.style.background = "#00FF00";
             else if (col >= 58) td.style.background = "#C3F7C3";
           }
 
-          // Variação
           if (i === 5 && !isNaN(col)) {
             if (col >= 30) td.style.background = "#006400";
             else if (col >= 20) td.style.background = "#228B22";
