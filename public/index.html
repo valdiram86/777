@@ -1,94 +1,223 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <title>Painel RSI – On-Chain SetValues</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel RSI – WebApp Oficial</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
+      background: #f2f2f2;
       padding: 20px;
     }
-    input, button {
-      padding: 12px;
-      font-size: 18px;
+    input, button, select {
+      padding: 10px;
+      font-size: 16px;
     }
-    input[type="email"] {
-      width: 350px;
+    input[type="email"], input[type="text"] {
+      width: 320px;
     }
     button {
-      margin-left: 10px;
       background-color: #00b894;
       color: white;
       border: none;
+      margin-left: 5px;
       cursor: pointer;
     }
-    #mensagem {
+    #mensagem, #status, #contadorTotal {
       margin-top: 10px;
-      font-size: 16px;
       font-weight: bold;
     }
-    #painel { display: none; margin-top: 20px; }
-    #debug { margin-top: 20px; font-size: 14px; background: #eee; padding: 10px; border: 1px solid #ccc; }
+    #painel {
+      display: none;
+      margin-top: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #ddd;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h2>Painel RSI – Criptomoedas em Alta</h2>
+  <h2>Painel RSI – WebApp Oficial</h2>
 
-  <div id="login">
-    <p>Digite seu e-mail autorizado:</p>
-    <input type="email" id="email" value="valdiram.lima.2013@gmail.com" placeholder="seu@email.com">
-    <button onclick="verificarEmail()">Entrar</button>
-    <p id="mensagem"></p>
-    <div id="debug"></div>
-  </div>
+  <p>Digite seu e-mail autorizado:</p>
+  <input type="email" id="email" value="valdiram.lima.2013@gmail.com">
+  <button onclick="verificar()">Entrar</button>
+  <p id="mensagem"></p>
 
   <div id="painel">
-    <h3>Painel liberado ✅</h3>
-    <p>Aqui entraria a tabela com as criptos...</p>
+    <p><strong>Link direto:</strong>
+      <a href="https://onchain-novo.vercel.app" target="_blank">
+        https://onchain-novo.vercel.app
+      </a>
+    </p>
+
+    <label><strong>Selecionar aba:</strong></label>
+    <select id="seletorAba">
+      <option value="OndaDeAlta_5">OndaDeAlta_5</option>
+      <option value="OndaDeAlta_7_5">OndaDeAlta_7_5</option>
+      <option value="OndaDeAlta_10" selected>OndaDeAlta_10</option>
+    </select>
+    <button onclick="carregarTabela()">Testar Aba Manualmente</button>
+    <button onclick="atualizarDados()">Atualizar Dados</button>
+    <button onclick="exportarCSV()">Exportar CSV</button>
+
+    <p>
+      <input type="text" id="busca" placeholder="🔍 Buscar por símbolo ou nome" onkeyup="filtrarTabela()">
+    </p>
+
+    <p id="contadorTotal">🔄 Calculando tokens únicos...</p>
+    <p id="status"></p>
+    <table id="tabela"></table>
   </div>
 
   <script>
-    const URL_BASE = "https://script.google.com/macros/s/AKfycbxRwe1RRn0ZW7wyyhNcurCP6DUVePB2599ms5VieNSfgNvTD06abWqhH_cX_eA_lkK_Qg/exec";
+    let dadosAtuais = [], dadosOrdenados = [];
+    let ordemAtual = {};
 
-    function verificarEmail() {
+    function verificar() {
       const email = document.getElementById("email").value.trim();
-      const mensagem = document.getElementById("mensagem");
-      const debug = document.getElementById("debug");
+      document.getElementById("mensagem").innerText = "🔍 Verificando...";
 
-      if (!email) {
-        mensagem.innerText = "❌ Informe um e-mail.";
-        mensagem.style.color = "red";
-        return;
-      }
+      google.script.run.withSuccessHandler(res => {
+        document.getElementById("mensagem").innerText = res;
+        if (res.includes("✅")) {
+          document.getElementById("painel").style.display = "block";
+          carregarTabela();
+          atualizarContadorTotal();
+        }
+      }).validarEmail(email);
+    }
 
-      const url = `${URL_BASE}?email=${encodeURIComponent(email)}`;
+    function atualizarDados() {
+      document.getElementById("status").innerText = "⏳ Atualizando...";
+      google.script.run.withSuccessHandler(() => {
+        document.getElementById("status").innerText = "✅ Atualizado.";
+        carregarTabela();
+        atualizarContadorTotal();
+      }).atualizarTudo();
+    }
 
-      // Mostrar link e status
-      mensagem.innerText = "🔄 Verificando...";
-      mensagem.style.color = "black";
-      debug.innerHTML = `<strong>URL gerada:</strong> ${url}`;
+    function atualizarContadorTotal() {
+      google.script.run.withSuccessHandler(qtd => {
+        document.getElementById("contadorTotal").innerText =
+          `✅ Total de tokens únicos nas 3 abas: ${qtd}`;
+      }).contarTokensUnicos();
+    }
 
-      fetch(url)
-        .then(res => res.text())
-        .then(msg => {
-          mensagem.innerText = msg;
+    function carregarTabela() {
+      const aba = document.getElementById("seletorAba").value;
+      document.getElementById("status").innerText = `🔄 Carregando ${aba}...`;
+      document.getElementById("tabela").innerHTML = "";
 
-          if (msg.includes("✅")) {
-            mensagem.style.color = "green";
-            document.getElementById("login").style.display = "none";
-            document.getElementById("painel").style.display = "block";
-          } else {
-            mensagem.style.color = "red";
+      google.script.run.withSuccessHandler(dados => {
+        if (!Array.isArray(dados) || dados.length === 0) {
+          document.getElementById("status").innerText = "❌ Nenhum dado encontrado.";
+          return;
+        }
+        dadosAtuais = dados;
+        dadosOrdenados = [...dados];
+        montarTabela(dadosOrdenados);
+        document.getElementById("status").innerText =
+          `✅ ${dados.length - 1} linhas carregadas da aba ${aba}.`;
+      }).carregarAba(aba);
+    }
+
+    function montarTabela(dados) {
+      const tabela = document.getElementById("tabela");
+      const headers = dados[0];
+      let html = "<tr>";
+
+      headers.forEach((h, i) => {
+        html += `<th onclick="ordenarPor(${i})">${h} <span id="seta${i}"></span></th>`;
+      });
+      html += "</tr>";
+
+      let corAtual = "", simboloAnterior = "";
+      for (let i = 1; i < dados.length; i++) {
+        const simbolo = dados[i][1];
+        if (simbolo !== simboloAnterior) {
+          corAtual = (corAtual === "#f9f9f9") ? "#ffffff" : "#f9f9f9";
+          simboloAnterior = simbolo;
+        }
+
+        html += "<tr>" + dados[i].map((c, j) => {
+          let valor = String(c);
+          let estilo = `background:${corAtual}`;
+
+          if (j === 2 && valor.includes("http")) {
+            return `<td style="${estilo}"><a href="${valor}" target="_blank">🔗</a></td>`;
           }
 
-          debug.innerHTML += `<br><strong>Resposta recebida:</strong> ${msg}`;
-        })
-        .catch(err => {
-          mensagem.innerText = "❌ Erro de conexão.";
-          mensagem.style.color = "red";
-          debug.innerHTML += `<br><strong>Erro:</strong> ${err.message}`;
-        });
+          if (j === 3 && !isNaN(Number(c))) {
+            const rsi = Number(c);
+            if (rsi >= 72) estilo = "background:#00FF00";
+            else if (rsi >= 58) estilo = "background:#C3F7C3";
+          }
+
+          if (j === 4 && !isNaN(Number(c))) {
+            const v = Number(c);
+            if (v >= 30) estilo = "background:#006400; color:white";
+            else if (v >= 20) estilo = "background:#228B22; color:white";
+            else if (v >= 10) estilo = "background:#90EE90";
+          }
+
+          return `<td style="${estilo}">${valor}</td>`;
+        }).join("") + "</tr>";
+      }
+      tabela.innerHTML = html;
+    }
+
+    function ordenarPor(indice) {
+      const cab = dadosAtuais[0];
+      const corpo = dadosAtuais.slice(1);
+      const crescente = !ordemAtual[indice];
+      ordemAtual[indice] = crescente;
+
+      corpo.sort((a, b) => {
+        const v1 = isNaN(a[indice]) ? a[indice] : Number(a[indice]);
+        const v2 = isNaN(b[indice]) ? b[indice] : Number(b[indice]);
+        return (v1 < v2 ? -1 : v1 > v2 ? 1 : 0) * (crescente ? 1 : -1);
+      });
+
+      dadosOrdenados = [cab, ...corpo];
+      for (let i = 0; i < cab.length; i++) {
+        document.getElementById(`seta${i}`).innerText = "";
+      }
+      document.getElementById(`seta${indice}`).innerText = crescente ? "↑" : "↓";
+      montarTabela(dadosOrdenados);
+    }
+
+    function filtrarTabela() {
+      const termo = document.getElementById("busca").value.toLowerCase();
+      const linhas = document.getElementById("tabela").getElementsByTagName("tr");
+      for (let i = 1; i < linhas.length; i++) {
+        const simbolo = linhas[i].cells[1]?.innerText.toLowerCase();
+        const nome = linhas[i].cells[0]?.innerText.toLowerCase();
+        linhas[i].style.display = (simbolo.includes(termo) || nome.includes(termo)) ? "" : "none";
+      }
+    }
+
+    function exportarCSV() {
+      if (dadosAtuais.length === 0) return alert("Nenhum dado para exportar.");
+      let csv = dadosAtuais.map(row => row.join(",")).join("\n");
+      let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "dadosRSI.csv";
+      link.click();
     }
   </script>
 </body>
