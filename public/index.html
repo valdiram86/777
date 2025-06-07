@@ -11,11 +11,14 @@
       padding: 20px;
     }
     input, button {
-      padding: 10px;
-      font-size: 16px;
+      padding: 12px;
+      font-size: 18px;
+    }
+    input[type="email"] {
+      width: 350px;
     }
     button {
-      margin: 5px;
+      margin-left: 10px;
       background-color: #00b894;
       color: white;
       border: none;
@@ -48,7 +51,7 @@
 
   <div id="login">
     <p>Digite seu e-mail autorizado:</p>
-    <input type="email" id="email" value="valdiram.lima.2013@gmail.com" placeholder="exemplo@email.com">
+    <input type="email" id="email" value="valdiram.lima.2013@gmail.com" placeholder="seu@email.com">
     <button onclick="verificarEmail()">Entrar</button>
     <p id="mensagem"></p>
   </div>
