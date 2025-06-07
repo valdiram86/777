@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2; /* fundo cinza claro */
+      background-color: #f2f2f2;
       color: #000;
       padding: 20px;
     }
@@ -48,7 +48,7 @@
 
   <div id="login">
     <p>Digite seu e-mail autorizado:</p>
-    <input type="email" id="email" placeholder="exemplo@email.com">
+    <input type="email" id="email" value="valdiram.lima.2013@gmail.com" placeholder="exemplo@email.com">
     <button onclick="verificarEmail()">Entrar</button>
     <p id="mensagem"></p>
   </div>
@@ -77,32 +77,44 @@
 
     function verificarEmail() {
       const email = document.getElementById("email").value.trim();
-      if (!email) return alert("Informe um e-mail.");
+      if (!email) {
+        alert("Informe um e-mail.");
+        return;
+      }
+
+      document.getElementById("mensagem").innerText = "Verificando...";
 
       fetch(`${URL_BASE}?email=${email}`)
         .then(res => res.text())
         .then(msg => {
+          document.getElementById("mensagem").innerText = msg;
+
           if (msg.includes("✅")) {
-            document.getElementById("mensagem").innerText = "✅ Acesso autorizado.";
             document.getElementById("login").style.display = "none";
             document.getElementById("painel").style.display = "block";
             carregarTabela("TopMoedas1D");
-          } else {
-            document.getElementById("mensagem").innerText = msg;
           }
+        })
+        .catch(err => {
+          document.getElementById("mensagem").innerText = "❌ Erro ao verificar e-mail.";
+          console.error("Erro:", err);
         });
     }
 
     function carregarTabela(aba) {
       abaAtual = aba;
       document.getElementById("tituloAba").innerText = `Tabela: ${aba}`;
-      document.getElementById("filtro").value = ""; // limpa o filtro
+      document.getElementById("filtro").value = "";
 
       fetch(`${URL_BASE}?aba=${aba}`)
         .then(res => res.json())
         .then(dados => {
           dadosAtuais = dados;
           montarTabela(dadosAtuais);
+        })
+        .catch(err => {
+          alert("Erro ao carregar dados.");
+          console.error("Erro ao carregar dados:", err);
         });
     }
 
