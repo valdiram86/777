@@ -70,8 +70,6 @@
       <option value="OndaDeAlta_7_5">OndaDeAlta_7_5</option>
       <option value="OndaDeAlta_10" selected>OndaDeAlta_10</option>
     </select>
-    <button onclick="carregarTabela()">Testar Aba Manualmente</button>
-    <button onclick="exportarCSV()">Exportar CSV</button>
 
     <p>
       <input type="text" id="busca" placeholder="🔍 Buscar por símbolo ou nome" onkeyup="filtrarTabela()">
@@ -85,7 +83,7 @@
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbzwymz6vAO9ns6pRZaWSshId2XaCjt7EuFH4-nfvTuw5avtJzzFmbTqS6IllwURJM9ktw/exec";
 
-    let dadosAtuais = [], dadosOrdenados = [], emailGlobal = "";
+    let dadosAtuais = [], dadosOrdenados = [], emailGlobal = "", ordemAtual = {};
 
     async function verificar() {
       const email = document.getElementById("email").value.trim();
@@ -211,16 +209,6 @@
         const nome = linhas[i].cells[0]?.innerText.toLowerCase();
         linhas[i].style.display = (simbolo.includes(termo) || nome.includes(termo)) ? "" : "none";
       }
-    }
-
-    function exportarCSV() {
-      if (dadosAtuais.length === 0) return alert("Nenhum dado para exportar.");
-      let csv = dadosAtuais.map(row => row.join(",")).join("\n");
-      let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "dadosRSI.csv";
-      link.click();
     }
   </script>
 </body>
