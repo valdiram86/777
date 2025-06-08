@@ -51,13 +51,14 @@
 </head>
 <body>
   <h2>Painel RSI – WebApp Oficial</h2>
+
   <p>Digite seu e-mail autorizado:</p>
   <input type="email" id="email" value="valdiram.lima.2013@gmail.com">
   <button onclick="verificar()">Entrar</button>
   <p id="mensagem"></p>
 
   <div id="painel">
-    <p><strong>:</strong>
+    <p><strong>Link direto:</strong>
       <a href="https://onchain-novo.vercel.app" target="_blank">
         https://onchain-novo.vercel.app
       </a>
@@ -84,36 +85,45 @@
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbzwymz6vAO9ns6pRZaWSshId2XaCjt7EuFH4-nfvTuw5avtJzzFmbTqS6IllwURJM9ktw/exec";
 
-    let dadosAtuais = [], dadosOrdenados = [];
-    let ordemAtual = {};
+    let dadosAtuais = [], dadosOrdenados = [], emailGlobal = "";
 
-    function verificar() {
+    async function verificar() {
       const email = document.getElementById("email").value.trim();
       document.getElementById("mensagem").innerText = "🔍 Verificando...";
+      try {
+        const res = await fetch(`${scriptURL}?email=${email}`);
+        const texto = await res.text();
+        document.getElementById("mensagem").innerText = texto;
 
-      google.script.run.withSuccessHandler(res => {
-        document.getElementById("mensagem").innerText = res;
-        if (res.includes("✅")) {
+        if (texto.includes("✅")) {
+          emailGlobal = email;
           document.getElementById("painel").style.display = "block";
           carregarTabela();
           atualizarContadorTotal();
         }
-      }).validarEmail(email);
+      } catch (e) {
+        document.getElementById("mensagem").innerText = "❌ Erro ao verificar.";
+      }
     }
 
-    function atualizarContadorTotal() {
-      google.script.run.withSuccessHandler(qtd => {
-        document.getElementById("contadorTotal").innerText =
-          `✅ Total de tokens únicos nas 3 abas: ${qtd}`;
-      }).contarTokensUnicos();
+    async function atualizarContadorTotal() {
+      try {
+        const res = await fetch(`${scriptURL}?email=${emailGlobal}&func=contarTokensUnicos`);
+        const texto = await res.text();
+        document.getElementById("contadorTotal").innerText = `✅ ${texto}`;
+      } catch {
+        document.getElementById("contadorTotal").innerText = "❌ Erro ao contar.";
+      }
     }
 
-    function carregarTabela() {
+    async function carregarTabela() {
       const aba = document.getElementById("seletorAba").value;
       document.getElementById("status").innerText = `🔄 Carregando ${aba}...`;
       document.getElementById("tabela").innerHTML = "";
 
-      google.script.run.withSuccessHandler(dados => {
+      try {
+        const res = await fetch(`${scriptURL}?email=${emailGlobal}&aba=${aba}`);
+        const dados = await res.json();
         if (!Array.isArray(dados) || dados.length === 0) {
           document.getElementById("status").innerText = "❌ Nenhum dado encontrado.";
           return;
@@ -123,7 +133,9 @@
         montarTabela(dadosOrdenados);
         document.getElementById("status").innerText =
           `✅ ${dados.length - 1} linhas carregadas da aba ${aba}.`;
-      }).carregarAba(aba);
+      } catch {
+        document.getElementById("status").innerText = "❌ Erro ao carregar dados.";
+      }
     }
 
     function montarTabela(dados) {
