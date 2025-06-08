@@ -5,15 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel RSI – WebApp Oficial</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; }
-    input, button, select { padding: 10px; font-size: 16px; }
-    input[type="email"], input[type="text"] { width: 320px; }
-    button { background-color: #00b894; color: white; border: none; margin-left: 5px; cursor: pointer; }
-    #mensagem, #status, #contadorTotal { margin-top: 10px; font-weight: bold; }
-    #painel { display: none; margin-top: 20px; }
-    table { border-collapse: collapse; width: 100%; background: white; margin-top: 10px; }
-    th, td { border: 1px solid #999; padding: 6px; text-align: center; }
-    th { background-color: #ddd; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+    input, button, select {
+      padding: 10px;
+      font-size: 16px;
+    }
+    input[type="email"], input[type="text"] {
+      width: 320px;
+    }
+    button {
+      background-color: #00b894;
+      color: white;
+      border: none;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    #mensagem, #status, #contadorTotal {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #painel {
+      display: none;
+      margin-top: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #ddd;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -36,6 +69,9 @@
       <option value="OndaDeAlta_7_5">OndaDeAlta_7_5</option>
       <option value="OndaDeAlta_10" selected>OndaDeAlta_10</option>
     </select>
+
+    <button onclick="carregarTabela()">Atualizar Dados</button>
+    <button onclick="exportarCSV()">Exportar CSV</button>
 
     <p>
       <input type="text" id="busca" placeholder="🔍 Buscar por símbolo ou nome" onkeyup="filtrarTabela()">
@@ -97,6 +133,10 @@
         montarTabela(dadosOrdenados);
         document.getElementById("status").innerText =
           `✅ ${dados.length - 1} linhas carregadas da aba ${aba}.`;
+
+        // Atualizar contador ao mudar de aba
+        atualizarContadorTotal();
+
       } catch {
         document.getElementById("status").innerText = "❌ Erro ao carregar dados.";
       }
@@ -147,6 +187,43 @@
       tabela.innerHTML = html;
     }
 
+    function filtrarTabela() {
+      const filtro = document.getElementById("busca").value.toLowerCase();
+      const filtrado = dadosAtuais.filter((linha, i) =>
+        i === 0 || linha.some(cell => String(cell).toLowerCase().includes(filtro))
+      );
+      montarTabela(filtrado);
+    }
+
     function ordenarPor(indice) {
       const cab = dadosAtuais[0];
-      const
+      const corpo = dadosOrdenados.slice(1);
+
+      const crescente = !(ordemAtual[indice] === "asc");
+      corpo.sort((a, b) => {
+        const va = isNaN(a[indice]) ? String(a[indice]) : Number(a[indice]);
+        const vb = isNaN(b[indice]) ? String(b[indice]) : Number(b[indice]);
+        return crescente ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+      });
+
+      ordemAtual = { [indice]: crescente ? "asc" : "desc" };
+      const setas = document.querySelectorAll("span[id^='seta']");
+      setas.forEach(span => span.innerText = "");
+      document.getElementById(`seta${indice}`).innerText = crescente ? " 🔼" : " 🔽";
+
+      dadosOrdenados = [cab, ...corpo];
+      montarTabela(dadosOrdenados);
+    }
+
+    function exportarCSV() {
+      let csv = dadosOrdenados.map(linha => linha.map(item => `"${item}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "dados.csv";
+      a.click();
+    }
+  </script>
+</body>
+</html>
