@@ -59,7 +59,7 @@
 
   <div id="painel">
     <p><strong>Link direto:</strong>
-      <a href=" target="_blank">
+      <a href="https://onchain-novo.vercel.app" target="_blank">
         https://onchain-novo.vercel.app
       </a>
     </p>
@@ -71,7 +71,6 @@
       <option value="OndaDeAlta_10" selected>OndaDeAlta_10</option>
     </select>
     <button onclick="carregarTabela()">Testar Aba Manualmente</button>
-    <button onclick="atualizarDados()">Atualizar Dados</button>
     <button onclick="exportarCSV()">Exportar CSV</button>
 
     <p>
@@ -84,6 +83,8 @@
   </div>
 
   <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzwymz6vAO9ns6pRZaWSshId2XaCjt7EuFH4-nfvTuw5avtJzzFmbTqS6IllwURJM9ktw/exec";
+
     let dadosAtuais = [], dadosOrdenados = [];
     let ordemAtual = {};
 
@@ -99,15 +100,6 @@
           atualizarContadorTotal();
         }
       }).validarEmail(email);
-    }
-
-    function atualizarDados() {
-      document.getElementById("status").innerText = "⏳ Atualizando...";
-      google.script.run.withSuccessHandler(() => {
-        document.getElementById("status").innerText = "✅ Atualizado.";
-        carregarTabela();
-        atualizarContadorTotal();
-      }).atualizarTudo();
     }
 
     function atualizarContadorTotal() {
