@@ -5,53 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel RSI – WebApp Oficial</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
-    }
-    input, button, select {
-      padding: 10px;
-      font-size: 16px;
-    }
-    input[type="email"], input[type="text"] {
-      width: 320px;
-    }
-    button {
-      background-color: #00b894;
-      color: white;
-      border: none;
-      margin-left: 5px;
-      cursor: pointer;
-    }
-    #mensagem, #status, #contadorTotal {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-    #painel {
-      display: none;
-      margin-top: 20px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      background: white;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #999;
-      padding: 6px;
-      text-align: center;
-    }
-    th {
-      background-color: #ddd;
-      cursor: pointer;
-    }
+    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 20px; }
+    input, button, select { padding: 10px; font-size: 16px; }
+    input[type="email"], input[type="text"] { width: 320px; }
+    button { background-color: #00b894; color: white; border: none; margin-left: 5px; cursor: pointer; }
+    #mensagem, #status, #contadorTotal { margin-top: 10px; font-weight: bold; }
+    #painel { display: none; margin-top: 20px; }
+    table { border-collapse: collapse; width: 100%; background: white; margin-top: 10px; }
+    th, td { border: 1px solid #999; padding: 6px; text-align: center; }
+    th { background-color: #ddd; cursor: pointer; }
   </style>
 </head>
 <body>
   <h2>Painel RSI – WebApp Oficial</h2>
-
   <p>Digite seu e-mail autorizado:</p>
   <input type="email" id="email" value="valdiram.lima.2013@gmail.com">
   <button onclick="verificar()">Entrar</button>
@@ -65,7 +31,7 @@
     </p>
 
     <label><strong>Selecionar aba:</strong></label>
-    <select id="seletorAba">
+    <select id="seletorAba" onchange="carregarTabela()">
       <option value="OndaDeAlta_5">OndaDeAlta_5</option>
       <option value="OndaDeAlta_7_5">OndaDeAlta_7_5</option>
       <option value="OndaDeAlta_10" selected>OndaDeAlta_10</option>
@@ -183,33 +149,4 @@
 
     function ordenarPor(indice) {
       const cab = dadosAtuais[0];
-      const corpo = dadosAtuais.slice(1);
-      const crescente = !ordemAtual[indice];
-      ordemAtual[indice] = crescente;
-
-      corpo.sort((a, b) => {
-        const v1 = isNaN(a[indice]) ? a[indice] : Number(a[indice]);
-        const v2 = isNaN(b[indice]) ? b[indice] : Number(b[indice]);
-        return (v1 < v2 ? -1 : v1 > v2 ? 1 : 0) * (crescente ? 1 : -1);
-      });
-
-      dadosOrdenados = [cab, ...corpo];
-      for (let i = 0; i < cab.length; i++) {
-        document.getElementById(`seta${i}`).innerText = "";
-      }
-      document.getElementById(`seta${indice}`).innerText = crescente ? "↑" : "↓";
-      montarTabela(dadosOrdenados);
-    }
-
-    function filtrarTabela() {
-      const termo = document.getElementById("busca").value.toLowerCase();
-      const linhas = document.getElementById("tabela").getElementsByTagName("tr");
-      for (let i = 1; i < linhas.length; i++) {
-        const simbolo = linhas[i].cells[1]?.innerText.toLowerCase();
-        const nome = linhas[i].cells[0]?.innerText.toLowerCase();
-        linhas[i].style.display = (simbolo.includes(termo) || nome.includes(termo)) ? "" : "none";
-      }
-    }
-  </script>
-</body>
-</html>
+      const
